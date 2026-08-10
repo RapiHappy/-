@@ -1,0 +1,35 @@
+[
+    {
+        "id": "info-python",
+        "subjectId": "informatics",
+        "title": "Python для ЕГЭ",
+        "url": "https://stepik.org/course/207789",
+        "description": "С нуля до профи в Python для ЕГЭ.",
+        "level": "Начинающий",
+        "lessonsCount": 50,
+        "icon": "fa-brands fa-python",
+        "color": "var(--color-blue)"
+    },
+    {
+        "id": "info-algo",
+        "subjectId": "informatics",
+        "title": "Алгоритмы ЕГЭ",
+        "url": "https://stepik.org/course/214479",
+        "description": "Секреты алгоритмов для 27 задания.",
+        "level": "Продвинутый",
+        "lessonsCount": 45,
+        "icon": "fa-solid fa-code-branch",
+        "color": "var(--color-blue)"
+    },
+    {
+        "id": "rus-2026",
+        "subjectId": "russian",
+        "title": "Русский язык ЕГЭ 2026",
+        "url": "https://stepik.org/course/92015",
+        "description": "Подготовка к тестовой части и сочинению.",
+        "level": "Любой",
+        "lessonsCount": 60,
+        "icon": "fa-solid fa-book",
+        "color": "var(--color-green)"
+    }
+]

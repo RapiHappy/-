@@ -16,7 +16,7 @@
         <header class="app-header">
             <div class="user-greeting">
                 <h1 id="greeting-text">Доброе утро 👋</h1>
-                <p id="current-date">Сегодня: 7 августа</p>
+                <p id="current-date">Загрузка...</p>
             </div>
             <div class="energy-badge" id="energy-badge" onclick="burnoutSystem.promptEnergyLevel()">
                 Энергия: 🟢 Высокая
@@ -47,12 +47,6 @@
                     </div>
                 </div>
 
-                <!-- Daily Plan -->
-                <h2 class="section-title">План на сегодня</h2>
-                <div id="daily-plan-container" class="plan-list">
-                    <!-- Tasks will be injected here by JS -->
-                </div>
-
                 <!-- Focus Timer Widget -->
                 <div class="focus-widget" onclick="app.navigateTo('timer')">
                     <div class="focus-icon"><i class="fa-solid fa-stopwatch"></i></div>
@@ -62,17 +56,24 @@
                     </div>
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
+
+                <!-- Daily Plan -->
+                <h2 class="section-title">Сегодняшний план</h2>
+                <div class="plan-summary" id="plan-summary-time">Загрузка плана...</div>
+                <div id="daily-plan-container" class="plan-list">
+                    <!-- Tasks will be injected here by JS -->
+                </div>
             </section>
 
             <!-- Courses View -->
             <section id="view-courses" class="view">
-                <h2 class="section-title">Мои курсы</h2>
+                <h2 class="section-title">Курсы (Stepik)</h2>
                 <div id="courses-list" class="courses-grid"></div>
             </section>
 
             <!-- Trainer View (Practice) -->
             <section id="view-trainer" class="view">
-                <h2 class="section-title">Тренировка</h2>
+                <h2 class="section-title">Практика</h2>
                 <div id="trainer-container"></div>
             </section>
             
@@ -93,6 +94,7 @@
             <section id="view-analytics" class="view">
                 <h2 class="section-title">Прогресс</h2>
                 <div id="analytics-container"></div>
+                <div id="progress-chart-container" style="margin-top:20px;"></div>
             </section>
             
             <!-- Errors View -->
@@ -146,7 +148,9 @@
     <script src="js/burnout.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/planner.js"></script>
-    <script src="js/trainer.js"></script>
+    <script src="js/practice.js"></script>
+    <script src="js/courses.js"></script>
+    <script src="js/mistakes.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/app.js"></script>
 </body>

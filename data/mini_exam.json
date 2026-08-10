@@ -1,0 +1,50 @@
+[
+    {
+        "id": "exam-inf-1",
+        "subject": "informatics",
+        "question": "Сколько мегабайт содержится в 8192 килобайтах?",
+        "answer": "8"
+    },
+    {
+        "id": "exam-inf-2",
+        "subject": "informatics",
+        "question": "Запишите число 15 в двоичной системе счисления.",
+        "answer": "1111"
+    },
+    {
+        "id": "exam-inf-3",
+        "subject": "informatics",
+        "question": "Каково наибольшее двузначное число в шестнадцатеричной системе?",
+        "answer": "FF"
+    },
+    {
+        "id": "exam-math-1",
+        "subject": "math",
+        "question": "Найдите производную функции y = 3x^2 в точке x = 2.",
+        "answer": "12"
+    },
+    {
+        "id": "exam-math-2",
+        "subject": "math",
+        "question": "Решите уравнение 2^x = 16. В ответ запишите значение x.",
+        "answer": "4"
+    },
+    {
+        "id": "exam-rus-1",
+        "subject": "russian",
+        "question": "Укажите слово, в котором верно выделена буква, обозначающая ударный гласный звук: тОрты, звонИт, красИвее, катАлог.",
+        "answer": "звонИт"
+    },
+    {
+        "id": "exam-rus-2",
+        "subject": "russian",
+        "question": "Вставьте пропущенную букву: пр..вилегия.",
+        "answer": "и"
+    },
+    {
+        "id": "exam-rus-3",
+        "subject": "russian",
+        "question": "Вставьте пропущенную букву: апелл..ция.",
+        "answer": "я"
+    }
+]
