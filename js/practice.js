@@ -24,19 +24,18 @@ const practiceSystem = {
         `;
     },
 
-    async startMiniExam() {
+    startMiniExam() {
         const container = document.getElementById('trainer-container');
-        container.innerHTML = `<h3>Загрузка...</h3>`;
-        try {
-            const res = await fetch('data/mini_exam.json');
-            this.examData = await res.json();
-            this.currentQuestionIndex = 0;
-            this.score = 0;
-            this.errors = [];
-            this.renderQuestion();
-        } catch (e) {
-            container.innerHTML = `<p>Ошибка загрузки.</p>`;
+        this.examData = AppData.miniExam;
+        if (!this.examData || this.examData.length === 0) {
+            container.innerHTML = `<p>Нет данных для экзамена.</p>`;
+            return;
         }
+        
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+        this.errors = [];
+        this.renderQuestion();
     },
 
     renderQuestion() {
@@ -72,6 +71,7 @@ const practiceSystem = {
             prog[q.subject].completedTasks++;
             StorageManager.saveProgress(prog);
         } else {
+            if (!this.errors) this.errors = [];
             this.errors.push({
                 subject: q.subject,
                 topic: "Мини-экзамен",
@@ -94,15 +94,14 @@ const practiceSystem = {
         container.innerHTML = `
             <div class="subject-block" style="text-align: center;">
                 <h3 style="margin-bottom: 8px;">Экзамен завершен!</h3>
-                <p style="font-size: 48px; font-weight: bold; color: ${percent > 70 ? 'var(--color-green)' : 'var(--color-orange)'};">${percent}%</p>
+                <p style="font-size: 48px; font-weight: bold; color: ${percent >= 70 ? 'var(--color-green)' : 'var(--color-orange)'};">${percent}%</p>
                 <p style="margin-bottom: 24px; color: var(--text-secondary);">Верных ответов: ${this.score} из ${this.examData.length}</p>
                 <button class="btn btn-primary" style="width: 100%;" onclick="practiceSystem.render()">Вернуться</button>
             </div>
         `;
     },
 
-    async startTraining(type) {
-        // Mocking training flow
+    startTraining(type) {
         alert('Запуск тренировки. Логика аналогична мини-экзамену.');
     }
 };

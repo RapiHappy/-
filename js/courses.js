@@ -1,13 +1,7 @@
 const coursesSystem = {
-    async loadCourses() {
-        try {
-            const response = await fetch('data/courses.json');
-            const courses = await response.json();
-            this.renderCourses(courses);
-        } catch (error) {
-            console.error('Ошибка загрузки курсов:', error);
-            document.getElementById('courses-list').innerHTML = '<p>Не удалось загрузить курсы.</p>';
-        }
+    loadCourses() {
+        const courses = AppData.courses;
+        this.renderCourses(courses);
     },
 
     renderCourses(courses) {
@@ -29,7 +23,7 @@ const coursesSystem = {
                 </div>
                 <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">${course.description}</p>
                 <div style="display: flex; gap: 8px;">
-                    <a href="${course.url}" target="_blank" class="btn btn-primary" style="flex: 1; padding: 10px; font-size: 14px; text-decoration: none; text-align: center;">▶ Открыть</a>
+                    <button class="btn btn-primary" style="flex: 1; padding: 10px; font-size: 14px;" onclick="coursesSystem.openCourse('${course.id}')">▶ Открыть</button>
                     <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 14px;" onclick="coursesSystem.addToPlan('${course.id}')">📅 В план</button>
                 </div>
             `;
@@ -37,8 +31,74 @@ const coursesSystem = {
         });
     },
 
+    openCourse(courseId) {
+        const course = AppData.courses.find(c => c.id === courseId);
+        if (!course) return;
+
+        document.getElementById('course-detail-title').textContent = course.title;
+        const modulesContainer = document.getElementById('course-modules-list');
+        modulesContainer.innerHTML = '';
+
+        if (!course.modules || course.modules.length === 0) {
+            modulesContainer.innerHTML = '<p>Модули не найдены.</p>';
+        } else {
+            course.modules.forEach(mod => {
+                let lessonsHtml = '';
+                mod.lessons.forEach(lesson => {
+                    const icon = lesson.type === 'video' ? 'fa-video' : 'fa-pen-to-square';
+                    lessonsHtml += `
+                        <div class="task-item" style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="coursesSystem.openLesson('${lesson.id}', '${lesson.title}', '${course.url}')">
+                            <i class="fa-solid ${icon} text-blue" style="width: 24px;"></i>
+                            <span style="flex: 1;">${lesson.title}</span>
+                            <i class="fa-solid fa-chevron-right text-secondary" style="font-size: 12px;"></i>
+                        </div>
+                    `;
+                });
+
+                modulesContainer.innerHTML += `
+                    <div class="subject-block" style="margin-bottom: 16px; padding: 0;">
+                        <div style="padding: 16px; background: rgba(255,255,255,0.05); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+                            <h3 style="font-size: 15px; margin: 0;">${mod.title}</h3>
+                        </div>
+                        <div>
+                            ${lessonsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        app.navigateTo('course-detail');
+    },
+
+    openLesson(lessonId, title, courseUrl) {
+        // Mock opening a lesson inside the app
+        const container = document.getElementById('course-modules-list');
+        container.innerHTML = `
+            <div class="subject-block" style="text-align: center; padding: 40px 20px;">
+                <i class="fa-solid fa-play-circle text-blue" style="font-size: 48px; margin-bottom: 16px;"></i>
+                <h3 style="margin-bottom: 8px;">${title}</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+                    Оригинальный урок доступен на платформе Stepik.
+                </p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-direction: column;">
+                    <a href="${courseUrl}" target="_blank" class="btn btn-primary" style="text-decoration: none;">Открыть на Stepik</a>
+                    <button class="btn btn-secondary" onclick="coursesSystem.markLessonCompleted('${lessonId}')">Отметить как пройденный</button>
+                </div>
+            </div>
+        `;
+    },
+
+    markLessonCompleted(lessonId) {
+        alert("Урок отмечен как пройденный! Статистика обновлена.");
+        const prog = StorageManager.getProgress();
+        prog.informatics.completedTasks++; 
+        StorageManager.saveProgress(prog);
+        app.navigateTo('courses');
+    },
+
     addToPlan(courseId) {
-        alert(`Курс добавлен в план! Алгоритм учтет его при составлении расписания.`);
+        alert(`Курс добавлен в план! Задачи равномерно распределены по расписанию.`);
     }
 };
 

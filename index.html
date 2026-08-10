@@ -102,6 +102,17 @@
                 <h2 class="section-title">Работа над ошибками</h2>
                 <div id="errors-list"></div>
             </section>
+
+            <!-- Course Detail View -->
+            <section id="view-course-detail" class="view">
+                <div style="display: flex; align-items: center; gap: 12px; margin: 20px 0 16px;">
+                    <button class="btn btn-secondary" style="padding: 8px 12px;" onclick="app.navigateTo('courses')">
+                        <i class="fa-solid fa-arrow-left"></i> Назад
+                    </button>
+                    <h2 class="section-title" id="course-detail-title" style="margin: 0;">Курс</h2>
+                </div>
+                <div id="course-modules-list"></div>
+            </section>
         </main>
 
         <!-- Bottom Navigation -->
@@ -144,6 +155,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/burnout.js"></script>
     <script src="js/timer.js"></script>
