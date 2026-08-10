@@ -9,6 +9,7 @@ const burnoutSystem = {
             this.promptEnergyLevel();
         } else {
             this.updateUILabel(userData.energyLevel);
+            if(window.plannerSystem) plannerSystem.generatePlan(userData.energyLevel);
         }
 
         // Setup listeners
