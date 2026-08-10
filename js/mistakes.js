@@ -17,7 +17,7 @@ const mistakesSystem = {
         container.innerHTML = '';
         errors.forEach((err, index) => {
             container.innerHTML += `
-                <div class="subject-block" style="margin-bottom: 12px; border-left: 4px solid var(--color-red);">
+                <div class="subject-block" style="margin-bottom: 12px; border-left: 4px solid var(--color-red);" id="mistake-card-${index}">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                         <span style="font-size: 12px; color: var(--text-secondary);">${err.date} • ${err.subject}</span>
                         <span style="font-size: 12px; color: var(--color-orange);"><i class="fa-solid fa-clock-rotate-left"></i> К повторению</span>
@@ -34,9 +34,41 @@ const mistakesSystem = {
     },
 
     repeat(index) {
-        alert("Запуск повторения... (заглушка)");
-        // In real app, it would open trainer with this specific question
-        // and if answered correctly, remove from errors.
+        const errors = StorageManager.getErrors();
+        const err = errors[index];
+        if (!err) return;
+        
+        const card = document.getElementById(`mistake-card-${index}`);
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px; color: var(--text-secondary);">Повторение • ${err.subject}</span>
+            </div>
+            <p style="font-size: 14px; margin-bottom: 12px;"><strong>Вопрос:</strong> ${err.question}</p>
+            <input type="text" id="mistake-answer-${index}" placeholder="Введите верный ответ..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white; margin-bottom: 12px;">
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-primary" style="flex: 1; padding: 10px;" onclick="mistakesSystem.checkRepeat(${index})">Проверить</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px;" onclick="mistakesSystem.render()">Отмена</button>
+            </div>
+        `;
+    },
+    
+    checkRepeat(index) {
+        const errors = StorageManager.getErrors();
+        const err = errors[index];
+        const input = document.getElementById(`mistake-answer-${index}`).value.trim();
+        
+        if (input.toLowerCase() === err.correctAnswer.toLowerCase()) {
+            // Remove from errors
+            errors.splice(index, 1);
+            localStorage.setItem(StorageManager.keys.ERRORS, JSON.stringify(errors));
+            alert("Верно! Ошибка отработана и удалена из списка.");
+            
+            // Re-render
+            this.render();
+        } else {
+            alert("Всё ещё неверно. Попробуйте еще раз или посмотрите теорию!");
+            this.render();
+        }
     }
 };
 

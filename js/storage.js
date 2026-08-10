@@ -63,7 +63,11 @@ const StorageManager = {
         const data = this.getUserData();
         const today = new Date().toISOString().split('T')[0];
         
-        if (data.lastLoginDate !== today) {
+        if (data.lastLoginDate === null) {
+            data.streak = 1;
+            data.lastLoginDate = today;
+            this.saveUserData(data);
+        } else if (data.lastLoginDate !== today) {
             // Check if it's the next day
             const last = new Date(data.lastLoginDate);
             const now = new Date(today);
@@ -72,11 +76,9 @@ const StorageManager = {
             if (diffDays === 1) {
                 data.streak += 1;
             } else if (diffDays > 1) {
-                // Gentle reset based on prompt
-                data.streak = 0; 
+                // Gentle reset
+                data.streak = 1; 
             }
-            
-            if (data.lastLoginDate === null) data.streak = 1;
             
             data.lastLoginDate = today;
             this.saveUserData(data);

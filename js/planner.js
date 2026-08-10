@@ -103,27 +103,37 @@ const plannerSystem = {
         const stateKey = 'ege_planner_state_' + today;
         let savedState = JSON.parse(localStorage.getItem(stateKey) || "{}");
         
-        savedState[taskId] = !savedState[taskId];
+        // Anti-cheat: determine if we are checking or unchecking
+        const isChecking = !savedState[taskId];
+        
+        savedState[taskId] = isChecking;
         localStorage.setItem(stateKey, JSON.stringify(savedState));
+        
+        // Determine subject based on taskId (e.g. inf-1, rus-1, math-1)
+        let subject = 'informatics';
+        if (taskId.startsWith('rus')) subject = 'russian';
+        if (taskId.startsWith('math')) subject = 'math';
+        if (taskId.startsWith('rest')) subject = null; // No progress for rest
         
         // Re-render the active tasks visually
         const taskEl = document.querySelector(`[data-task-id="${taskId}"]`);
         const icon = taskEl.querySelector('i');
         
-        if (savedState[taskId]) {
+        const prog = StorageManager.getProgress();
+        
+        if (isChecking) {
             taskEl.classList.add('completed');
             icon.className = 'fa-regular fa-square-check text-green';
-            
-            // Add to global progress slightly
-            const prog = StorageManager.getProgress();
-            prog.informatics.completedTasks++; // Mocking simple progress addition
-            StorageManager.saveProgress(prog);
+            if (subject && prog[subject]) prog[subject].completedTasks++;
         } else {
             taskEl.classList.remove('completed');
             icon.className = 'fa-regular fa-square text-secondary';
+            if (subject && prog[subject] && prog[subject].completedTasks > 0) {
+                prog[subject].completedTasks--;
+            }
         }
         
-        // Refresh dashboard stats
+        StorageManager.saveProgress(prog);
         app.updateDashboardStats();
     }
 };

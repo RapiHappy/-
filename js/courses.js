@@ -47,7 +47,7 @@ const coursesSystem = {
                 mod.lessons.forEach(lesson => {
                     const icon = lesson.type === 'video' ? 'fa-video' : 'fa-pen-to-square';
                     lessonsHtml += `
-                        <div class="task-item" style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="coursesSystem.openLesson('${lesson.id}', '${lesson.title}', '${course.url}')">
+                        <div class="task-item" style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="coursesSystem.openLesson('${lesson.id}', '${lesson.title}', '${course.url}', '${course.subjectId}')">
                             <i class="fa-solid ${icon} text-blue" style="width: 24px;"></i>
                             <span style="flex: 1;">${lesson.title}</span>
                             <i class="fa-solid fa-chevron-right text-secondary" style="font-size: 12px;"></i>
@@ -71,7 +71,7 @@ const coursesSystem = {
         app.navigateTo('course-detail');
     },
 
-    openLesson(lessonId, title, courseUrl) {
+    openLesson(lessonId, title, courseUrl, subjectId) {
         // Mock opening a lesson inside the app
         const container = document.getElementById('course-modules-list');
         container.innerHTML = `
@@ -83,17 +83,19 @@ const coursesSystem = {
                 </p>
                 <div style="display: flex; gap: 12px; justify-content: center; flex-direction: column;">
                     <a href="${courseUrl}" target="_blank" class="btn btn-primary" style="text-decoration: none;">Открыть на Stepik</a>
-                    <button class="btn btn-secondary" onclick="coursesSystem.markLessonCompleted('${lessonId}')">Отметить как пройденный</button>
+                    <button class="btn btn-secondary" onclick="coursesSystem.markLessonCompleted('${lessonId}', '${subjectId}')">Отметить как пройденный</button>
                 </div>
             </div>
         `;
     },
 
-    markLessonCompleted(lessonId) {
+    markLessonCompleted(lessonId, subjectId) {
         alert("Урок отмечен как пройденный! Статистика обновлена.");
         const prog = StorageManager.getProgress();
-        prog.informatics.completedTasks++; 
-        StorageManager.saveProgress(prog);
+        if (prog[subjectId]) {
+            prog[subjectId].completedTasks++; 
+            StorageManager.saveProgress(prog);
+        }
         app.navigateTo('courses');
     },
 
