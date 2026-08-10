@@ -19,6 +19,12 @@ const app = {
         // Initialize Systems
         burnoutSystem.init();
         timerSystem.init();
+        
+        // Ensure plan is generated
+        const userEnergy = StorageManager.getUserData().energyLevel || 'high';
+        if (typeof plannerSystem !== 'undefined') {
+            plannerSystem.generatePlan(userEnergy);
+        }
 
         // Update streak daily check
         StorageManager.updateStreak();
