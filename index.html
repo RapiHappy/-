@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EGE Master 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="user-greeting">
+                <h1 id="greeting-text">Доброе утро 👋</h1>
+                <p id="current-date">Сегодня: 7 августа</p>
+            </div>
+            <div class="energy-badge" id="energy-badge" onclick="burnoutSystem.promptEnergyLevel()">
+                Энергия: 🟢 Высокая
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="content-area">
+            
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view active">
+                
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-fire text-orange"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-streak">0</span>
+                            <span class="stat-label">Дней подряд</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-clock text-blue"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-hours">0ч</span>
+                            <span class="stat-label">Обучение</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Plan -->
+                <h2 class="section-title">План на сегодня</h2>
+                <div id="daily-plan-container" class="plan-list">
+                    <!-- Tasks will be injected here by JS -->
+                </div>
+
+                <!-- Focus Timer Widget -->
+                <div class="focus-widget" onclick="app.navigateTo('timer')">
+                    <div class="focus-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                    <div class="focus-text">
+                        <h3>Режим Фокуса (Pomodoro)</h3>
+                        <p>Начни учиться без отвлечений</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </section>
+
+            <!-- Courses View -->
+            <section id="view-courses" class="view">
+                <h2 class="section-title">Мои курсы</h2>
+                <div id="courses-list" class="courses-grid"></div>
+            </section>
+
+            <!-- Trainer View (Practice) -->
+            <section id="view-trainer" class="view">
+                <h2 class="section-title">Тренировка</h2>
+                <div id="trainer-container"></div>
+            </section>
+            
+            <!-- Timer View -->
+            <section id="view-timer" class="view">
+                <h2 class="section-title">Pomodoro</h2>
+                <div class="timer-display">
+                    <div class="time" id="timer-time">25:00</div>
+                    <div class="timer-status" id="timer-status">Работа</div>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn btn-primary" id="btn-timer-toggle">Старт</button>
+                    <button class="btn btn-secondary" id="btn-timer-reset">Сброс</button>
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="view-analytics" class="view">
+                <h2 class="section-title">Прогресс</h2>
+                <div id="analytics-container"></div>
+            </section>
+            
+            <!-- Errors View -->
+            <section id="view-errors" class="view">
+                <h2 class="section-title">Работа над ошибками</h2>
+                <div id="errors-list"></div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="dashboard">
+                <i class="fa-solid fa-house"></i>
+                <span>Главная</span>
+            </a>
+            <a href="#" class="nav-item" data-target="courses">
+                <i class="fa-solid fa-book"></i>
+                <span>Курсы</span>
+            </a>
+            <a href="#" class="nav-item" data-target="trainer">
+                <i class="fa-solid fa-dumbbell"></i>
+                <span>Практика</span>
+            </a>
+            <a href="#" class="nav-item" data-target="errors">
+                <i class="fa-solid fa-bug"></i>
+                <span>Ошибки</span>
+            </a>
+            <a href="#" class="nav-item" data-target="analytics">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Прогресс</span>
+            </a>
+        </nav>
+
+        <!-- Energy Level Modal -->
+        <div id="modal-energy" class="modal">
+            <div class="modal-content">
+                <h3>Как твоя энергия сегодня?</h3>
+                <p>Мы адаптируем план под твое состояние.</p>
+                <div class="energy-options">
+                    <button class="btn-energy" data-level="high">🟢 Высокая (100% плана)</button>
+                    <button class="btn-energy" data-level="medium">🟡 Средняя (70% плана)</button>
+                    <button class="btn-energy" data-level="low">🔴 Низкая (Только повторение)</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/burnout.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/planner.js"></script>
+    <script src="js/trainer.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

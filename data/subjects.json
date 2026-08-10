@@ -1,0 +1,20 @@
+[
+    {
+        "id": "informatics",
+        "name": "Информатика",
+        "icon": "fa-code",
+        "color": "blue"
+    },
+    {
+        "id": "math",
+        "name": "Математика Профиль",
+        "icon": "fa-calculator",
+        "color": "orange"
+    },
+    {
+        "id": "russian",
+        "name": "Русский язык",
+        "icon": "fa-book",
+        "color": "green"
+    }
+]
