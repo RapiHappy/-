@@ -16,9 +16,9 @@ window.LessonsRussian = [
       </ul>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'В задании 4 нужно найти слово с неправильно выделенной буквой (ударением).',
@@ -55,9 +55,9 @@ window.LessonsRussian = [
       <p>Слова, сходные по звучанию, но различающиеся по значению.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Это слова, которые звучат похоже, но значат разное (надеть/одеть).',
@@ -94,9 +94,9 @@ window.LessonsRussian = [
       <p>Их нельзя проверять ударением. Зависят от суффикса, ударения, последующей согласной.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'БЕР/БИР - если есть А, то И (собирать). ГАР/ГОР - под ударением А (загар).',
@@ -133,9 +133,9 @@ window.LessonsRussian = [
       <p>ПРИ-: приближение, присоединение. ПРЕ-: = очень, = ПЕРЕ-.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'ПРЕ = очень или пере. ПРИ = близко, чуть-чуть, к себе.',
@@ -169,9 +169,9 @@ window.LessonsRussian = [
     egeNumber: '№15',
     theory: `<div class="theory-content"><p>В прилагательных от существительных: АН, ЯН, ИН - одна Н. ОНН, ЕНН - две НН.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Стеклянный, оловянный, деревянный - исключения (НН). Ветреный - одна Н.',
@@ -205,9 +205,9 @@ window.LessonsRussian = [
     egeNumber: '№17',
     theory: `<div class="theory-content"><p>Причастный оборот обособляется после определяемого слова. Деепричастный - всегда.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Деепричастие (что делая?) всегда с запятыми. Причастие - только если стоит после слова.',
@@ -241,9 +241,9 @@ window.LessonsRussian = [
     egeNumber: '№18',
     theory: `<div class="theory-content"><p>Вводные слова всегда выделяются запятыми: конечно, к счастью, во-первых.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Вводные слова можно выкинуть из предложения без потери смысла.',
@@ -277,9 +277,9 @@ window.LessonsRussian = [
     egeNumber: '№19',
     theory: `<div class="theory-content"><p>Придаточная часть всегда отделяется от главной запятой.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Где новая основа (подлежащее и сказуемое) - там запятая перед союзом.',
@@ -313,9 +313,9 @@ window.LessonsRussian = [
     egeNumber: '№20',
     theory: `<div class="theory-content"><p>Стык союзов (что если, и хотя). Запятая между ними ставится, если дальше НЕТ слов ТО, ТАК, НО.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Правило "то, так, но". Если есть продолжение, запятую на стыке союзов не ставим.',
@@ -349,9 +349,9 @@ window.LessonsRussian = [
     egeNumber: '№8',
     theory: `<div class="theory-content"><p>Синтаксические нормы: причастный оборот, деепричастный оборот, подлежащее и сказуемое, предлоги.</p></div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'В №8 нужно сопоставить ошибки с предложениями. Самая частая: деепричастие должно относиться к подлежащему (Подъезжая к станции, у меня слетела шляпа - ошибка).',

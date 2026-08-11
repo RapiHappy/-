@@ -11,9 +11,9 @@ window.LessonsMath = [
       <p>При умножении дробей перемножаются числители и знаменатели. При делении вторая дробь переворачивается.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Всегда превращай смешанные числа в неправильные дроби перед умножением/делением. Общий знаменатель нужен только для плюса и минуса.',
@@ -52,9 +52,9 @@ window.LessonsMath = [
       <p>Чтобы узнать, сколько процентов число A составляет от B, нужно (A/B) * 100%.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Процент - это сотая часть. 20% - это 0.2. Чтобы найти 20% от 1000, умножай 1000 на 0.2.',
@@ -92,9 +92,9 @@ window.LessonsMath = [
       <p>Квадратные: ax^2 + bx + c = 0. Дискриминант D = b^2 - 4ac. Корни: x = (-b +- sqrt(D)) / 2a.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Все неизвестные влево, известные вправо (меняя знак). Для квадратов - считай дискриминант или используй Виета.',
@@ -133,9 +133,9 @@ window.LessonsMath = [
       <p>Гипербола: y = k/x.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Коэффициент k у прямой отвечает за наклон. Если a у параболы положительно, ветви вверх.',
@@ -174,9 +174,9 @@ window.LessonsMath = [
       <p>Точки максимума/минимума: f'(x) = 0.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      simple: 'https://www.youtube.com/embed/jfKfPfyJRkM',
-      tasks: 'https://www.youtube.com/embed/jfKfPfyJRkM'
+      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
+      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
     },
     videoTimecodes: [],
     simpleExplanation: 'Если функция растет, производная больше нуля. Если функция падает, производная меньше нуля. На холмах и в ямах производная ноль.',

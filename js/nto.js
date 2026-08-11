@@ -48,21 +48,22 @@ window.ntoSystem = {
   
   renderOverview(container) {
     container.innerHTML = `
-      <div class="card">
-        <h3>Что такое НТО "Автоматизация бизнес-процессов"</h3>
-        <p>Это профиль Национальной технологической олимпиады, направленный на решение реальных бизнес-задач с помощью IT-инструментов.</p>
+      <div class="card" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9)); border: 1px solid var(--accent-glow);">
+        <h3 style="font-size: 20px; color: var(--color-cyan); margin-bottom: 16px;"><i class="fas fa-rocket"></i> НТО "Автоматизация бизнес-процессов"</h3>
+        <p style="color: #cbd5e1; font-size: 15px; margin-bottom: 20px;">Это профиль Национальной технологической олимпиады, направленный на решение реальных бизнес-задач с помощью IT-инструментов.</p>
         
-        <h4>Необходимые навыки:</h4>
-        <ul>
-          <li><strong>Python</strong> → автоматизация рутины</li>
-          <li><strong>Таблицы</strong> → работа с данными и отчётность</li>
-          <li><strong>BPMN</strong> → моделирование и логика бизнес-процессов</li>
-          <li><strong>SQL</strong> → работа с базами данных</li>
-          <li><strong>Алгоритмы</strong> → оптимизация процессов</li>
-        </ul>
+        <h4 style="color: #f8fafc; margin-bottom: 12px; font-size: 16px;"><i class="fas fa-tools"></i> Необходимые навыки:</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px;">
+          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"><strong style="color: var(--color-yellow);">Python</strong> <br/><span style="font-size: 12px; color: #94a3b8;">Автоматизация рутины</span></div>
+          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"><strong style="color: var(--color-green);">Таблицы</strong> <br/><span style="font-size: 12px; color: #94a3b8;">Данные и отчётность</span></div>
+          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"><strong style="color: var(--color-purple);">BPMN</strong> <br/><span style="font-size: 12px; color: #94a3b8;">Бизнес-процессы</span></div>
+          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"><strong style="color: var(--color-blue);">SQL</strong> <br/><span style="font-size: 12px; color: #94a3b8;">Базы данных</span></div>
+        </div>
         
-        <h4>Связь с ЕГЭ:</h4>
-        <p>Задачи ЕГЭ по информатике отлично готовят к НТО: программирование, логика, работа с электронными таблицами.</p>
+        <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid var(--color-blue);">
+          <h4 style="margin: 0 0 5px 0; color: #f8fafc;">Связь с ЕГЭ:</h4>
+          <p style="margin: 0; color: #cbd5e1; font-size: 14px;">Задачи ЕГЭ по информатике отлично готовят к НТО: программирование, логика, работа с электронными таблицами.</p>
+        </div>
       </div>
     `;
   },
@@ -197,17 +198,20 @@ window.ntoSystem = {
       
       if (!stage.isFinal) {
         html += `
-          <input type="text" id="project-input" placeholder="${stage.inputPlaceholder || 'Ваш ответ...'}" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; font-size: 15px; margin-bottom: 15px; outline: none;">
-          <div id="project-error" style="color: #ef4444; font-size: 13px; margin-bottom: 15px; min-height: 20px;"></div>
+          <div style="background: #000; border: 1px solid #334155; border-radius: 8px; padding: 15px; margin-bottom: 15px; font-family: monospace;">
+            <div style="color: #64748b; margin-bottom: 8px; font-size: 12px;">> Терминал выполнения задачи</div>
+            <input type="text" id="project-input" placeholder="${stage.inputPlaceholder || 'Ваш ответ...'}" style="width: 100%; box-sizing: border-box; background: transparent; border: none; border-bottom: 1px solid #334155; color: #22c55e; padding: 8px 0; font-size: 15px; margin-bottom: 15px; outline: none; font-family: monospace;">
+            <div id="project-error" style="color: #ef4444; font-size: 13px; margin-bottom: 10px; min-height: 20px;"></div>
+          </div>
           <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary" onclick="ntoSystem.checkProjectStage()">Проверить и продолжить</button>
+            <button class="btn btn-primary" onclick="ntoSystem.checkProjectStage()"><i class="fas fa-play"></i> Выполнить</button>
             <button class="btn btn-secondary" onclick="ntoSystem.cancelProject()">Прервать</button>
           </div>
         `;
       } else {
         html += `
           <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary" onclick="ntoSystem.finishProject('${currentCase.title}')" style="background: #10b981;">Завершить проект 🏆</button>
+            <button class="btn btn-primary" onclick="ntoSystem.finishProject('${currentCase.title}')" style="background: #10b981;"><i class="fas fa-trophy"></i> Завершить проект</button>
           </div>
         `;
       }
