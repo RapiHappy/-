@@ -21,8 +21,8 @@ window.app = {
       if (typeof plannerSystem !== 'undefined') plannerSystem.generatePlan(energy);
     }
     
-    if (typeof advisorSystem !== 'undefined' && advisorSystem.showDailyRecommendation) {
-        advisorSystem.showDailyRecommendation();
+    if (typeof mentorSystem !== 'undefined' && mentorSystem.render) {
+        mentorSystem.render();
     }
     
     if (typeof spacedRepetition !== 'undefined' && spacedRepetition.checkDueItems) {
