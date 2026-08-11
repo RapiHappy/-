@@ -12,9 +12,9 @@ window.LessonsInformatics = [
       <p>Для решения задачи удобно строить бинарное дерево. Влево идет 0, вправо 1. Свободные ветки (листья) можно использовать для новых букв.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Фано значит, что код буквы не может совпадать с началом кода любой другой буквы.',
@@ -58,9 +58,9 @@ window.LessonsInformatics = [
       <p>I = f * r * k * t (бит).</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Переводите килобайты в биты перед делением.',
@@ -102,9 +102,9 @@ window.LessonsInformatics = [
       <p>M <= 2^i. Считаем вес одного пароля: i * длина (в битах). Перевод в байты с округлением вверх.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Байты на пароль округляются всегда вверх.',
@@ -146,9 +146,9 @@ window.LessonsInformatics = [
       <p>Обычно даются таблицы Сотрудники, Отделы или Родственники. Нужно искать по ключу ID.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Ищем ID в одной таблице, подставляем в другую.',
@@ -185,9 +185,9 @@ window.LessonsInformatics = [
       <p>Нужно написать формулы для проверки условий в строке.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Пишем формулу для 1 строки, растягиваем на все, считаем количество ИСТИНА.',
@@ -224,9 +224,9 @@ window.LessonsInformatics = [
       <p>F(n) = F(n-1) + F(n-2). Главное - базовый случай (выход), иначе будет ошибка переполнения стека.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Рекурсия вызывает саму себя.',
@@ -263,9 +263,9 @@ window.LessonsInformatics = [
       <p>Исполнитель преобразует число. Команды: +1, *2. Сколько путей из А в Б? Заводим массив или рекурсию с мемоизацией.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Идём от А до Б, складывая количество путей для каждого промежуточного числа.',
@@ -302,9 +302,9 @@ window.LessonsInformatics = [
       <p>Читаем файл: s = open('file.txt').readline(). Ищем максимальную длину подстроки.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Идём циклом по строке. Если условие выполняется — увеличиваем счетчик. Иначе — сбрасываем и сохраняем максимум.',
@@ -341,9 +341,9 @@ window.LessonsInformatics = [
       <p>Суть: сортируем данные (например, цены по возрастанию) и берем самые дешевые, пока хватает бюджета.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Сортируй массив (.sort()), а потом иди циклом, пока не упрешься в лимит.',
@@ -380,9 +380,9 @@ window.LessonsInformatics = [
       <p>Задачи на пары, последовательности, префиксные суммы. Алгоритм за O(N^2) получит 1 балл. За O(N) - 2 балла. Используйте массивы остатков или префиксные суммы.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
-      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
+      main: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      simple: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      tasks: 'https://www.youtube.com/embed/tgbNymZ7vqY'
     },
     videoTimecodes: [],
     simpleExplanation: 'Вместо того чтобы сравнивать каждое число с каждым (долго!), храни нужную информацию в маленьком массиве (например, из 100 элементов).',
