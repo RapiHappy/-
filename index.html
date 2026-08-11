@@ -82,6 +82,13 @@
             <blockquote id="motivation-quote">
                 "Успех — это сумма небольших усилий, повторяющихся изо дня в день."
             </blockquote>
+            
+            <div class="section-block" style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                <button onclick="if(confirm('Вы уверены, что хотите удалить все тестовые данные и сбросить прогресс? Это действие необратимо.')) { localStorage.clear(); location.reload(); }" class="btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                    <i class="fas fa-trash-alt"></i> Сбросить все мои данные
+                </button>
+                <p style="color: #64748b; font-size: 12px; margin-top: 10px;">Нажмите, чтобы удалить всю фейковую/тестовую статистику.</p>
+            </div>
         </section>
 
         <!-- View: Courses -->
