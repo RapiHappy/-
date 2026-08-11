@@ -141,22 +141,154 @@ window.ntoSystem = {
     }
   },
   
+  projectState: {
+    active: false,
+    currentStage: 0,
+    answers: {}
+  },
+  
+  projectStages: [
+    {
+      title: "Этап 1: Анализ процесса",
+      content: `Вам поручили автоматизировать магазин. Сейчас заказы принимаются по телефону, записываются на бумажке, а потом менеджер вручную вбивает их в таблицу. 
+                <br><br><b>Вопрос:</b> Какая главная проблема в текущем бизнес-процессе?`,
+      inputPlaceholder: "Например: ручной ввод данных",
+      validate: (ans) => ans.toLowerCase().includes('ручн') || ans.toLowerCase().includes('бумаж') || ans.toLowerCase().includes('человеческ')
+    },
+    {
+      title: "Этап 2: Схема процесса (BPMN)",
+      content: `Каким должен быть первый элемент (событие) на схеме BPMN при поступлении заказа?`,
+      inputPlaceholder: "Например: Стартовое событие",
+      validate: (ans) => ans.toLowerCase().includes('старт') || ans.toLowerCase().includes('начал') || ans.toLowerCase().includes('start')
+    },
+    {
+      title: "Этап 3: Структура БД",
+      content: `Вам нужна таблица для хранения заказов. Какие 3 обязательных поля (колонки) должны быть в таблице <b>orders</b>?`,
+      inputPlaceholder: "Например: id, клиент, товар",
+      validate: (ans) => ans.toLowerCase().includes('id') && (ans.toLowerCase().includes('клиент') || ans.toLowerCase().includes('покупател') || ans.toLowerCase().includes('имя'))
+    },
+    {
+      title: "Этап 4: SQL Запрос",
+      content: `Напишите SQL запрос, который выберет все заказы (все колонки) из таблицы <b>orders</b>, где статус заказа равен 'new'.`,
+      inputPlaceholder: "SELECT ...",
+      validate: (ans) => {
+        const a = ans.toLowerCase().replace(/\s+/g, ' ');
+        return a.includes('select * from orders') && a.includes("status = 'new'");
+      }
+    },
+    {
+      title: "Этап 5: Псевдокод автоматизации",
+      content: `Напишите условие (if) на Python: если сумма заказа (total) больше 1000, сделать скидку 10%.`,
+      inputPlaceholder: "if ... :",
+      validate: (ans) => ans.toLowerCase().includes('if total > 1000') || ans.toLowerCase().includes('if total>1000') || ans.toLowerCase().includes('if total >= 1000')
+    },
+    {
+      title: "Этап 6: Отчёт и внедрение",
+      content: `Вы успешно спроектировали систему. Нажмите кнопку ниже, чтобы завершить проект и добавить его в портфолио!`,
+      isFinal: true
+    }
+  ],
+
   renderProjects(container) {
-    container.innerHTML = `
-      <div class="card">
-        <h3>Мини-проекты</h3>
-        <p>Выполни полный цикл: Анализ → Схема → БД → Автоматизация → Отчёт</p>
-        <div class="project-list" style="margin-top: 15px;">
-          <div class="card" style="background: #1e293b; border: 1px solid #334155;">
-            <h4>Проект "Магазин электроники"</h4>
-            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-              <span>Прогресс: 0/5 этапов</span>
-              <button class="btn btn-primary btn-sm" onclick="alert('В разработке: Интерактивный мини-проект станет доступен в следующем модуле.')">Начать</button>
+    if (!this.projectState.active) {
+      container.innerHTML = `
+        <div class="card">
+          <h3>Мини-проекты</h3>
+          <p>Выполни полный цикл: Анализ → Схема → БД → Автоматизация → Отчёт</p>
+          <div class="project-list" style="margin-top: 15px;">
+            <div class="card" style="background: #1e293b; border: 1px solid #334155;">
+              <h4>Проект "Магазин электроники"</h4>
+              <div style="display: flex; justify-content: space-between; margin-top: 10px; align-items: center;">
+                <span style="color: #94a3b8; font-size: 14px;">Длительность: ~15 мин</span>
+                <button class="btn btn-primary btn-sm" onclick="ntoSystem.startProject()">Начать проект</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      const stage = this.projectStages[this.projectState.currentStage];
+      
+      let html = `
+        <div class="card" style="background: #1e293b; border: 1px solid #3b82f6;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #f8fafc;">${stage.title}</h3>
+            <span style="color: #3b82f6; font-weight: bold;">Шаг ${this.projectState.currentStage + 1} из ${this.projectStages.length}</span>
+          </div>
+          
+          <div style="color: #cbd5e1; line-height: 1.6; margin-bottom: 20px; font-size: 15px;">
+            ${stage.content}
+          </div>
+      `;
+      
+      if (!stage.isFinal) {
+        html += `
+          <input type="text" id="project-input" placeholder="${stage.inputPlaceholder}" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; font-size: 15px; margin-bottom: 15px; outline: none;">
+          <div id="project-error" style="color: #ef4444; font-size: 13px; margin-bottom: 15px; min-height: 20px;"></div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="ntoSystem.checkProjectStage()">Проверить и продолжить</button>
+            <button class="btn btn-secondary" onclick="ntoSystem.cancelProject()">Прервать</button>
+          </div>
+        `;
+      } else {
+        html += `
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="ntoSystem.finishProject()" style="background: #10b981;">Завершить проект 🏆</button>
+          </div>
+        `;
+      }
+      
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+  },
+  
+  startProject() {
+    this.projectState.active = true;
+    this.projectState.currentStage = 0;
+    this.projectState.answers = {};
+    this.renderCurrentTab();
+  },
+  
+  cancelProject() {
+    this.projectState.active = false;
+    this.renderCurrentTab();
+  },
+  
+  checkProjectStage() {
+    const input = document.getElementById('project-input');
+    const err = document.getElementById('project-error');
+    if (!input || !err) return;
+    
+    const stage = this.projectStages[this.projectState.currentStage];
+    const val = input.value.trim();
+    
+    if (!val) {
+      err.textContent = "Введите ответ";
+      return;
+    }
+    
+    if (stage.validate(val)) {
+      this.projectState.answers[this.projectState.currentStage] = val;
+      this.projectState.currentStage++;
+      this.renderCurrentTab();
+    } else {
+      err.textContent = "Ответ неполный или неверный. Подумайте ещё раз (см. подсказки в примере).";
+    }
+  },
+  
+  finishProject() {
+    this.projectState.active = false;
+    
+    // Save to portfolio
+    const progress = StorageManager.getNtoProgress() || {completedCases: [], sqlSolutions: [], bpmnSolutions: []};
+    if (!progress.completedCases.includes('Магазин электроники')) {
+      progress.completedCases.push('Магазин электроники');
+      StorageManager.saveNtoProgress(progress);
+    }
+    
+    alert('Поздравляем! Проект успешно завершен и добавлен в ваше Портфолио НТО.');
+    this.switchTab('portfolio');
   },
   
   renderPortfolio(container) {
