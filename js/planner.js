@@ -15,14 +15,14 @@ window.plannerSystem = {
 
     if (energyLevel === 'high') {
       this.tasks.push(
-        { id: 'p1', title: 'Информатика: Программирование', duration: 55, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'courses', completed: false },
-        { id: 'p2', title: 'Математика: Профиль', duration: 60, subject: 'Математика', icon: 'fa-square-root-variable', action: () => window.location.hash = 'trainer', completed: false },
-        { id: 'p3', title: 'Русский: Орфография', duration: 35, subject: 'Русский язык', icon: 'fa-book', action: () => window.location.hash = 'trainer', completed: false },
+        { id: 'p1', title: 'Информатика: Программирование (Урок)', duration: 55, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'lesson/inf-lesson-4', completed: false },
+        { id: 'p2', title: 'Математика: Производные (Урок)', duration: 60, subject: 'Математика', icon: 'fa-square-root-variable', action: () => window.location.hash = 'lesson/math-lesson-1', completed: false },
+        { id: 'p3', title: 'Русский: Орфография (Тренажер)', duration: 35, subject: 'Русский язык', icon: 'fa-book', action: () => window.location.hash = 'trainer', completed: false },
         { id: 'p4', title: 'НТО: Решение кейса', duration: 30, subject: 'НТО', icon: 'fa-robot', action: () => window.location.hash = 'nto', completed: false }
       );
     } else if (energyLevel === 'medium') {
       this.tasks.push(
-        { id: 'p1', title: 'Информатика: Теория', duration: 45, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'courses', completed: false },
+        { id: 'p1', title: 'Информатика: Теория', duration: 45, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'lesson/inf-lesson-1', completed: false },
         { id: 'p3', title: 'Русский: Практика', duration: 30, subject: 'Русский язык', icon: 'fa-book', action: () => window.location.hash = 'trainer', completed: false },
         { id: 'p4', title: 'НТО: SQL', duration: 15, subject: 'НТО', icon: 'fa-database', action: () => window.location.hash = 'nto', completed: false }
       );
