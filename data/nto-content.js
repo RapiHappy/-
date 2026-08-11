@@ -25,13 +25,13 @@ window.NTOContent = {
     {
       id: 'case-1',
       title: 'Автоматизация заказов интернет-магазина',
-      description: 'Магазин "Ромашка" обрабатывает заказы вручную через Excel. Менеджер тратит по 10 минут на заказ. Нужно спроектировать автоматический процесс.',
+      description: 'Магазин обрабатывает заказы вручную через Excel. Менеджер тратит по 10 минут на заказ. Нужно спроектировать автоматический процесс.',
       stages: [
-        {title: 'Анализ процесса', description: 'Найдите узкие места в текущем процессе.', task: 'Опишите словами, что нужно изменить.', expectedAnswer: 'Автоматизировать прием заказа с сайта в БД, чтобы менеджер не переносил руками.'},
-        {title: 'BPMN-схема', description: 'Нарисуйте процесс As-Is (как есть) и To-Be (как будет).', task: 'Построить схему в редакторе.'},
-        {title: 'Таблицы данных', description: 'Спроектируйте БД.', task: 'Напишите CREATE TABLE для заказов и товаров.'},
-        {title: 'Автоматизация', description: 'Напишите скрипт приема заказа.', task: 'Python код интеграции.'},
-        {title: 'Отчёт', description: 'Посчитайте экономию времени.', task: 'Было 10 мин, стало 1 мин. При 100 заказах экономия 900 минут.'}
+        {title: 'Анализ процесса', content: 'Какая главная проблема в текущем бизнес-процессе?', inputPlaceholder: 'Например: ручной ввод', expectedKeywords: ['ручн', 'ввод', 'excel', 'человек', 'время']},
+        {title: 'BPMN-схема', content: 'Каким должен быть первый элемент (событие) на схеме BPMN при поступлении заказа?', inputPlaceholder: 'Например: Стартовое событие', expectedKeywords: ['старт', 'начал']},
+        {title: 'Таблицы данных', content: 'Вам нужна таблица для хранения заказов. Напишите SQL команду для создания таблицы orders (со столбцами id, item).', inputPlaceholder: 'CREATE TABLE...', expectedKeywords: ['create table', 'orders', 'id', 'item']},
+        {title: 'Автоматизация', content: 'Напишите условие на Python: если сумма (total) больше 1000, вывести "Скидка".', inputPlaceholder: 'if ...:', expectedKeywords: ['if total > 1000', 'if total >= 1000', 'if total>1000']},
+        {title: 'Отчёт', content: 'Вы успешно спроектировали систему. Нажмите кнопку, чтобы завершить.', isFinal: true}
       ]
     },
     {
@@ -39,19 +39,21 @@ window.NTOContent = {
       title: 'Интеграция CRM и Telegram (API)',
       description: 'Отдел продаж теряет лиды, так как они не приходят в мессенджер вовремя.',
       stages: [
-        {title: 'Анализ API', description: 'Изучите метод отправки сообщения в Telegram API.', task: 'Какой метод используется?', expectedAnswer: 'sendMessage'},
-        {title: 'BPMN-схема', description: 'Смоделируйте процесс поступления лида.', task: 'Шлюз: Лид целевой?'},
-        {title: 'Python скрипт', description: 'Напишите запрос с использованием requests.', task: 'Отправка POST запроса с JSON.'}
+        {title: 'Анализ API', content: 'Какой HTTP-метод используется для отправки данных (например, сообщения в API Telegram)?', inputPlaceholder: 'Например: GET, POST', expectedKeywords: ['post']},
+        {title: 'BPMN-схема', content: 'Какой шлюз (XOR или AND) нужно использовать, если лид может быть целевым ИЛИ нецелевым (только один вариант)?', inputPlaceholder: 'XOR / AND', expectedKeywords: ['xor', 'исключ']},
+        {title: 'Структура JSON', content: 'Напишите JSON объект с ключами chat_id (равен 1) и text (равен "hi").', inputPlaceholder: '{"chat_id": ...}', expectedKeywords: ['"chat_id"', '1', '"text"', '"hi"']},
+        {title: 'Завершение', content: 'Интеграция готова!', isFinal: true}
       ]
     },
     {
       id: 'case-3',
-      title: 'Отчетность в Google Sheets (Excel)',
-      description: 'Руководителю нужен дашборд по продажам за месяц.',
+      title: 'Аналитика и дашборды (SQL + Sheets)',
+      description: 'Руководителю нужен дашборд по продажам за месяц из базы данных.',
       stages: [
-        {title: 'Импорт данных', description: 'Загрузите CSV в таблицы.', task: 'Используйте ImportData.'},
-        {title: 'Формулы', description: 'Посчитайте выручку.', task: 'СУММЕСЛИ(A:A, "Оплачен", B:B)'},
-        {title: 'Сводные таблицы', description: 'Сгруппируйте по менеджерам.', task: 'Построить сводную диаграмму.'}
+        {title: 'Сбор данных (SQL)', content: 'Напишите SQL-запрос для подсчета суммы продаж (amount) из таблицы sales.', inputPlaceholder: 'SELECT ...', expectedKeywords: ['select', 'sum(amount)', 'from sales']},
+        {title: 'Группировка (SQL)', content: 'Добавьте группировку по менеджеру (manager_id). Как называется оператор?', inputPlaceholder: 'Например: ORDER BY', expectedKeywords: ['group by']},
+        {title: 'Дашборд (Визуализация)', content: 'Какой тип диаграммы лучше всего покажет доли продаж разных менеджеров от общей суммы?', inputPlaceholder: 'Например: Линейная, Круговая', expectedKeywords: ['круг', 'pie']},
+        {title: 'Завершение', content: 'Дашборд собран и отправлен руководству!', isFinal: true}
       ]
     }
   ],

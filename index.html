@@ -14,8 +14,36 @@
 </head>
 <body>
 <div id="app-container">
-    <header id="main-header">
-        <div class="header-content">
+    <nav id="bottom-nav">
+        <button class="nav-item active" onclick="app.navigateTo('dashboard')">
+            <i class="fas fa-house"></i>
+            <span>Главная</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('courses')">
+            <i class="fas fa-book"></i>
+            <span>Курсы</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('trainer')">
+            <i class="fas fa-dumbbell"></i>
+            <span>Практика</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('nto')">
+            <i class="fas fa-trophy"></i>
+            <span>НТО</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('errors')">
+            <i class="fas fa-bug"></i>
+            <span>Ошибки</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('analytics')">
+            <i class="fas fa-chart-pie"></i>
+            <span>Прогресс</span>
+        </button>
+    </nav>
+
+    <div id="content-wrapper">
+        <header id="main-header">
+            <div class="header-content">
             <div>
                 <h1 id="greeting-text">Привет, Студент!</h1>
                 <p id="current-date">1 сентября</p>
@@ -219,33 +247,7 @@
             <div id="nto-container"></div>
         </section>
     </main>
-    
-    <nav id="bottom-nav">
-        <button class="nav-item active" onclick="app.navigateTo('dashboard')">
-            <i class="fas fa-house"></i>
-            <span>Главная</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('courses')">
-            <i class="fas fa-book"></i>
-            <span>Курсы</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('trainer')">
-            <i class="fas fa-dumbbell"></i>
-            <span>Практика</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('nto')">
-            <i class="fas fa-trophy"></i>
-            <span>НТО</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('errors')">
-            <i class="fas fa-bug"></i>
-            <span>Ошибки</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('analytics')">
-            <i class="fas fa-chart-pie"></i>
-            <span>Прогресс</span>
-        </button>
-    </nav>
+    </div>
 </div>
 
 <!-- Modals -->

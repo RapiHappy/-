@@ -101,18 +101,23 @@ window.plannerSystem = {
     this.tasks.forEach((task, idx) => {
       totalDuration += task.duration;
       
+      const firstIncompleteIdx = this.tasks.findIndex(t => !t.completed);
+      const isLocked = !task.completed && idx > firstIncompleteIdx;
+      
       const el = document.createElement('div');
       el.className = 'plan-task';
       el.style.cssText = `
         background: #1e293b; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px;
         display: flex; align-items: center; justify-content: space-between;
         border: 1px solid ${task.completed ? '#10b981' : '#334155'}; transition: all 0.2s;
+        opacity: ${isLocked ? '0.5' : '1'};
+        pointer-events: ${isLocked ? 'none' : 'auto'};
       `;
       
       el.innerHTML = `
         <div style="display: flex; align-items: center; gap: 12px; cursor: pointer; flex: 1;" onclick="plannerSystem.executeTask(${idx})">
           <div style="width: 32px; height: 32px; border-radius: 8px; background: ${task.completed ? '#10b981' : '#334155'}; display: flex; align-items: center; justify-content: center; color: #fff;">
-            <i class="fas ${task.completed ? 'fa-check' : task.icon}"></i>
+            <i class="fas ${isLocked ? 'fa-lock' : (task.completed ? 'fa-check' : task.icon)}"></i>
           </div>
           <div>
             <div style="color: ${task.completed ? '#94a3b8' : '#f8fafc'}; font-size: 14px; font-weight: 500; text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.title}</div>

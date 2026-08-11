@@ -96,6 +96,31 @@ window.mentorSystem = {
       };
     }
 
+    // 4.5. Weak topic analysis
+    if (errors.length > 0) {
+      const topicCounts = {};
+      errors.forEach(e => {
+        topicCounts[e.topic] = (topicCounts[e.topic] || 0) + 1;
+      });
+      let worstTopic = null;
+      let maxErrors = 0;
+      for (const [topic, count] of Object.entries(topicCounts)) {
+        if (count > maxErrors) {
+          maxErrors = count;
+          worstTopic = topic;
+        }
+      }
+      
+      if (maxErrors > 1) {
+        return {
+          type: 'math-struggle',
+          text: `🚨 Я проанализировал твои ошибки. Задание №${worstTopic} вызывает проблемы (сделано ${maxErrors} ошибок). Рекомендую срочно повторить теорию!`,
+          action: "app.navigateTo('errors')",
+          actionLabel: "Разобрать ошибки"
+        };
+      }
+    }
+
     // 5. Sunday Rest Rule
     if (dayOfWeek === 0) {
       return {
