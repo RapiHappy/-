@@ -11,10 +11,12 @@ window.ntoSystem = {
         <div class="tabs-nav">
           <button class="btn ${this.currentTab === 'overview' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('overview')">Обзор</button>
           <button class="btn ${this.currentTab === 'roadmap' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('roadmap')">Карта</button>
-          <button class="btn ${this.currentTab === 'cases' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('cases')">Кейсы</button>
           <button class="btn ${this.currentTab === 'bpmn' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('bpmn')">BPMN</button>
           <button class="btn ${this.currentTab === 'sql' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('sql')">SQL</button>
-          <button class="btn ${this.currentTab === 'projects' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('projects')">Проекты</button>
+          <button class="btn ${this.currentTab === 'python' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('python')">Python</button>
+          <button class="btn ${this.currentTab === 'api' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('api')">API</button>
+          <button class="btn ${this.currentTab === 'excel' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('excel')">Excel</button>
+          <button class="btn ${this.currentTab === 'cases' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('cases')">Кейсы</button>
           <button class="btn ${this.currentTab === 'portfolio' ? 'btn-primary' : 'btn-secondary'}" onclick="ntoSystem.switchTab('portfolio')">Портфолио</button>
         </div>
       </div>
@@ -41,7 +43,9 @@ window.ntoSystem = {
       case 'cases': this.renderCases(area); break;
       case 'bpmn': this.renderBPMN(area); break;
       case 'sql': this.renderSQL(area); break;
-      case 'projects': this.renderProjects(area); break;
+      case 'python': this.renderPython(area); break;
+      case 'api': this.renderAPI(area); break;
+      case 'excel': this.renderExcel(area); break;
       case 'portfolio': this.renderPortfolio(area); break;
     }
   },
@@ -129,17 +133,60 @@ window.ntoSystem = {
   },
   
   renderBPMN(container) {
-    container.innerHTML = '<div id="bpmn-trainer-area"></div>';
+    container.innerHTML = '<div id="bpmn-trainer-area"></div><div style="margin-top:20px; text-align:center;"><button onclick="plannerSystem.markCurrentTaskCompleted()" class="btn btn-primary btn-large">Завершить этап НТО 🚀</button></div>';
     if (window.bpmnTrainer) {
       bpmnTrainer.render(document.getElementById('bpmn-trainer-area'));
     }
   },
   
   renderSQL(container) {
-    container.innerHTML = '<div id="sql-sandbox-area"></div>';
+    container.innerHTML = '<div id="sql-sandbox-area"></div><div style="margin-top:20px; text-align:center;"><button onclick="plannerSystem.markCurrentTaskCompleted()" class="btn btn-primary btn-large">Завершить этап НТО 🚀</button></div>';
     if (window.sqlSandbox) {
       sqlSandbox.render(document.getElementById('sql-sandbox-area'));
     }
+  },
+  
+  renderPython(container) {
+    container.innerHTML = `
+      <div class="card" style="background: #1e293b; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="color: #f8fafc;">Python для автоматизации</h3>
+        <p style="color: #cbd5e1; margin-bottom: 15px;">Создай скрипт для парсинга данных из CSV. (Интерактивная среда в разработке).</p>
+        <pre style="background: #0f172a; padding: 15px; border-radius: 8px; color: #10b981;">
+import pandas as pd
+df = pd.read_csv('data.csv')
+print(df.groupby('category')['price'].sum())
+        </pre>
+      </div>
+      <div style="text-align:center;"><button onclick="plannerSystem.markCurrentTaskCompleted()" class="btn btn-primary btn-large">Завершить этап НТО 🚀</button></div>
+    `;
+  },
+
+  renderAPI(container) {
+    container.innerHTML = `
+      <div class="card" style="background: #1e293b; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="color: #f8fafc;">Интеграция по API</h3>
+        <p style="color: #cbd5e1; margin-bottom: 15px;">Отправь GET запрос и получи JSON. (Симулятор POSTMAN в разработке).</p>
+        <pre style="background: #0f172a; padding: 15px; border-radius: 8px; color: #10b981;">
+import requests
+res = requests.get('https://api.example.com/data')
+data = res.json()
+        </pre>
+      </div>
+      <div style="text-align:center;"><button onclick="plannerSystem.markCurrentTaskCompleted()" class="btn btn-primary btn-large">Завершить этап НТО 🚀</button></div>
+    `;
+  },
+
+  renderExcel(container) {
+    container.innerHTML = `
+      <div class="card" style="background: #1e293b; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="color: #f8fafc;">Excel / Google Sheets</h3>
+        <p style="color: #cbd5e1; margin-bottom: 15px;">Сложные формулы и сводные таблицы. (Интерактивный тренажер ВПР и сводных таблиц в разработке).</p>
+        <pre style="background: #0f172a; padding: 15px; border-radius: 8px; color: #10b981;">
+=ВПР(A2; 'Прайс'!A:C; 3; ЛОЖЬ)
+        </pre>
+      </div>
+      <div style="text-align:center;"><button onclick="plannerSystem.markCurrentTaskCompleted()" class="btn btn-primary btn-large">Завершить этап НТО 🚀</button></div>
+    `;
   },
   
   projectState: {

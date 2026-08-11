@@ -3,13 +3,13 @@ window.plannerSystem = {
   currentTaskIndex: 0,
   
   ntoSchedule: {
-    1: { title: 'НТО: BPMN', action: () => { window.location.hash = 'nto'; setTimeout(()=>document.querySelector('[data-tab="bpmn"]').click(), 100); } },
-    2: { title: 'НТО: SQL', action: () => { window.location.hash = 'nto'; setTimeout(()=>document.querySelector('[data-tab="sql"]').click(), 100); } },
-    3: { title: 'НТО: Python', action: () => { window.location.hash = 'nto'; } },
-    4: { title: 'НТО: API', action: () => { window.location.hash = 'nto'; } },
-    5: { title: 'НТО: Excel/Google Sheets', action: () => { window.location.hash = 'nto'; } },
-    6: { title: 'НТО: Решение кейса', action: () => { window.location.hash = 'nto'; setTimeout(()=>document.querySelector('[data-tab="cases"]').click(), 100); } },
-    0: { title: 'НТО: Отдых', action: () => { app.showNotification('Сегодня отдых по НТО!', 'success'); } }
+    1: { title: 'НТО: BPMN', type: 'nto', tab: 'bpmn' },
+    2: { title: 'НТО: SQL', type: 'nto', tab: 'sql' },
+    3: { title: 'НТО: Python', type: 'nto', tab: 'projects' },
+    4: { title: 'НТО: API', type: 'nto', tab: 'projects' },
+    5: { title: 'НТО: Excel/Google Sheets', type: 'nto', tab: 'projects' },
+    6: { title: 'НТО: Решение кейса', type: 'nto', tab: 'cases' },
+    0: { title: 'НТО: Отдых', type: 'nto', tab: 'overview' }
   },
 
   getNextLesson(subject, lessons) {
@@ -23,71 +23,105 @@ window.plannerSystem = {
   },
 
   generatePlan() {
-    this.tasks = [];
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem('daily_plan_date');
     
-    const failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
-    if (failedLessons.length > 0) {
-      const failedId = failedLessons[0];
-      this.tasks.push({
-        id: 'plan-repeat', title: 'Повторение темы (Работа над ошибками)', duration: 20, subject: 'Смешанное',
-        icon: 'fa-brain', action: () => { window.location.hash = `lesson/${failedId}`; }, completed: false
-      });
+    if (savedDate === today) {
+      const savedTasks = localStorage.getItem('daily_plan_tasks');
+      if (savedTasks) {
+        this.tasks = JSON.parse(savedTasks);
+        this.renderPlan();
+        return;
+      }
     }
 
+    // Generate new plan
+    this.tasks = [];
     const dayOfWeek = new Date().getDay();
 
     if (dayOfWeek === 0) {
       this.tasks.push({
         id: 'plan-rest-sunday', title: 'Полный отдых и восстановление', duration: 0, subject: 'Отдых',
-        icon: 'fa-bed', action: () => { app.showNotification('Сегодня воскресенье — день отдыха!', 'success'); }, completed: false
+        icon: 'fa-bed', type: 'rest', completed: false
       });
-      this.renderPlan();
-      return;
-    }
+    } else {
+      // 1. Repeat failed
+      const failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
+      if (failedLessons.length > 0) {
+        this.tasks.push({
+          id: `plan-repeat-${failedLessons[0]}`, title: 'Работа над ошибками', duration: 20, subject: 'Смешанное',
+          icon: 'fa-brain', type: 'lesson', lessonId: failedLessons[0], completed: false
+        });
+      }
 
-    if (window.LessonsInformatics) {
-      const infLesson = this.getNextLesson('informatics', window.LessonsInformatics);
+      // 2. Informatics
+      if (window.LessonsInformatics) {
+        const infLesson = this.getNextLesson('informatics', window.LessonsInformatics);
+        this.tasks.push({
+          id: `plan-inf-${infLesson.id}`, title: `Информатика: ${infLesson.title}`, duration: 55, subject: 'Информатика',
+          icon: 'fa-laptop-code', type: 'lesson', lessonId: infLesson.id, completed: false
+        });
+      }
+
+      // 3. Break
       this.tasks.push({
-        id: `plan-inf-${infLesson.id}`, title: `Информатика: ${infLesson.title}`, duration: 55, subject: 'Информатика',
-        icon: 'fa-laptop-code', action: () => window.location.hash = `lesson/${infLesson.id}`, completed: false
+        id: 'plan-rest-1', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+        icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
       });
-    }
 
-    this.tasks.push({
-      id: 'plan-rest-1', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', action: () => { window.location.hash = 'timer'; timerSystem.setDuration(5); timerSystem.toggleTimer(); }, completed: false
-    });
+      // 4. Russian
+      if (window.LessonsRussian) {
+        const rusLesson = this.getNextLesson('russian', window.LessonsRussian);
+        this.tasks.push({
+          id: `plan-rus-${rusLesson.id}`, title: `Русский: ${rusLesson.title}`, duration: 30, subject: 'Русский язык',
+          icon: 'fa-book', type: 'lesson', lessonId: rusLesson.id, completed: false
+        });
+      }
 
-    if (window.LessonsRussian) {
-      const rusLesson = this.getNextLesson('russian', window.LessonsRussian);
+      // 5. Break
       this.tasks.push({
-        id: `plan-rus-${rusLesson.id}`, title: `Русский: ${rusLesson.title}`, duration: 30, subject: 'Русский язык',
-        icon: 'fa-book', action: () => window.location.hash = `lesson/${rusLesson.id}`, completed: false
+        id: 'plan-rest-2', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+        icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
       });
+
+      // 6. Math
+      if (window.LessonsMath) {
+        const mathLesson = this.getNextLesson('math', window.LessonsMath);
+        this.tasks.push({
+          id: `plan-math-${mathLesson.id}`, title: `Математика: ${mathLesson.title}`, duration: 50, subject: 'Математика',
+          icon: 'fa-square-root-variable', type: 'lesson', lessonId: mathLesson.id, completed: false
+        });
+      }
+
+      // 7. NTO
+      const ntoTask = this.ntoSchedule[dayOfWeek];
+      if (ntoTask) {
+        this.tasks.push({
+          id: 'plan-nto', title: ntoTask.title, duration: 30, subject: 'НТО',
+          icon: 'fa-robot', type: 'nto', tab: ntoTask.tab, completed: false
+        });
+      }
     }
 
-    this.tasks.push({
-      id: 'plan-rest-2', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', action: () => { window.location.hash = 'timer'; timerSystem.setDuration(5); timerSystem.toggleTimer(); }, completed: false
-    });
-
-    if (window.LessonsMath) {
-      const mathLesson = this.getNextLesson('math', window.LessonsMath);
-      this.tasks.push({
-        id: `plan-math-${mathLesson.id}`, title: `Математика: ${mathLesson.title}`, duration: 50, subject: 'Математика',
-        icon: 'fa-square-root-variable', action: () => window.location.hash = `lesson/${mathLesson.id}`, completed: false
-      });
-    }
-
-    const ntoTask = this.ntoSchedule[dayOfWeek];
-    if (ntoTask) {
-      this.tasks.push({
-        id: 'plan-nto', title: ntoTask.title, duration: 30, subject: 'НТО',
-        icon: 'fa-robot', action: ntoTask.action, completed: false
-      });
-    }
-
+    localStorage.setItem('daily_plan_date', today);
+    this.saveTasks();
     this.renderPlan();
+  },
+
+  saveTasks() {
+    localStorage.setItem('daily_plan_tasks', JSON.stringify(this.tasks));
+    this.updateDailyProgress();
+  },
+  
+  updateDailyProgress() {
+    const total = this.tasks.length;
+    const completed = this.tasks.filter(t => t.completed).length;
+    const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+    
+    const bar = document.getElementById('daily-progress-bar');
+    const text = document.getElementById('daily-progress-text');
+    if (bar) bar.style.width = `${pct}%`;
+    if (text) text.textContent = `${pct}% выполнено`;
   },
 
   renderPlan() {
@@ -137,28 +171,77 @@ window.plannerSystem = {
       const mins = totalDuration % 60;
       timeSummary.textContent = hours > 0 ? `${hours} ч ${mins} мин` : `${mins} мин`;
     }
+    
+    this.updateDailyProgress();
   },
 
   toggleTask(idx) {
     if (this.tasks[idx]) {
       this.tasks[idx].completed = !this.tasks[idx].completed;
+      this.saveTasks();
       this.renderPlan();
       
       if (this.tasks[idx].completed) {
         app.showNotification(`Выполнено: ${this.tasks[idx].title}`, 'success');
         
         if (this.tasks.every(t => t.completed)) {
-          app.showNotification('Все задачи на сегодня выполнены! План на завтра будет сформирован.', 'success');
-          setTimeout(() => this.generatePlan(), 2000);
+          app.showNotification('Все задачи на сегодня выполнены! Отличная работа!', 'success');
+        } else {
+          // Auto start next task
+          setTimeout(() => this.startLearningNow(), 1500);
         }
       }
     }
   },
   
+  markCurrentTaskCompleted() {
+    const firstIncompleteIdx = this.tasks.findIndex(t => !t.completed);
+    if (firstIncompleteIdx !== -1) {
+      this.tasks[firstIncompleteIdx].completed = true;
+      this.saveTasks();
+      this.renderPlan();
+      app.showNotification(`Этап завершен! Переходим к следующему.`, 'success');
+      
+      if (this.tasks.every(t => t.completed)) {
+        app.showNotification('Все задачи на сегодня выполнены!', 'success');
+        app.navigateTo('dashboard');
+      } else {
+        setTimeout(() => this.startLearningNow(), 1500);
+      }
+    }
+  },
+  
   executeTask(idx) {
-    if (this.tasks[idx] && typeof this.tasks[idx].action === 'function') {
-      this.currentTaskIndex = idx;
-      this.tasks[idx].action();
+    const task = this.tasks[idx];
+    if (!task) return;
+    
+    this.currentTaskIndex = idx;
+    
+    if (task.type === 'lesson') {
+      window.location.hash = `lesson/${task.lessonId}`;
+    } else if (task.type === 'timer') {
+      window.location.hash = 'timer';
+      setTimeout(() => {
+        timerSystem.setDuration(task.durationMins);
+        timerSystem.toggleTimer();
+        // Override timer complete
+        const origComplete = timerSystem.completeSession;
+        timerSystem.completeSession = function() {
+          origComplete.call(timerSystem);
+          plannerSystem.markCurrentTaskCompleted();
+          timerSystem.completeSession = origComplete; // restore
+        };
+      }, 100);
+    } else if (task.type === 'nto') {
+      window.location.hash = 'nto';
+      if (task.tab) {
+        setTimeout(() => {
+          const btn = document.querySelector(`[data-tab="${task.tab}"]`);
+          if (btn) btn.click();
+        }, 100);
+      }
+    } else if (task.type === 'rest') {
+      app.showNotification('Сегодня отдыхаем!', 'success');
     }
   },
 
@@ -168,6 +251,7 @@ window.plannerSystem = {
       this.executeTask(firstIncompleteIdx);
     } else {
       app.showNotification('На сегодня всё выполнено!', 'success');
+      app.navigateTo('dashboard');
     }
   }
 };

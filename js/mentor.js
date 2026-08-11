@@ -203,10 +203,30 @@ window.mentorSystem = {
       };
     }
 
+    // 11. Current Planner Step
+    if (window.plannerSystem && window.plannerSystem.tasks) {
+      const firstIncomplete = window.plannerSystem.tasks.find(t => !t.completed);
+      if (firstIncomplete) {
+        return {
+          type: 'default',
+          text: `🎯 Твой следующий шаг по плану: <strong>${firstIncomplete.title}</strong>. Жми кнопку ниже, чтобы приступить к нему!`,
+          action: "plannerSystem.startLearningNow()",
+          actionLabel: "Продолжить по плану"
+        };
+      } else if (window.plannerSystem.tasks.length > 0) {
+        return {
+          type: 'default',
+          text: `🏆 Фантастика! Все задачи на сегодня выполнены. Иди отдыхай, ты заслужил!`,
+          action: "app.navigateTo('dashboard')",
+          actionLabel: "План завершен"
+        };
+      }
+    }
+
     // DEFAULT
     return {
       type: 'default',
-      text: `🎯 Выполни свой ежедневный план, чтобы стать на шаг ближе к поступлению мечты!`,
+      text: `🎯 Начни свой ежедневный план, чтобы стать на шаг ближе к поступлению мечты!`,
       action: "plannerSystem.startLearningNow()",
       actionLabel: "Перейти к плану"
     };

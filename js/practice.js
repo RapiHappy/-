@@ -276,7 +276,11 @@ window.practiceSystem = {
     `;
     
     if (this.activeSession.currentIndex < this.activeSession.tasks.length - 1) {
-      html += `<button onclick="practiceSystem.nextTrainingTask()" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">Следующая задача <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>`;
+      if (isCorrect) {
+        html += `<button onclick="practiceSystem.nextTrainingTask()" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">Следующая задача <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>`;
+      } else {
+        html += `<button onclick="practiceSystem.nextTrainingTask()" style="width: 100%; background: #f59e0b; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#d97706'" onmouseout="this.style.background='#f59e0b'">Попробовать аналогичную задачу <i class="fa-solid fa-redo" style="margin-left: 8px;"></i></button>`;
+      }
     } else {
       html += `<button onclick="practiceSystem.render()" style="width: 100%; background: #10b981; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">Завершить тренировку</button>`;
     }

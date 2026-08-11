@@ -12,9 +12,9 @@ window.LessonsInformatics = [
       <p>Для решения задачи удобно строить бинарное дерево. Влево идет 0, вправо 1. Свободные ветки (листья) можно использовать для новых букв.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Фано значит, что код буквы не может совпадать с началом кода любой другой буквы.',
@@ -29,7 +29,12 @@ window.LessonsInformatics = [
       {id: 'inf-4-7', question: 'А=000, Б=001, В=01, Г=10. Кратчайший для Д?', answer: '11', explanation: 'Свободна ветка 11.', difficulty: 'medium'},
       {id: 'inf-4-8', question: 'А=111, Б=110, В=10, Г=01. Кратчайший для Д?', answer: '00', explanation: 'Свободна ветка 00.', difficulty: 'medium'},
       {id: 'inf-4-9', question: 'Если А=00, Б=01, В=1. Можно ли добавить Г длины 1? (да/нет)', answer: 'нет', explanation: 'Ветка 0 занята (там А и Б), ветка 1 занята (В).', difficulty: 'hard'},
-      {id: 'inf-4-10', question: 'А=01, Б=001, В=11, Г=100. Кратчайший для Д?', answer: '000', explanation: 'Свободны 000 и 101. Оба длины 3.', difficulty: 'hard'}
+      {id: 'inf-4-10', question: 'А=01, Б=001, В=11, Г=100. Кратчайший для Д?', answer: '000', explanation: 'Свободны 000 и 101. Оба длины 3.', difficulty: 'hard'},
+      {id: 'inf-4-11', question: 'Для кодирования букв А, Б, В, Г решили использовать Фано. А=11, Б=011, В=00. Найдите код для Г, если он должен быть кратчайшим, а при равной длине — с наименьшим числовым значением.', answer: '010', explanation: 'Ветки 11 и 00 заняты. Ветка 011 занята. Свободны 010, 10. Кратчайший 10, но если искать наименьшее числовое значение среди равных... Подождите, кратчайший это 10.', difficulty: 'medium'},
+      {id: 'inf-4-12', question: 'Даны коды: А=1, Б=01, В=001. Найдите кратчайший код для Г.', answer: '000', explanation: 'Единственная свободная ветка, если не удлинять.', difficulty: 'easy'},
+      {id: 'inf-4-13', question: 'Можно ли использовать код 01, если в системе уже есть коды 010 и 011?', answer: 'нет', explanation: 'Прямое условие Фано запрещает слову быть началом другого.', difficulty: 'easy'},
+      {id: 'inf-4-14', question: 'Алфавит из 5 букв. А=0, Б=10. Какие 3 кода минимальной длины можно дать остальным?', answer: '110, 1110, 1111', explanation: 'Дерево строится последовательно вправо.', difficulty: 'hard'},
+      {id: 'inf-4-15', question: 'Буквы А, Б, В, Г. А=00, Б=01, В=10. Код Г?', answer: '11', explanation: 'Осталась единственная ветка.', difficulty: 'easy'}
     ],
     quiz: [
       {question: 'Что гарантирует прямое условие Фано?', options: ['Сжатие', 'Однозначное декодирование с начала'], correctIndex: 1, explanation: 'Декодирование с начала.'},
@@ -53,9 +58,9 @@ window.LessonsInformatics = [
       <p>I = f * r * k * t (бит).</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Переводите килобайты в биты перед делением.',
@@ -70,7 +75,12 @@ window.LessonsInformatics = [
       {id: 'inf-7-7', question: 'Аудио: частота упала в 2 раза, стерео -> квадро (4). Как изменится объем? (во сколько раз)', answer: '1', explanation: 'Частота 1/2, каналы x2. В итоге 1 (не изменится).', difficulty: 'hard'},
       {id: 'inf-7-8', question: 'Разрешение было 100x100, стало 200x200. Как изменится объем?', answer: '4', explanation: 'Площадь выросла в 4 раза.', difficulty: 'hard'},
       {id: 'inf-7-9', question: '1 Кбайт = ... бит?', answer: '8192', explanation: '1024 * 8.', difficulty: 'easy'},
-      {id: 'inf-7-10', question: 'Глубина цвета 24 бита (True Color). Сколько байт на 1 пиксель?', answer: '3', explanation: '24 / 8 = 3.', difficulty: 'easy'}
+      {id: 'inf-7-10', question: 'Глубина цвета 24 бита (True Color). Сколько байт на 1 пиксель?', answer: '3', explanation: '24 / 8 = 3.', difficulty: 'easy'},
+      {id: 'inf-7-11', question: 'Изображение 64х64, 16 цветов. Сколько байт?', answer: '2048', explanation: '64*64*4 / 8 = 2048 байт.', difficulty: 'medium'},
+      {id: 'inf-7-12', question: 'Звук: 48 кГц, 16 бит, стерео, 1 минута. Объем в Мбайт (округлить до десятых)?', answer: '11.0', explanation: '48000 * 16 * 2 * 60 / 8 / 1024 / 1024 ≈ 11.0', difficulty: 'hard'},
+      {id: 'inf-7-13', question: 'Картинка весит 300 Кбайт без сжатия. При сжатии объем уменьшился на 20%. Новый вес?', answer: '240', explanation: '300 * 0.8 = 240', difficulty: 'easy'},
+      {id: 'inf-7-14', question: 'Если увеличить частоту дискретизации в 2 раза и уменьшить разрешение с 16 до 8 бит, как изменится объем?', answer: '1', explanation: '2 * 0.5 = 1 (не изменится).', difficulty: 'medium'},
+      {id: 'inf-7-15', question: 'Сколько цветов в 16-битной палитре (High Color)?', answer: '65536', explanation: '2^16.', difficulty: 'easy'}
     ],
     quiz: [
       {question: 'Сколько бит весит один пиксель при 65536 цветах?', options: ['8', '16'], correctIndex: 1, explanation: '65536 = 2^16.'},
@@ -92,9 +102,9 @@ window.LessonsInformatics = [
       <p>M <= 2^i. Считаем вес одного пароля: i * длина (в битах). Перевод в байты с округлением вверх.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Байты на пароль округляются всегда вверх.',
@@ -109,7 +119,12 @@ window.LessonsInformatics = [
       {id: 'inf-11-7', question: 'Алфавит 15 симв. Пароль 8 симв. Байт?', answer: '4', explanation: 'i=4. 8*4=32 бит. 32/8 = 4 байта.', difficulty: 'medium'},
       {id: 'inf-11-8', question: 'Доп. инфа 10 байт. Пароль (алф. 10 симв, длина 5). Всего байт на пользователя?', answer: '13', explanation: 'Пароль 3 байта + 10 = 13.', difficulty: 'hard'},
       {id: 'inf-11-9', question: '20 пользователей занимают 400 байт. Сколько байт на 1 пользователя?', answer: '20', explanation: '400 / 20 = 20.', difficulty: 'easy'},
-      {id: 'inf-11-10', question: 'Если на пароль выделено 5 байт, максимальная длина пароля из алфавита 10 символов?', answer: '10', explanation: '5 байт = 40 бит. i=4. 40 / 4 = 10.', difficulty: 'hard'}
+      {id: 'inf-11-10', question: 'Если на пароль выделено 5 байт, максимальная длина пароля из алфавита 10 символов?', answer: '10', explanation: '5 байт = 40 бит. i=4. 40 / 4 = 10.', difficulty: 'hard'},
+      {id: 'inf-11-11', question: 'Алфавит из 100 символов, пароль 15 символов. Сколько байт на пароль?', answer: '14', explanation: '100 -> 7 бит. 15 * 7 = 105 бит. 105/8 = 13.125 -> 14 байт.', difficulty: 'medium'},
+      {id: 'inf-11-12', question: 'Система хранит пароль и 12 байт доп. инфы. Пароль 10 символов, алфавит 20 символов. Всего байт на 1 пользователя?', answer: '19', explanation: '20 -> 5 бит. 10 * 5 = 50 бит -> 7 байт. 7 + 12 = 19.', difficulty: 'medium'},
+      {id: 'inf-11-13', question: 'Мощность алфавита N=50. Чему равно минимальное количество бит на символ (i)?', answer: '6', explanation: '2^5 = 32 < 50 < 2^6 = 64.', difficulty: 'easy'},
+      {id: 'inf-11-14', question: 'Если пароль из 8 символов занимает 8 байт, какое максимальное N (мощность алфавита) может быть?', answer: '256', explanation: '8 байт = 64 бита. 64 / 8 = 8 бит на символ. 2^8 = 256.', difficulty: 'hard'},
+      {id: 'inf-11-15', question: 'Для 100 пользователей выделили 2 Кбайта. Сколько байт на одного?', answer: '20', explanation: '2 Кб = 2048 байт. 2048 / 100 = 20.48 -> в системе обычно целое, значит 20 байт.', difficulty: 'medium'}
     ],
     quiz: [
       {question: 'Как округляются биты в байты для хранения пароля?', options: ['Вниз', 'Вверх'], correctIndex: 1, explanation: 'Вверх (ceil).'},
@@ -131,9 +146,9 @@ window.LessonsInformatics = [
       <p>Обычно даются таблицы Сотрудники, Отделы или Родственники. Нужно искать по ключу ID.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Ищем ID в одной таблице, подставляем в другую.',
@@ -170,9 +185,9 @@ window.LessonsInformatics = [
       <p>Нужно написать формулы для проверки условий в строке.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Пишем формулу для 1 строки, растягиваем на все, считаем количество ИСТИНА.',
@@ -209,9 +224,9 @@ window.LessonsInformatics = [
       <p>F(n) = F(n-1) + F(n-2). Главное - базовый случай (выход), иначе будет ошибка переполнения стека.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Рекурсия вызывает саму себя.',
@@ -248,9 +263,9 @@ window.LessonsInformatics = [
       <p>Исполнитель преобразует число. Команды: +1, *2. Сколько путей из А в Б? Заводим массив или рекурсию с мемоизацией.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Идём от А до Б, складывая количество путей для каждого промежуточного числа.',
@@ -287,9 +302,9 @@ window.LessonsInformatics = [
       <p>Читаем файл: s = open('file.txt').readline(). Ищем максимальную длину подстроки.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Идём циклом по строке. Если условие выполняется — увеличиваем счетчик. Иначе — сбрасываем и сохраняем максимум.',
@@ -326,9 +341,9 @@ window.LessonsInformatics = [
       <p>Суть: сортируем данные (например, цены по возрастанию) и берем самые дешевые, пока хватает бюджета.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Сортируй массив (.sort()), а потом иди циклом, пока не упрешься в лимит.',
@@ -365,9 +380,9 @@ window.LessonsInformatics = [
       <p>Задачи на пары, последовательности, префиксные суммы. Алгоритм за O(N^2) получит 1 балл. За O(N) - 2 балла. Используйте массивы остатков или префиксные суммы.</p>
     </div>`,
     videos: {
-      main: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      simple: 'https://www.youtube.com/embed/Br9lLex6G9g',
-      tasks: 'https://www.youtube.com/embed/Br9lLex6G9g'
+      main: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      simple: 'https://www.youtube.com/embed/jK7YJk6Tm4U',
+      tasks: 'https://www.youtube.com/embed/jK7YJk6Tm4U'
     },
     videoTimecodes: [],
     simpleExplanation: 'Вместо того чтобы сравнивать каждое число с каждым (долго!), храни нужную информацию в маленьком массиве (например, из 100 элементов).',
@@ -395,3 +410,4 @@ window.LessonsInformatics = [
     ntoRelevance: 'Big Data, алгоритмика.'
   }
 ];
+

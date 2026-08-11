@@ -207,6 +207,9 @@ window.coursesSystem = {
       <div id="lesson-complete-banner-${lessonId}" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: #10b981; color: #fff; text-align: center; padding: 14px; border-radius: 8px; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
         ✓ Урок пройден
       </div>
+      <button id="lesson-next-stage-btn-${lessonId}" onclick="plannerSystem.markCurrentTaskCompleted()" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 18px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+        Завершить этап и идти дальше 🚀
+      </button>
     `;
     
     container.innerHTML = html;
@@ -315,7 +318,10 @@ window.coursesSystem = {
     }
 
     const banner = document.getElementById(`lesson-complete-banner-${lessonId}`);
+    const nextBtn = document.getElementById(`lesson-next-stage-btn-${lessonId}`);
     if (banner) banner.style.display = 'block';
+    if (nextBtn) nextBtn.style.display = 'block';
+    
     app.showNotification('Урок пройден! Прогресс сохранен.', 'success');
   }
 };
