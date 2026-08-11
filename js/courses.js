@@ -120,8 +120,8 @@ window.coursesSystem = {
     `;
     
     // Video
-    if (lessonData.videos || lessonData.videoEmbed) {
-      const defaultVideo = lessonData.videos ? lessonData.videos.main : lessonData.videoEmbed;
+    if (lessonData.videos || lessonData.videoEmbed || lessonData.videoUrl) {
+      const defaultVideo = lessonData.videos ? lessonData.videos.main : (lessonData.videoEmbed || lessonData.videoUrl);
       html += `
         <div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
           <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 16px; border-radius: 8px;">

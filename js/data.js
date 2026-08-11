@@ -4,99 +4,47 @@ window.AppData = {
   get courses() {
     return [
       {
-        id: 'info-python',
-        title: 'Python для ЕГЭ',
+        id: 'info-course',
+        title: 'Информатика ЕГЭ',
         subject: 'informatics',
-        icon: '🐍',
-        level: 'Начинающий',
-        description: 'С нуля до профи в Python для ЕГЭ.',
-        stepikUrl: 'https://stepik.org/course/207789',
+        icon: '💻',
+        level: 'С нуля до 100 баллов',
+        description: 'Полный курс по информатике.',
         modules: [
           {
-            id: 'mod-py-basics',
-            title: '1. Основы Python',
-            lessons: (window.LessonsInformatics || []).filter(l =>
-              ['inf-lesson-4', 'inf-lesson-5', 'inf-lesson-6'].includes(l.id)
-            )
-          },
-          {
-            id: 'mod-py-data',
-            title: '2. Структуры данных',
-            lessons: (window.LessonsInformatics || []).filter(l =>
-              ['inf-lesson-7', 'inf-lesson-8'].includes(l.id)
-            )
+            id: 'mod-inf-all',
+            title: '1. Все задания',
+            lessons: window.informaticsLessons || []
           }
         ]
       },
       {
-        id: 'info-algo',
-        title: 'Алгоритмы и ЕГЭ',
-        subject: 'informatics',
-        icon: '🧮',
-        level: 'Продвинутый',
-        description: 'Все задания ЕГЭ по информатике.',
-        stepikUrl: 'https://stepik.org/course/214479',
-        modules: [
-          {
-            id: 'mod-algo-basics',
-            title: '1. Системы счисления и логика',
-            lessons: (window.LessonsInformatics || []).filter(l =>
-              ['inf-lesson-1', 'inf-lesson-2', 'inf-lesson-3'].includes(l.id)
-            )
-          },
-          {
-            id: 'mod-algo-advanced',
-            title: '2. Алгоритмы',
-            lessons: (window.LessonsInformatics || []).filter(l =>
-              ['inf-lesson-9', 'inf-lesson-10'].includes(l.id)
-            )
-          }
-        ]
-      },
-      {
-        id: 'rus-2026',
-        title: 'Русский язык ЕГЭ 2026',
+        id: 'rus-course',
+        title: 'Русский язык ЕГЭ',
         subject: 'russian',
         icon: '📖',
         level: 'Любой',
         description: 'Подготовка к тестовой части и сочинению.',
-        stepikUrl: 'https://stepik.org/course/92015',
         modules: [
           {
-            id: 'mod-rus-orfography',
-            title: '1. Орфография',
-            lessons: (window.LessonsRussian || []).filter(l =>
-              ['rus-lesson-3', 'rus-lesson-4'].includes(l.id)
-            )
-          },
-          {
-            id: 'mod-rus-speech',
-            title: '2. Речевые нормы',
-            lessons: (window.LessonsRussian || []).filter(l =>
-              ['rus-lesson-1', 'rus-lesson-2'].includes(l.id)
-            )
-          },
-          {
-            id: 'mod-rus-punct',
-            title: '3. Пунктуация и сочинение',
-            lessons: (window.LessonsRussian || []).filter(l =>
-              ['rus-lesson-5', 'rus-lesson-6'].includes(l.id)
-            )
+            id: 'mod-rus-all',
+            title: '1. Все темы',
+            lessons: window.russianLessons || []
           }
         ]
       },
       {
-        id: 'math-2026',
-        title: 'Математика ЕГЭ 2026',
+        id: 'math-course',
+        title: 'Математика ЕГЭ',
         subject: 'math',
         icon: '📐',
         level: 'Любой',
         description: 'Подготовка к базе и профилю.',
         modules: [
           {
-            id: 'mod-math-core',
+            id: 'mod-math-all',
             title: '1. Основные темы',
-            lessons: (window.LessonsMath || [])
+            lessons: window.mathLessons || []
           }
         ]
       }
@@ -106,9 +54,9 @@ window.AppData = {
   // Flat lesson arrays for direct access
   get allLessons() {
     return [].concat(
-      window.LessonsInformatics || [],
-      window.LessonsRussian || [],
-      window.LessonsMath || []
+      window.informaticsLessons || [],
+      window.russianLessons || [],
+      window.mathLessons || []
     );
   },
 
@@ -117,10 +65,10 @@ window.AppData = {
     return this.allLessons.find(l => l.id === lessonId) || null;
   },
 
-  get lessonsInformatics() { return window.LessonsInformatics || []; },
-  get lessonsRussian() { return window.LessonsRussian || []; },
-  get lessonsMath() { return window.LessonsMath || []; },
-  get tasksEGE() { return window.TasksEGE || {}; },
+  get lessonsInformatics() { return window.informaticsLessons || []; },
+  get lessonsRussian() { return window.russianLessons || []; },
+  get lessonsMath() { return window.mathLessons || []; },
+  get tasksEGE() { return window.egeTasks || {}; },
   get ntoContent() { return window.NTOContent || {}; },
 
   schedule: {

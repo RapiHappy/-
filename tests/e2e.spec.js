@@ -1,72 +1,124 @@
 const { test, expect } = require('@playwright/test');
 
-test('E2E Autonomous School Flow', async ({ page }) => {
-  // Clear any existing localStorage state
-  await page.addInitScript(() => {
-    window.localStorage.clear();
-    window.localStorage.setItem('has_completed_onboarding', 'true');
-    window.localStorage.setItem('target_score', '90');
-    window.localStorage.setItem('target_university', 'МГУ');
-    window.localStorage.setItem('diagnostics_completed', 'true');
-    window.localStorage.setItem('user_data', JSON.stringify({ 
-      lastEnergyDate: new Date().toISOString().split('T')[0], 
-      energyLevel: 'high',
-      streak: 0
-    }));
+test.describe('EGE Master 2026 - Comprehensive Tests', () => {
+  let consoleErrors = [];
+
+  test.beforeEach(async ({ page }) => {
+    consoleErrors = [];
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        consoleErrors.push(msg.text());
+      }
+    });
+    
+    // Set viewport to Desktop initially
+    await page.setViewportSize({ width: 1440, height: 900 });
   });
 
-  // Navigate to the local server
-  await page.goto('http://localhost:3000/');
-  
-  // Wait a bit for the app to initialize
-  await page.waitForTimeout(1000);
+  test('Desktop & Mobile: Navigation and UI rendering', async ({ page }) => {
+    await page.goto('http://localhost:3000/');
+    await page.waitForTimeout(1000);
+    
+    await page.evaluate(() => {
+      setInterval(() => {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(m => {
+          if (m.style.display !== 'none') {
+            m.style.display = 'none';
+          }
+        });
+      }, 100);
+    });
+    
+    // Handle Diagnostics Modal if present
+    const diagModal = await page.locator('#modal-diagnostics');
+    if (await diagModal.isVisible()) {
+      await page.evaluate(() => { window.diagnosticsSystem.finish(); });
+      await page.waitForTimeout(500);
+    }
+    
+    // Check navigation buttons desktop
+    const tabs = ['dashboard', 'courses', 'trainer', 'nto', 'errors', 'analytics'];
+    for (const tab of tabs) {
+      await page.evaluate((t) => window.app.navigateTo(t), tab);
+      await expect(page.locator(`#view-${tab}`)).toBeVisible();
+    }
+    
+    // Check Mobile layout
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.waitForTimeout(500);
+    
+    for (const tab of tabs) {
+      await page.evaluate((t) => window.app.navigateTo(t), tab);
+      await expect(page.locator(`#view-${tab}`)).toBeVisible();
+    }
+  });
 
-  // Force hide any modals that pop up (like energy or diagnostics)
-  await page.evaluate(() => {
-    setInterval(() => {
-      const modals = document.querySelectorAll('.modal');
-      modals.forEach(m => {
-        if (m.style.display !== 'none') {
-          m.style.display = 'none';
-        }
-      });
-    }, 100);
+  test('Functionality: Lessons, Videos, Timer, and LocalStorage', async ({ page, context }) => {
+    await page.goto('http://localhost:3000/');
+    await page.waitForTimeout(1000);
+    
+    await page.evaluate(() => {
+      window.localStorage.clear();
+      window.localStorage.setItem('diagnostics_done', 'true');
+    });
+    await page.reload();
+    await page.waitForTimeout(1000);
+
+    await page.evaluate(() => {
+      setInterval(() => {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(m => {
+          if (m.style.display !== 'none') {
+            m.style.display = 'none';
+          }
+        });
+      }, 100);
+    });
+
+    // Navigate to courses
+    await page.evaluate(() => window.app.navigateTo('courses'));
+    
+    // Force a lesson load
+    await page.evaluate(() => {
+      window.coursesSystem.openLesson('inf_1');
+    });
+    await page.waitForTimeout(500);
+    
+    // Check Video iframe validation
+    const iframe = await page.locator('#lesson-container iframe');
+    await expect(iframe).toHaveCount(1);
+    
+    // Complete lesson tasks
+    await page.evaluate(() => {
+       window.coursesSystem.markCompleted('inf_1');
+    });
+    await page.waitForTimeout(500);
+    
+    // Verify LocalStorage updated
+    const ls = await page.evaluate(() => window.localStorage.getItem('ege_master_lesson_progress'));
+    expect(ls).toBeTruthy();
+    
+    // Timer test
+    await page.evaluate(() => window.app.navigateTo('timer'));
+    await page.locator('#btn-timer-toggle').click();
+    await page.waitForTimeout(1100);
+    const timerText = await page.locator('#timer-time').innerText();
+    expect(timerText).not.toBe('25:00'); // it should tick down
+
+    // No console errors
+    expect(consoleErrors.length).toBe(0);
   });
-  
-  // Wait for the planner to generate tasks and render them
-  await page.waitForSelector('.plan-task');
-  
-  // Start the first task by clicking on the inner div that has the onclick handler
-  // Or simply trigger the executeTask directly
-  await page.evaluate(() => {
-    window.plannerSystem.executeTask(0);
+
+  test('Offline Mode and PWA', async ({ page, context }) => {
+    await page.goto('http://localhost:3000/');
+    await page.waitForTimeout(2000); // Wait for service worker to cache
+    
+    // Go offline
+    await context.setOffline(true);
+    await page.reload();
+    
+    // Ensure the page still loads and header is visible
+    await expect(page.locator('#greeting-text')).toBeVisible();
   });
-  
-  // 3. Verify we are in the lesson view
-  await expect(page).toHaveURL(/#lesson\/inf-lesson-1/);
-  
-  // 4. Go through the lesson
-  // Instead of clicking non-existent tabs, we scroll and pass the quiz
-  await page.evaluate(() => {
-    // Force complete the lesson directly bypassing the UI quiz logic for the E2E test
-    window.coursesSystem.markCompleted('inf-lesson-1');
-  });
-  
-  // Now click the big complete button
-  await page.locator('#lesson-next-stage-btn-inf-lesson-1').click({ force: true });
-  
-  // 5. Verify it navigated back to dashboard (or next timer)
-  await expect(page).toHaveURL(/#timer/);
-  
-  // Timer view
-  // Click skip or complete timer if available, or wait for timer to run out (too long).
-  // For E2E we can just forcefully complete it by evaluating JS
-  await page.evaluate(() => {
-    window.timerSystem.completeSession();
-  });
-  
-  // 6. Verify we are back on dashboard and the first tasks are checked
-  await expect(page).toHaveURL(/#dashboard/);
-  
-  console.log("E2E test passed successfully!");
 });

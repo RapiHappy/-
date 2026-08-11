@@ -24,14 +24,17 @@ window.diagnosticsSystem = {
     }
     const subject = this.subjects[this.currentSubject];
     let allTasks = [];
-    const subjectData = window.TasksEGE[subject];
-    for (let key in subjectData) {
-      if (subjectData[key].tasks && subjectData[key].tasks.length > 0) {
-        allTasks = allTasks.concat(subjectData[key].tasks);
-      }
+    
+    if (subject === 'informatics' && window.egeTasks) {
+        allTasks = window.egeTasks;
+    } else if (subject === 'russian' && window.russianLessons) {
+        window.russianLessons.forEach(l => { if (l.tasks) allTasks = allTasks.concat(l.tasks); });
+    } else if (subject === 'math' && window.mathLessons) {
+        window.mathLessons.forEach(l => { if (l.tasks) allTasks = allTasks.concat(l.tasks); });
     }
-    // Shuffle and pick 10
-    allTasks = allTasks.sort(() => 0.5 - Math.random()).slice(0, 10);
+    
+    // Shuffle and pick 15
+    allTasks = allTasks.sort(() => 0.5 - Math.random()).slice(0, 15);
     this.questionsCache = allTasks;
     this.currentQuestionIndex = 0;
     this.renderQuestion();

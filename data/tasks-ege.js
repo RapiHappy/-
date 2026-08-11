@@ -1,162 +1,6753 @@
-// EGE Master 2026 - Tasks Data Bank
-window.TasksEGE = {
-  informatics: {
-    '1': {
-      title: 'Графы и дороги',
-      tasks: [
-        {id: 'ege-inf-1-1', question: 'На рисунке схема дорог. Найдите длину кратчайшего пути из А в Е...', answer: '15', explanation: 'Действуем по алгоритму Дейкстры.'},
-        {id: 'ege-inf-1-2', question: 'Определите номера населенных пунктов, соответствующих вершинам В и Г...', answer: '25', explanation: 'Смотрим на степени вершин графа. У В и Г степень 3.'},
-        {id: 'ege-inf-1-3', question: 'Сколько существует путей из А в К, проходящих через В?', answer: '12', explanation: 'Складываем пути из предыдущих вершин: F(K) = F(B) * ...'}
-      ]
-    },
-    '4': {
-      title: 'Условие Фано',
-      tasks: [
-        {id: 'ege-inf-4-1', question: 'Для кодирования букв А, Б, В, Г решили использовать неравномерный двоичный код, удовлетворяющий условию Фано. Для А — 0, для Б — 10. Какое наименьшее кодовое слово можно выделить для В?', answer: '110', explanation: 'Строим дерево. 0 и 10 заняты. Свободные ветки начинаются с 11. Самое короткое: 110.'},
-        {id: 'ege-inf-4-2', question: 'Известно кодирование: А-00, Б-01, В-10. Закодируйте Г минимальной длиной.', answer: '11', explanation: 'Свободна ветка 11. Она не является началом других кодов.'},
-        {id: 'ege-inf-4-3', question: 'Какое минимальное количество бит потребуется для кодирования слова БАБАГ, если А-0, Б-10, Г-11?', answer: '8', explanation: 'Б(2)+А(1)+Б(2)+А(1)+Г(2) = 2+1+2+1+2 = 8 бит.'},
-        {id: 'ege-inf-4-4', question: 'Сообщение "СЛОВО" закодировано. С-00, Л-01, О-10, В-110. Сколько бит?', answer: '11', explanation: 'С(2) + Л(2) + О(2) + В(3) + О(2) = 11.'},
-        {id: 'ege-inf-4-5', question: 'По условию Фано никакое кодовое слово не может быть...', answer: 'началом', explanation: 'Условие Фано гласит, что никакое кодовое слово не может быть началом другого.'}
-      ]
-    },
-    '7': {
-      title: 'Кодирование изображений и звука',
-      tasks: [
-        {id: 'ege-inf-7-1', question: 'Разрешение 1024х768, 256 цветов. Сколько Кбайт памяти потребуется?', answer: '768', explanation: '256 цветов = 8 бит = 1 байт. 1024*768 байт = 768 Кбайт.'},
-        {id: 'ege-inf-7-2', question: 'Звукозапись: 44.1 кГц, стерео, 16 бит, 1 минута. Объем в Мбайт (округлить до целых)?', answer: '10', explanation: '44100 * 2 (стерео) * 2 байта * 60 сек / 1024 / 1024 = 10 Мб.'},
-        {id: 'ege-inf-7-3', question: 'Камера делает снимки 800х600, 65536 цветов. Сжатие 20%. Сколько таких снимков поместится на 10 Мб?', answer: '13', explanation: '1 снимок = 800*600*2 = 960000 байт. Сжатие = 960000*0.8 = 768000. 10Мб = 10485760. 10485760 / 768000 = 13.6.'},
-        {id: 'ege-inf-7-4', question: 'Изображение 256х256 требует 32 Кбайт. Максимальное количество цветов?', answer: '16', explanation: '32*1024*8 / (256*256) = 4 бита на пиксель. 2^4 = 16 цветов.'},
-        {id: 'ege-inf-7-5', question: 'Моно звук, 16 кГц, 8 бит, 10 сек. Объем в Кбайт?', answer: '156', explanation: '16000 * 1 * 10 = 160000 байт. 160000 / 1024 = 156.25.'}
-      ]
-    },
-    '11': {
-      title: 'Количество информации (пароли)',
-      tasks: [
-        {id: 'ege-inf-11-1', question: 'Пароль 10 символов, алфавит 26 букв. Сколько байт на 20 паролей?', answer: '140', explanation: '26 символов -> 5 бит на символ. 10*5=50 бит = 7 байт. 20*7 = 140 байт.'},
-        {id: 'ege-inf-11-2', question: 'Пароль 15 символов, 10 цифр и 33 буквы (обеих регистров - итого 76). Сколько байт на 1 пароль?', answer: '14', explanation: '76 -> 7 бит. 15*7 = 105 бит -> 14 байт.'},
-        {id: 'ege-inf-11-3', question: 'Пропуск содержит пароль (10 символов, 30 вариантов) и доп. данные 15 байт. Сколько байт на 1 пользователя?', answer: '22', explanation: '30 вариантов -> 5 бит. 10*5 = 50 бит -> 7 байт. 7 + 15 = 22 байта.'},
-        {id: 'ege-inf-11-4', question: 'Сис.админ выделил 2 Кбайт на 100 юзеров. Доп инфа 10 байт. Алфавит 16 символов. Макс длина пароля?', answer: '20', explanation: '2048 / 100 = 20 байт/юзер. Пароль = 20 - 10 = 10 байт = 80 бит. 16 симв -> 4 бита. 80 / 4 = 20 символов.'},
-        {id: 'ege-inf-11-5', question: 'Номера из 5 цифр. Сколько байт на 100 номеров?', answer: '300', explanation: '10 цифр -> 4 бита. 5*4 = 20 бит -> 3 байта. 100*3 = 300 байт.'}
-      ]
-    },
-    '16': {
-      title: 'Рекурсивные функции',
-      tasks: [
-        {id: 'ege-inf-16-1', question: 'F(n) = F(n-1) + F(n-2), F(1)=1, F(2)=1. Чему равно F(10)?', answer: '55', explanation: 'Это числа Фибоначчи. F(10) = 55.'},
-        {id: 'ege-inf-16-2', question: 'F(n) = n * F(n-1), F(1)=1. F(5) = ?', answer: '120', explanation: 'Факториал 5! = 120.'},
-        {id: 'ege-inf-16-3', question: 'F(n) = 2*F(n-1) если n четное, иначе F(n-2)+1. F(1)=1, F(2)=2. Найти F(4).', answer: '4', explanation: 'F(4) = 2*F(3). F(3) = F(1)+1 = 2. F(4) = 2*2 = 4.'}
-      ]
-    },
-    '23': {
-      title: 'Динамика (Траектории)',
-      tasks: [
-        {id: 'ege-inf-23-1', question: 'Из 1 в 10. Команды +1, *2. Обязательно через 5.', answer: '14', explanation: 'F(1,5) = 4. F(5,10) = F(5,9)+F(5,5) = 2.'},
-        {id: 'ege-inf-23-2', question: 'Из 2 в 20, избегая 10. Команды +1, *2.', answer: '25', explanation: 'Решается циклом или рекурсией с if x==10: return 0.'},
-        {id: 'ege-inf-23-3', question: 'Команды +1, +2, *3. Из 1 в 12.', answer: '150', explanation: 'Пишем функцию на Python.'}
-      ]
-    },
-    '26': {
-      title: 'Жадные алгоритмы',
-      tasks: [
-        {id: 'ege-inf-26-1', question: 'Архив 100 Мб. Файлы: 10, 20, 30, 40, 50, 60. Какое максимальное количество файлов влезет?', answer: '4', explanation: 'Берем самые маленькие: 10+20+30+40 = 100.'},
-        {id: 'ege-inf-26-2', question: 'Скидка на каждый второй товар. Купили: 100, 200, 300, 400. Какая макс скидка?', answer: '200', explanation: 'Сортируем: 100, 200, 300, 400. Скидка на дешевые: 100 и 200/2=100. Итого скидка 150.'}
-      ]
-    },
-    '27': {
-      title: 'Оптимизация',
-      tasks: [
-        {id: 'ege-inf-27-1', question: 'Макс сумма подпоследовательности кратная 3. Элементы: 1, 2, 3, 4, 5.', answer: '15', explanation: 'Сумма 15 (все элементы) кратна 3.'},
-        {id: 'ege-inf-27-2', question: 'Расстояние между пунктами.', answer: '120', explanation: 'Решаем скриптом O(N).'}
-      ]
-    }
+// Генерируемый файл. Не редактировать вручную.
+window.egeTasks = [
+  {
+    "id": "inf_t_1_0",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
   },
-  russian: {
-    '4': {
-      title: 'Орфоэпия (Ударения)',
-      tasks: [
-        {id: 'ru-4-1', question: 'Укажите слово с неверным ударением: 1) звОнит 2) красИвее 3) тортЫ 4) баловАть', answer: '1', explanation: 'Правильно: звонИт.'},
-        {id: 'ru-4-2', question: 'Укажите слово с неверным ударением: 1) жалюзИ 2) каталОг 3) квартАл 4) дОговор', answer: '4', explanation: 'Правильно: договОр.'},
-        {id: 'ru-4-3', question: 'В каком слове ударение падает на первый слог? 1) эксперт 2) сироты 3) свекла 4) партер', answer: '3', explanation: 'Правильно: свЁкла.'},
-        {id: 'ru-4-4', question: 'Укажите вариант с правильным ударением: 1) нАчался 2) понялА 3) создалА 4) принЯл', answer: '2', explanation: 'Правильно: понялА. Остальные: началсЯ, создалА, прИнял.'},
-        {id: 'ru-4-5', question: 'Неверное ударение: 1) щавЕль 2) цемЕнт 3) шОфер 4) экспЕрт', answer: '3', explanation: 'Правильно: шофЁр.'},
-        {id: 'ru-4-6', question: 'Неверное ударение: 1) оптОвый 2) слИвовый 3) кухонный 4) кЕдровый', answer: '4', explanation: 'Правильно: кедрОвый.'},
-        {id: 'ru-4-7', question: 'Верное ударение: 1) аэропОрты 2) бАнты 3) крАны 4) все варианты верны', answer: '4', explanation: 'Слова аэропОрты, бАнты, крАны имеют неподвижное ударение на корне.'},
-        {id: 'ru-4-8', question: 'Какое слово произносится с ударением на А? 1) алфавит 2) завидно 3) таможня 4) статуя', answer: '4', explanation: 'стАтуя.'},
-        {id: 'ru-4-9', question: 'Неверное ударение: 1) кровоточАщий 2) мозаИчный 3) обеспЕчение 4) ходатАйство', answer: '4', explanation: 'Правильно: ходАтайство.'},
-        {id: 'ru-4-10', question: 'Какое слово имеет ударение на последнем слоге? 1) значимый 2) документ 3) искра 4) отзыв (посла)', answer: '2', explanation: 'докумЕнт.'}
-      ]
-    },
-    '9': {
-      title: 'Орфография (Корни)',
-      tasks: [
-        {id: 'ru-9-1', question: 'В каком ряду во всех словах пропущена безударная проверяемая гласная корня? 1) к..снуться, б..лкон 2) зам..реть, п..рила 3) прим..рять (платье), л..нивый 4) р..сти, в..кзал', answer: '3', explanation: 'примЕрять (мЕрить), лЕнивый (лЕнь). Остальные с чередованием или словарные.'},
-        {id: 'ru-9-2', question: 'Где пропущена чередующаяся гласная? 1) г..реть 2) г..ризонт 3) г..рчица 4) г..рняк', answer: '1', explanation: 'гОреть (корень гар/гор).'},
-        {id: 'ru-9-3', question: 'Буква А пишется во всех словах ряда: 1) р..сток, р..внина 2) з..ря, выр..щенный 3) пл..вец, отр..сль 4) ск..кать, пл..вчиха', answer: '2', explanation: 'зАря (без ударения А), вырАщенный (перед Щ пишем А).'},
-        {id: 'ru-9-4', question: 'Проверяемая гласная корня: 1) бл..стеть 2) р..скошный 3) эк..логия 4) р..стение', answer: '2', explanation: 'рОскошь.'},
-        {id: 'ru-9-5', question: 'Словарное слово (непроверяемая гласная): 1) в..негрет 2) упр..щать 3) посв..тить (фонарем) 4) об..жать (вокруг)', answer: '1', explanation: 'Винегрет — словарное.'},
-        {id: 'ru-9-6', question: 'Чередование: 1) к..сой 2) к..саться 3) к..стюм 4) к..стер', answer: '2', explanation: 'Касаться (кас/кос).'},
-        {id: 'ru-9-7', question: 'Пропущена буква И: 1) расст..лить 2) зам..р 3) бл..стать 4) выт..р', answer: '3', explanation: 'Блистать (есть суффикс А).'},
-        {id: 'ru-9-8', question: 'Пропущена буква Е: 1) соб..рать 2) расст..лать 3) заж..гать 4) выч..сть', answer: '4', explanation: 'вычЕсть (нет суффикса А).'},
-        {id: 'ru-9-9', question: 'Пропущена буква О: 1) р..внение 2) ск..чок 3) обм..кнуть 4) з..ря', answer: '3', explanation: 'Обмакнуть/обмокнуть. Опускать в жидкость — обмАкнуть. Пропускать воду — обмОкнуть.'},
-        {id: 'ru-9-10', question: 'Где буква Е? 1) д..ректор 2) д..алог 3) в..теран 4) д..летант', answer: '3', explanation: 'вЕтеран.'}
-      ]
-    },
-    '16': {
-      title: 'Пунктуация',
-      tasks: [
-        {id: 'ru-16-1', question: 'Укажите цифры, где нужны запятые: Дождь прошел (1) и (2) когда выглянуло солнце (3) мы пошли гулять.', answer: '123', explanation: 'Стык союзов "и когда", солнце выглянуло - придаточное.'},
-        {id: 'ru-16-2', question: 'Я пришел (1) чтобы (2) помочь.', answer: '1', explanation: 'Запятая перед придаточным.'},
-        {id: 'ru-16-3', question: 'Он был умен (1) и красив (2) и богат.', answer: '2', explanation: 'О и О, и О -> первая не нужна, вторая нужна.'},
-        {id: 'ru-16-4', question: 'Кот лежал на диване (1) свернувшись клубком (2) и мурлыкал.', answer: '12', explanation: 'Деепричастный оборот выделяется с двух сторон.'},
-        {id: 'ru-16-5', question: 'Мальчик (1) читающий книгу (2) сидел у окна.', answer: '12', explanation: 'Причастный оборот после определяемого слова.'},
-        {id: 'ru-16-6', question: 'Прочитанная книга (1) лежала на столе.', answer: 'нет', explanation: 'Причастный оборот перед словом не обособляется.'},
-        {id: 'ru-16-7', question: 'Он шел (1) не торопясь.', answer: 'нет', explanation: 'Фразеологизм или деепричастие, перешедшее в наречие.'},
-        {id: 'ru-16-8', question: 'Казалось (1) что день никогда не кончится.', answer: '1', explanation: 'Главное предложение безличное + придаточное.'},
-        {id: 'ru-16-9', question: 'К счастью (1) никто не пострадал.', answer: '1', explanation: 'Вводное слово.'},
-        {id: 'ru-16-10', question: 'Собака (1) однако (2) не залаяла.', answer: '12', explanation: 'Однако в середине предложения = вводное слово.'}
-      ]
-    }
+  {
+    "id": "inf_t_1_1",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
   },
-  math: {
-    'base': {
-      title: 'Базовый уровень',
-      tasks: [
-        {id: 'math-b-1', question: 'Решите уравнение: 2x - 5 = 11.', answer: '8', explanation: '2x = 16 => x = 8.'},
-        {id: 'math-b-2', question: 'Найдите 15% от 200.', answer: '30', explanation: '200 * 0.15 = 30.'},
-        {id: 'math-b-3', question: 'В треугольнике углы относятся как 1:2:3. Найдите больший угол.', answer: '90', explanation: '1x+2x+3x = 180. 6x = 180, x=30. Больший = 3*30 = 90.'},
-        {id: 'math-b-4', question: 'Бросают кубик. Вероятность того, что выпадет четное число?', answer: '0.5', explanation: 'Четные: 2, 4, 6. Итого 3 из 6. 3/6 = 0.5.'},
-        {id: 'math-b-5', question: 'Площадь прямоугольника 48, ширина 6. Найдите длину.', answer: '8', explanation: '48 / 6 = 8.'},
-        {id: 'math-b-6', question: 'Решите уравнение x^2 - 4 = 0 (укажите больший корень).', answer: '2', explanation: 'Корни 2 и -2. Больший 2.'},
-        {id: 'math-b-7', question: 'log_2(8) = ?', answer: '3', explanation: '2^3 = 8.'},
-        {id: 'math-b-8', question: 'Найдите значение выражения (5^3 * 5^4) / 5^5', answer: '25', explanation: '5^(3+4-5) = 5^2 = 25.'},
-        {id: 'math-b-9', question: 'Билет стоит 120 руб. Детский стоит 50% от взрослого. Сколько стоит 1 взрослый и 2 детских?', answer: '240', explanation: '120 + 60*2 = 240.'},
-        {id: 'math-b-10', question: 'Периметр квадрата равен 20. Чему равна площадь?', answer: '25', explanation: 'Сторона a = 20/4 = 5. Площадь = 5*5 = 25.'},
-        {id: 'math-b-11', question: 'sin(30°) = ?', answer: '0.5', explanation: 'Табличное значение.'},
-        {id: 'math-b-12', question: 'cos(60°) = ?', answer: '0.5', explanation: 'Табличное значение.'},
-        {id: 'math-b-13', question: 'Найдите среднее арифметическое чисел 4, 8, 12.', answer: '8', explanation: '(4+8+12)/3 = 24/3 = 8.'},
-        {id: 'math-b-14', question: 'В магазине 20 яблок, 5 гнилых. Вероятность купить хорошее?', answer: '0.75', explanation: '15/20 = 3/4 = 0.75.'},
-        {id: 'math-b-15', question: '2^4 = ?', answer: '16', explanation: '2*2*2*2 = 16.'}
-      ]
-    },
-    'profile': {
-      title: 'Профильный уровень',
-      tasks: [
-        {id: 'math-p-1', question: 'Найдите точку минимума функции y = x^2 - 4x + 5.', answer: '2', explanation: 'Производная y\' = 2x - 4 = 0 => x = 2.'},
-        {id: 'math-p-2', question: 'Решите уравнение: 3^(x-1) = 27.', answer: '4', explanation: '3^(x-1) = 3^3 => x-1=3 => x=4.'},
-        {id: 'math-p-3', question: 'Найдите корень уравнения sqrt(2x-1) = 3.', answer: '5', explanation: '2x-1 = 9 => 2x = 10 => x = 5.'},
-        {id: 'math-p-4', question: 'В правильной треугольной пирамиде сторона основания 6, высота 4. Найдите объем.', answer: '12', explanation: 'V = 1/3 * S * h. S = (a^2 sqrt3)/4 = 9 sqrt3. Объем с корнями - в ЕГЭ обычно другой формат. Для простоты: V = 1/3 * 9 * 4 = 12 (если основание 9).'},
-        {id: 'math-p-5', question: 'Вероятность попадания стрелком в мишень 0.8. Он делает 2 выстрела. Вероятность двух промахов?', answer: '0.04', explanation: '0.2 * 0.2 = 0.04.'},
-        {id: 'math-p-6', question: 'Найдите значение выражения 10^(2 lg 5).', answer: '25', explanation: '10^(lg 25) = 25.'},
-        {id: 'math-p-7', question: 'Найдите tg(a), если sin(a) = 0.6, cos(a) = 0.8.', answer: '0.75', explanation: '0.6 / 0.8 = 3/4 = 0.75.'},
-        {id: 'math-p-8', question: 'Точка движется по закону x(t) = t^2 + 3t. Найдите скорость в момент t=2.', answer: '7', explanation: 'v(t) = x\'(t) = 2t + 3. v(2) = 4 + 3 = 7.'},
-        {id: 'math-p-9', question: 'Площадь поверхности куба равна 54. Найдите ребро.', answer: '3', explanation: '6a^2 = 54 => a^2 = 9 => a = 3.'},
-        {id: 'math-p-10', question: 'Решите: log_3(x^2) = 2 (укажите положительный корень).', answer: '3', explanation: 'x^2 = 3^2 = 9 => x = 3.'},
-        {id: 'math-p-11', question: 'Найти наибольшее значение функции y = -x^2 + 6x на отрезке [0, 5].', answer: '9', explanation: 'Вершина x = -6/(-2) = 3. y(3) = -9 + 18 = 9.'},
-        {id: 'math-p-12', question: 'Цилиндр и конус имеют общие основание и высоту. Объем конуса 12. Объем цилиндра?', answer: '36', explanation: 'V_цил = 3 * V_кон = 36.'},
-        {id: 'math-p-13', question: 'Налог 13%. Зарплата на руки 87000. Каков оклад?', answer: '100000', explanation: '0.87 * X = 87000 => X = 100000.'},
-        {id: 'math-p-14', question: 'Два велосипедиста выехали навстречу. V1 = 15, V2 = 20. Встретились через 2 ч. Расстояние?', answer: '70', explanation: '(15+20)*2 = 70.'},
-        {id: 'math-p-15', question: 'sin(x) = 1/2. Найти наименьший положительный корень в градусах.', answer: '30', explanation: 'x = 30° или pi/6.'}
-      ]
-    }
+  {
+    "id": "inf_t_1_2",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_3",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_4",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_5",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_6",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_7",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_8",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_9",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "easy",
+    "question": "Задача №1 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_10",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_11",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_12",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_13",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_14",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_15",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_16",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_17",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_18",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_19",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "medium",
+    "question": "Задача №1 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_20",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "hard",
+    "question": "Задача №1 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_21",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "hard",
+    "question": "Задача №1 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_22",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "hard",
+    "question": "Задача №1 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_23",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "hard",
+    "question": "Задача №1 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_1_24",
+    "lessonId": "inf_1",
+    "subject": "informatics",
+    "taskNumber": 1,
+    "difficulty": "hard",
+    "question": "Задача №1 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_0",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_1",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_2",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_3",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_4",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_5",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_6",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_7",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_8",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_9",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "easy",
+    "question": "Задача №2 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_10",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_11",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_12",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_13",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_14",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_15",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_16",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_17",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_18",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_19",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "medium",
+    "question": "Задача №2 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_20",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "hard",
+    "question": "Задача №2 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_21",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "hard",
+    "question": "Задача №2 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_22",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "hard",
+    "question": "Задача №2 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_23",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "hard",
+    "question": "Задача №2 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_2_24",
+    "lessonId": "inf_2",
+    "subject": "informatics",
+    "taskNumber": 2,
+    "difficulty": "hard",
+    "question": "Задача №2 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_0",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_1",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_2",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_3",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_4",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_5",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_6",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_7",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_8",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_9",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "easy",
+    "question": "Задача №3 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_10",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_11",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_12",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_13",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_14",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_15",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_16",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_17",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_18",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_19",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "medium",
+    "question": "Задача №3 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_20",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "hard",
+    "question": "Задача №3 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_21",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "hard",
+    "question": "Задача №3 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_22",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "hard",
+    "question": "Задача №3 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_23",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "hard",
+    "question": "Задача №3 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_3_24",
+    "lessonId": "inf_3",
+    "subject": "informatics",
+    "taskNumber": 3,
+    "difficulty": "hard",
+    "question": "Задача №3 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_0",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_1",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_2",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_3",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_4",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_5",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_6",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_7",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_8",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_9",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "easy",
+    "question": "Задача №4 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_10",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_11",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_12",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_13",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_14",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_15",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_16",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_17",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_18",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_19",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "medium",
+    "question": "Задача №4 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_20",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "hard",
+    "question": "Задача №4 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_21",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "hard",
+    "question": "Задача №4 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_22",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "hard",
+    "question": "Задача №4 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_23",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "hard",
+    "question": "Задача №4 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_4_24",
+    "lessonId": "inf_4",
+    "subject": "informatics",
+    "taskNumber": 4,
+    "difficulty": "hard",
+    "question": "Задача №4 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_0",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_1",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_2",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_3",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_4",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_5",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_6",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_7",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_8",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_9",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "easy",
+    "question": "Задача №5 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_10",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_11",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_12",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_13",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_14",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_15",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_16",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_17",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_18",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_19",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "medium",
+    "question": "Задача №5 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_20",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "hard",
+    "question": "Задача №5 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_21",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "hard",
+    "question": "Задача №5 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_22",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "hard",
+    "question": "Задача №5 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_23",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "hard",
+    "question": "Задача №5 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_5_24",
+    "lessonId": "inf_5",
+    "subject": "informatics",
+    "taskNumber": 5,
+    "difficulty": "hard",
+    "question": "Задача №5 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_0",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_1",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_2",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_3",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_4",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_5",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_6",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_7",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_8",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_9",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "easy",
+    "question": "Задача №6 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_10",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_11",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_12",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_13",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_14",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_15",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_16",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_17",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_18",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_19",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "medium",
+    "question": "Задача №6 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_20",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "hard",
+    "question": "Задача №6 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_21",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "hard",
+    "question": "Задача №6 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_22",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "hard",
+    "question": "Задача №6 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_23",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "hard",
+    "question": "Задача №6 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_6_24",
+    "lessonId": "inf_6",
+    "subject": "informatics",
+    "taskNumber": 6,
+    "difficulty": "hard",
+    "question": "Задача №6 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_0",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_1",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_2",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_3",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_4",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_5",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_6",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_7",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_8",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_9",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "easy",
+    "question": "Задача №7 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_10",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_11",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_12",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_13",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_14",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_15",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_16",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_17",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_18",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_19",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "medium",
+    "question": "Задача №7 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_20",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "hard",
+    "question": "Задача №7 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_21",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "hard",
+    "question": "Задача №7 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_22",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "hard",
+    "question": "Задача №7 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_23",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "hard",
+    "question": "Задача №7 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_7_24",
+    "lessonId": "inf_7",
+    "subject": "informatics",
+    "taskNumber": 7,
+    "difficulty": "hard",
+    "question": "Задача №7 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_0",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_1",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_2",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_3",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_4",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_5",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_6",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_7",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_8",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_9",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "easy",
+    "question": "Задача №8 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_10",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_11",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_12",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_13",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_14",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_15",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_16",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_17",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_18",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_19",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "medium",
+    "question": "Задача №8 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_20",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "hard",
+    "question": "Задача №8 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_21",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "hard",
+    "question": "Задача №8 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_22",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "hard",
+    "question": "Задача №8 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_23",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "hard",
+    "question": "Задача №8 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_8_24",
+    "lessonId": "inf_8",
+    "subject": "informatics",
+    "taskNumber": 8,
+    "difficulty": "hard",
+    "question": "Задача №8 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_0",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_1",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_2",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_3",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_4",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_5",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_6",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_7",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_8",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_9",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "easy",
+    "question": "Задача №9 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_10",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_11",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_12",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_13",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_14",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_15",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_16",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_17",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_18",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_19",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "medium",
+    "question": "Задача №9 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_20",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "hard",
+    "question": "Задача №9 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_21",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "hard",
+    "question": "Задача №9 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_22",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "hard",
+    "question": "Задача №9 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_23",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "hard",
+    "question": "Задача №9 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_9_24",
+    "lessonId": "inf_9",
+    "subject": "informatics",
+    "taskNumber": 9,
+    "difficulty": "hard",
+    "question": "Задача №9 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_0",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_1",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_2",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_3",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_4",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_5",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_6",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_7",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_8",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_9",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "easy",
+    "question": "Задача №10 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_10",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_11",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_12",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_13",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_14",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_15",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_16",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_17",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_18",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_19",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "medium",
+    "question": "Задача №10 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_20",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "hard",
+    "question": "Задача №10 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_21",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "hard",
+    "question": "Задача №10 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_22",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "hard",
+    "question": "Задача №10 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_23",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "hard",
+    "question": "Задача №10 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_10_24",
+    "lessonId": "inf_10",
+    "subject": "informatics",
+    "taskNumber": 10,
+    "difficulty": "hard",
+    "question": "Задача №10 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_0",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_1",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_2",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_3",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_4",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_5",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_6",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_7",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_8",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_9",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "easy",
+    "question": "Задача №11 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_10",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_11",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_12",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_13",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_14",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_15",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_16",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_17",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_18",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_19",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "medium",
+    "question": "Задача №11 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_20",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "hard",
+    "question": "Задача №11 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_21",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "hard",
+    "question": "Задача №11 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_22",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "hard",
+    "question": "Задача №11 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_23",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "hard",
+    "question": "Задача №11 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_11_24",
+    "lessonId": "inf_11",
+    "subject": "informatics",
+    "taskNumber": 11,
+    "difficulty": "hard",
+    "question": "Задача №11 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_0",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_1",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_2",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_3",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_4",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_5",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_6",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_7",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_8",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_9",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "easy",
+    "question": "Задача №12 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_10",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_11",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_12",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_13",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_14",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_15",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_16",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_17",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_18",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_19",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "medium",
+    "question": "Задача №12 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_20",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "hard",
+    "question": "Задача №12 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_21",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "hard",
+    "question": "Задача №12 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_22",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "hard",
+    "question": "Задача №12 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_23",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "hard",
+    "question": "Задача №12 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_12_24",
+    "lessonId": "inf_12",
+    "subject": "informatics",
+    "taskNumber": 12,
+    "difficulty": "hard",
+    "question": "Задача №12 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_0",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_1",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_2",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_3",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_4",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_5",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_6",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_7",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_8",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_9",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "easy",
+    "question": "Задача №13 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_10",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_11",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_12",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_13",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_14",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_15",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_16",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_17",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_18",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_19",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "medium",
+    "question": "Задача №13 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_20",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "hard",
+    "question": "Задача №13 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_21",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "hard",
+    "question": "Задача №13 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_22",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "hard",
+    "question": "Задача №13 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_23",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "hard",
+    "question": "Задача №13 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_13_24",
+    "lessonId": "inf_13",
+    "subject": "informatics",
+    "taskNumber": 13,
+    "difficulty": "hard",
+    "question": "Задача №13 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_0",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_1",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_2",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_3",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_4",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_5",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_6",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_7",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_8",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_9",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "easy",
+    "question": "Задача №14 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_10",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_11",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_12",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_13",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_14",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_15",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_16",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_17",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_18",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_19",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "medium",
+    "question": "Задача №14 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_20",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "hard",
+    "question": "Задача №14 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_21",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "hard",
+    "question": "Задача №14 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_22",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "hard",
+    "question": "Задача №14 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_23",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "hard",
+    "question": "Задача №14 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_14_24",
+    "lessonId": "inf_14",
+    "subject": "informatics",
+    "taskNumber": 14,
+    "difficulty": "hard",
+    "question": "Задача №14 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_0",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_1",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_2",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_3",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_4",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_5",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_6",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_7",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_8",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_9",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "easy",
+    "question": "Задача №15 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_10",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_11",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_12",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_13",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_14",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_15",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_16",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_17",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_18",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_19",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "medium",
+    "question": "Задача №15 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_20",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "hard",
+    "question": "Задача №15 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_21",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "hard",
+    "question": "Задача №15 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_22",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "hard",
+    "question": "Задача №15 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_23",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "hard",
+    "question": "Задача №15 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_15_24",
+    "lessonId": "inf_15",
+    "subject": "informatics",
+    "taskNumber": 15,
+    "difficulty": "hard",
+    "question": "Задача №15 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_0",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_1",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_2",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_3",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_4",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_5",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_6",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_7",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_8",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_9",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "easy",
+    "question": "Задача №16 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_10",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_11",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_12",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_13",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_14",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_15",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_16",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_17",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_18",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_19",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "medium",
+    "question": "Задача №16 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_20",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "hard",
+    "question": "Задача №16 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_21",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "hard",
+    "question": "Задача №16 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_22",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "hard",
+    "question": "Задача №16 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_23",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "hard",
+    "question": "Задача №16 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_16_24",
+    "lessonId": "inf_16",
+    "subject": "informatics",
+    "taskNumber": 16,
+    "difficulty": "hard",
+    "question": "Задача №16 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_0",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_1",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_2",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_3",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_4",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_5",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_6",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_7",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_8",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_9",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "easy",
+    "question": "Задача №17 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_10",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_11",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_12",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_13",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_14",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_15",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_16",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_17",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_18",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_19",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "medium",
+    "question": "Задача №17 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_20",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "hard",
+    "question": "Задача №17 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_21",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "hard",
+    "question": "Задача №17 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_22",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "hard",
+    "question": "Задача №17 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_23",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "hard",
+    "question": "Задача №17 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_17_24",
+    "lessonId": "inf_17",
+    "subject": "informatics",
+    "taskNumber": 17,
+    "difficulty": "hard",
+    "question": "Задача №17 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_0",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_1",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_2",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_3",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_4",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_5",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_6",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_7",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_8",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_9",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "easy",
+    "question": "Задача №18 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_10",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_11",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_12",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_13",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_14",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_15",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_16",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_17",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_18",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_19",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "medium",
+    "question": "Задача №18 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_20",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "hard",
+    "question": "Задача №18 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_21",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "hard",
+    "question": "Задача №18 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_22",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "hard",
+    "question": "Задача №18 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_23",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "hard",
+    "question": "Задача №18 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_18_24",
+    "lessonId": "inf_18",
+    "subject": "informatics",
+    "taskNumber": 18,
+    "difficulty": "hard",
+    "question": "Задача №18 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_0",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_1",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_2",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_3",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_4",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_5",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_6",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_7",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_8",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_9",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "easy",
+    "question": "Задача №19 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_10",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_11",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_12",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_13",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_14",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_15",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_16",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_17",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_18",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_19",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "medium",
+    "question": "Задача №19 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_20",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "hard",
+    "question": "Задача №19 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_21",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "hard",
+    "question": "Задача №19 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_22",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "hard",
+    "question": "Задача №19 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_23",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "hard",
+    "question": "Задача №19 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_19_24",
+    "lessonId": "inf_19",
+    "subject": "informatics",
+    "taskNumber": 19,
+    "difficulty": "hard",
+    "question": "Задача №19 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_0",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_1",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_2",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_3",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_4",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_5",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_6",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_7",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_8",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_9",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "easy",
+    "question": "Задача №20 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_10",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_11",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_12",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_13",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_14",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_15",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_16",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_17",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_18",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_19",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "medium",
+    "question": "Задача №20 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_20",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "hard",
+    "question": "Задача №20 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_21",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "hard",
+    "question": "Задача №20 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_22",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "hard",
+    "question": "Задача №20 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_23",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "hard",
+    "question": "Задача №20 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_20_24",
+    "lessonId": "inf_20",
+    "subject": "informatics",
+    "taskNumber": 20,
+    "difficulty": "hard",
+    "question": "Задача №20 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_0",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_1",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_2",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_3",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_4",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_5",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_6",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_7",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_8",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_9",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "easy",
+    "question": "Задача №21 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_10",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_11",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_12",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_13",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_14",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_15",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_16",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_17",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_18",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_19",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "medium",
+    "question": "Задача №21 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_20",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "hard",
+    "question": "Задача №21 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_21",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "hard",
+    "question": "Задача №21 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_22",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "hard",
+    "question": "Задача №21 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_23",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "hard",
+    "question": "Задача №21 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_21_24",
+    "lessonId": "inf_21",
+    "subject": "informatics",
+    "taskNumber": 21,
+    "difficulty": "hard",
+    "question": "Задача №21 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_0",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_1",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_2",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_3",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_4",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_5",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_6",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_7",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_8",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_9",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "easy",
+    "question": "Задача №22 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_10",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_11",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_12",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_13",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_14",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_15",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_16",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_17",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_18",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_19",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "medium",
+    "question": "Задача №22 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_20",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "hard",
+    "question": "Задача №22 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_21",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "hard",
+    "question": "Задача №22 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_22",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "hard",
+    "question": "Задача №22 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_23",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "hard",
+    "question": "Задача №22 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_22_24",
+    "lessonId": "inf_22",
+    "subject": "informatics",
+    "taskNumber": 22,
+    "difficulty": "hard",
+    "question": "Задача №22 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_0",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_1",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_2",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_3",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_4",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_5",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_6",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_7",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_8",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_9",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "easy",
+    "question": "Задача №23 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_10",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_11",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_12",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_13",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_14",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_15",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_16",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_17",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_18",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_19",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "medium",
+    "question": "Задача №23 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_20",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "hard",
+    "question": "Задача №23 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_21",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "hard",
+    "question": "Задача №23 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_22",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "hard",
+    "question": "Задача №23 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_23",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "hard",
+    "question": "Задача №23 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_23_24",
+    "lessonId": "inf_23",
+    "subject": "informatics",
+    "taskNumber": 23,
+    "difficulty": "hard",
+    "question": "Задача №23 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_0",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_1",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_2",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_3",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_4",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_5",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_6",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_7",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_8",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_9",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "easy",
+    "question": "Задача №24 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_10",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_11",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_12",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_13",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_14",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_15",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_16",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_17",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_18",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_19",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "medium",
+    "question": "Задача №24 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_20",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "hard",
+    "question": "Задача №24 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_21",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "hard",
+    "question": "Задача №24 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_22",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "hard",
+    "question": "Задача №24 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_23",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "hard",
+    "question": "Задача №24 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_24_24",
+    "lessonId": "inf_24",
+    "subject": "informatics",
+    "taskNumber": 24,
+    "difficulty": "hard",
+    "question": "Задача №24 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_0",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_1",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_2",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_3",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_4",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_5",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_6",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_7",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_8",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_9",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "easy",
+    "question": "Задача №25 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_10",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_11",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_12",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_13",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_14",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_15",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_16",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_17",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_18",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_19",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "medium",
+    "question": "Задача №25 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_20",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "hard",
+    "question": "Задача №25 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_21",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "hard",
+    "question": "Задача №25 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_22",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "hard",
+    "question": "Задача №25 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_23",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "hard",
+    "question": "Задача №25 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_25_24",
+    "lessonId": "inf_25",
+    "subject": "informatics",
+    "taskNumber": 25,
+    "difficulty": "hard",
+    "question": "Задача №25 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_0",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_1",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_2",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_3",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_4",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_5",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_6",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_7",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_8",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_9",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "easy",
+    "question": "Задача №26 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_10",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_11",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_12",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_13",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_14",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_15",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_16",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_17",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_18",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_19",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "medium",
+    "question": "Задача №26 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_20",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "hard",
+    "question": "Задача №26 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_21",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "hard",
+    "question": "Задача №26 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_22",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "hard",
+    "question": "Задача №26 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_23",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "hard",
+    "question": "Задача №26 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_26_24",
+    "lessonId": "inf_26",
+    "subject": "informatics",
+    "taskNumber": 26,
+    "difficulty": "hard",
+    "question": "Задача №26 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_0",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 1...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_1",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 2...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_2",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 3...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_3",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 4...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_4",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 5...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_5",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 6...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_6",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 7...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_7",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 8...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_8",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 9...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_9",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "easy",
+    "question": "Задача №27 (easy). Условие задачи 10...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_10",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 11...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_11",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 12...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_12",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 13...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_13",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 14...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_14",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 15...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_15",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 16...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_16",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 17...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_17",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 18...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_18",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 19...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_19",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "medium",
+    "question": "Задача №27 (medium). Условие задачи 20...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_20",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "hard",
+    "question": "Задача №27 (hard). Условие задачи 21...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_21",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "hard",
+    "question": "Задача №27 (hard). Условие задачи 22...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_22",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "hard",
+    "question": "Задача №27 (hard). Условие задачи 23...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_23",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "hard",
+    "question": "Задача №27 (hard). Условие задачи 24...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
+  },
+  {
+    "id": "inf_t_27_24",
+    "lessonId": "inf_27",
+    "subject": "informatics",
+    "taskNumber": 27,
+    "difficulty": "hard",
+    "question": "Задача №27 (hard). Условие задачи 25...",
+    "answer": "42",
+    "explanation": "Разбор ошибки: правильный ответ 42, потому что..."
   }
-};
+];
