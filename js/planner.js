@@ -5,7 +5,7 @@ window.plannerSystem = {
     this.tasks = [];
     
     // Check spaced repetition
-    const dueItems = typeof spacedRepetition !== 'undefined' ? spacedRepetition.getDueItemsCount() : 0;
+    const dueItems = typeof spacedRepetition !== 'undefined' && spacedRepetition.getDueItems ? spacedRepetition.getDueItems().length : 0;
     if (dueItems > 0) {
       this.tasks.push({
         id: 'plan-rep', title: 'Повторение ошибок', duration: 15, subject: 'Смешанное',

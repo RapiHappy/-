@@ -147,7 +147,12 @@ window.practiceSystem = {
       return;
     }
     
-    const tasks = AppData.tasksEGE[subject][taskNumber];
+    const taskBundle = AppData.tasksEGE[subject][taskNumber];
+    if (!taskBundle || !taskBundle.tasks || taskBundle.tasks.length === 0) {
+      alert('Задания для этого номера пока не добавлены.');
+      return;
+    }
+    const tasks = taskBundle.tasks;
     this.activeSession = {
       type: 'training', subject, taskNumber, tasks, currentIndex: 0
     };

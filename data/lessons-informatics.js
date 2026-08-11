@@ -356,7 +356,7 @@ a[0] = 10 # [10, 2, 3, 4]</code></pre>
       {input: 'Факториал: f(n) = n * f(n-1), f(1)=1', output: 'f(3) = 3 * 2 * 1 = 6', explanation: 'f(3)->f(2)->f(1).'}
     ],
     tasks: [
-      {id: 'inf-10-t1', question: 'Что обязательно должно быть в рекурсивной функции?', answer: 'условие выхода', (explanation): 'Иначе бесконечный цикл (RecursionError).', difficulty: 'easy'},
+      {id: 'inf-10-t1', question: 'Что обязательно должно быть в рекурсивной функции?', answer: 'условие выхода', explanation: 'Иначе бесконечный цикл (RecursionError).', difficulty: 'easy'},
       {id: 'inf-10-t2', question: 'Как называется запоминание результатов вычисления в ДП?', answer: 'мемоизация', explanation: 'От слова memory.', difficulty: 'medium'},
       {id: 'inf-10-t3', question: 'def f(n): if n<2: return 1 else: return f(n-1)+f(n-2). Что вернет f(3)?', answer: '3', explanation: 'f(3) = f(2)+f(1) = (f(1)+f(0))+1 = 1+1+1=3.', difficulty: 'hard'},
       {id: 'inf-10-t4', question: 'У Исполнителя две команды: +1 и *2. Сколько программ из 1 в 10?', answer: '14', explanation: 'ДП: a[i] = a[i-1] + (a[i/2] если i четное).', difficulty: 'hard'},

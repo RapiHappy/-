@@ -151,7 +151,7 @@ window.ntoSystem = {
             <h4>Проект "Магазин электроники"</h4>
             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
               <span>Прогресс: 0/5 этапов</span>
-              <button class="btn btn-primary btn-sm">Начать</button>
+              <button class="btn btn-primary btn-sm" onclick="alert('В разработке: Интерактивный мини-проект станет доступен в следующем модуле.')">Начать</button>
             </div>
           </div>
         </div>
