@@ -3,167 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EGE Master 2026</title>
+    <title>EGE Master 2026 — Подготовка к ЕГЭ и НТО</title>
+    <meta name="description" content="Единая образовательная платформа подготовки к ЕГЭ 2026 по информатике, математике, русскому языку и олимпиаде НТО">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- App Container -->
-    <div id="app-container">
-        
-        <!-- Header -->
-        <header class="app-header">
-            <div class="user-greeting">
-                <h1 id="greeting-text">Доброе утро 👋</h1>
-                <p id="current-date">Загрузка...</p>
+<div id="app-container">
+    <header id="main-header">
+        <div class="header-content">
+            <div>
+                <h1 id="greeting-text">Привет, Студент!</h1>
+                <p id="current-date">1 сентября</p>
             </div>
-            <div class="energy-badge" id="energy-badge" onclick="burnoutSystem.promptEnergyLevel()">
-                Энергия: 🟢 Высокая
-            </div>
-        </header>
-
-        <!-- Main Content Area -->
-        <main id="main-content" class="content-area">
-            
-            <!-- Dashboard View -->
-            <section id="view-dashboard" class="view active">
-                
-                <!-- Quick Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fa-solid fa-fire text-orange"></i>
-                        <div class="stat-info">
-                            <span class="stat-value" id="stat-streak">0</span>
-                            <span class="stat-label">Дней подряд</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fa-solid fa-clock text-blue"></i>
-                        <div class="stat-info">
-                            <span class="stat-value" id="stat-hours">0ч</span>
-                            <span class="stat-label">Обучение</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Focus Timer Widget -->
-                <div class="focus-widget" onclick="app.navigateTo('timer')">
-                    <div class="focus-icon"><i class="fa-solid fa-stopwatch"></i></div>
-                    <div class="focus-text">
-                        <h3>Режим Фокуса (Pomodoro)</h3>
-                        <p>Начни учиться без отвлечений</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-
-                <!-- Daily Plan -->
-                <h2 class="section-title">Сегодняшний план</h2>
-                <div class="plan-summary" id="plan-summary-time">Загрузка плана...</div>
-                <div id="daily-plan-container" class="plan-list">
-                    <!-- Tasks will be injected here by JS -->
-                </div>
-            </section>
-
-            <!-- Courses View -->
-            <section id="view-courses" class="view">
-                <h2 class="section-title">Курсы (Stepik)</h2>
-                <div id="courses-list" class="courses-grid"></div>
-            </section>
-
-            <!-- Trainer View (Practice) -->
-            <section id="view-trainer" class="view">
-                <h2 class="section-title">Практика</h2>
-                <div id="trainer-container"></div>
-            </section>
-            
-            <!-- Timer View -->
-            <section id="view-timer" class="view">
-                <h2 class="section-title">Pomodoro</h2>
-                <div class="timer-display">
-                    <div class="time" id="timer-time">25:00</div>
-                    <div class="timer-status" id="timer-status">Работа</div>
-                </div>
-                <div class="timer-controls">
-                    <button class="btn btn-primary" id="btn-timer-toggle">Старт</button>
-                    <button class="btn btn-secondary" id="btn-timer-reset">Сброс</button>
-                </div>
-            </section>
-
-            <!-- Analytics View -->
-            <section id="view-analytics" class="view">
-                <h2 class="section-title">Прогресс</h2>
-                <div id="analytics-container"></div>
-                <div id="progress-chart-container" style="margin-top:20px;"></div>
-            </section>
-            
-            <!-- Errors View -->
-            <section id="view-errors" class="view">
-                <h2 class="section-title">Работа над ошибками</h2>
-                <div id="errors-list"></div>
-            </section>
-
-            <!-- Course Detail View -->
-            <section id="view-course-detail" class="view">
-                <div style="display: flex; align-items: center; gap: 12px; margin: 20px 0 16px;">
-                    <button class="btn btn-secondary" style="padding: 8px 12px;" onclick="app.navigateTo('courses')">
-                        <i class="fa-solid fa-arrow-left"></i> Назад
-                    </button>
-                    <h2 class="section-title" id="course-detail-title" style="margin: 0;">Курс</h2>
-                </div>
-                <div id="course-modules-list"></div>
-            </section>
-        </main>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-target="dashboard">
-                <i class="fa-solid fa-house"></i>
-                <span>Главная</span>
-            </a>
-            <a href="#" class="nav-item" data-target="courses">
-                <i class="fa-solid fa-book"></i>
-                <span>Курсы</span>
-            </a>
-            <a href="#" class="nav-item" data-target="trainer">
-                <i class="fa-solid fa-dumbbell"></i>
-                <span>Практика</span>
-            </a>
-            <a href="#" class="nav-item" data-target="errors">
-                <i class="fa-solid fa-bug"></i>
-                <span>Ошибки</span>
-            </a>
-            <a href="#" class="nav-item" data-target="analytics">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Прогресс</span>
-            </a>
-        </nav>
-
-        <!-- Energy Level Modal -->
-        <div id="modal-energy" class="modal">
-            <div class="modal-content">
-                <h3>Как твоя энергия сегодня?</h3>
-                <p>Мы адаптируем план под твое состояние.</p>
-                <div class="energy-options">
-                    <button class="btn-energy" data-level="high">🟢 Высокая (100% плана)</button>
-                    <button class="btn-energy" data-level="medium">🟡 Средняя (70% плана)</button>
-                    <button class="btn-energy" data-level="low">🔴 Низкая (Только повторение)</button>
-                </div>
+            <div id="energy-badge" class="badge">
+                <i class="fas fa-bolt"></i> <span id="energy-level-text">Высокая</span>
             </div>
         </div>
+    </header>
+    
+    <div id="notification-container"></div>
+    
+    <main id="main-content">
+        <!-- View: Dashboard -->
+        <section id="view-dashboard" class="view active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-fire stat-icon"></i>
+                    <div id="stat-streak" class="stat-value">0</div>
+                    <div class="stat-label">Дней подряд</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div id="stat-hours" class="stat-value">0</div>
+                    <div class="stat-label">Часов учебы</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check stat-icon"></i>
+                    <div id="stat-tasks-today" class="stat-value">0</div>
+                    <div class="stat-label">Задач сегодня</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-bullseye stat-icon"></i>
+                    <div id="stat-score-forecast" class="stat-value">0</div>
+                    <div class="stat-label">Прогноз баллов</div>
+                </div>
+            </div>
+            
+            <div class="widget focus-widget" onclick="app.navigateTo('timer')">
+                <h3><i class="fas fa-stopwatch"></i> Фокус и Pomodoro</h3>
+                <p>Начни сессию глубокой работы</p>
+            </div>
+            
+            <div class="widget ai-advisor">
+                <h3><i class="fas fa-robot"></i> Совет от ИИ</h3>
+                <p id="advisor-recommendation">Загрузка советов...</p>
+            </div>
+            
+            <div class="section-block">
+                <h2>Сегодняшний план (<span id="plan-summary-time">0 мин</span>)</h2>
+                <div id="daily-plan-container"></div>
+            </div>
+            
+            <div class="section-block">
+                <h2>Ближайшее повторение</h2>
+                <div id="spaced-review-container">Нет карточек для повторения</div>
+            </div>
+            
+            <blockquote id="motivation-quote">
+                "Успех — это сумма небольших усилий, повторяющихся изо дня в день."
+            </blockquote>
+        </section>
 
+        <!-- View: Courses -->
+        <section id="view-courses" class="view">
+            <div class="view-header">
+                <h2>Курсы</h2>
+            </div>
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="informatics">Информатика</button>
+                <button class="filter-btn" data-filter="russian">Русский</button>
+                <button class="filter-btn" data-filter="math">Математика</button>
+            </div>
+            <div id="courses-list" class="grid-list"></div>
+        </section>
+
+        <!-- View: Course Detail -->
+        <section id="view-course-detail" class="view">
+            <div class="view-header with-back">
+                <button class="back-btn" onclick="app.navigateTo('view-courses')"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="course-detail-title">Название курса</h2>
+            </div>
+            <div id="course-modules-list" class="list-container"></div>
+        </section>
+
+        <!-- View: Lesson -->
+        <section id="view-lesson" class="view">
+            <div class="view-header with-back">
+                <button class="back-btn" onclick="app.navigateTo('view-course-detail')"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="lesson-title">Урок</h2>
+            </div>
+            <div id="lesson-container"></div>
+        </section>
+
+        <!-- View: Trainer -->
+        <section id="view-trainer" class="view">
+            <div class="view-header">
+                <h2>Практика</h2>
+            </div>
+            <div id="trainer-container">
+                <div class="card mini-exam-card">
+                    <h3>Мини-экзамен</h3>
+                    <p>Проверь свои силы в условиях, приближенных к реальным</p>
+                    <button class="btn btn-primary" onclick="practiceSystem.startMiniExam()">Начать экзамен</button>
+                </div>
+                <h3>Выбор предмета</h3>
+                <div class="subject-selector">
+                    <button class="btn btn-secondary" onclick="practiceSystem.selectSubject('informatics')">Информатика</button>
+                    <button class="btn btn-secondary" onclick="practiceSystem.selectSubject('math')">Математика</button>
+                    <button class="btn btn-secondary" onclick="practiceSystem.selectSubject('russian')">Русский</button>
+                </div>
+                <div id="task-selector-container"></div>
+            </div>
+        </section>
+
+        <!-- View: Timer -->
+        <section id="view-timer" class="view">
+            <div class="view-header">
+                <h2>Pomodoro</h2>
+            </div>
+            <div class="timer-wrapper">
+                <div class="duration-selector">
+                    <button class="btn btn-ghost" onclick="timerSystem.setDuration(25)">25 мин</button>
+                    <button class="btn btn-ghost" onclick="timerSystem.setDuration(50)">50 мин</button>
+                    <button class="btn btn-ghost" onclick="timerSystem.setDuration(90)">90 мин</button>
+                </div>
+                <div class="timer-display">
+                    <div id="timer-time">25:00</div>
+                    <div id="timer-status">Фокус</div>
+                </div>
+                <div class="timer-controls">
+                    <button id="btn-timer-toggle" class="btn btn-primary btn-large" onclick="timerSystem.toggleTimer()">Старт</button>
+                    <button id="btn-timer-reset" class="btn btn-secondary" onclick="timerSystem.resetTimer()">Сброс</button>
+                </div>
+                <div class="session-stats">
+                    Сессий сегодня: <span id="pomodoro-sessions-today">0</span>
+                </div>
+                <div id="focus-stats-container"></div>
+            </div>
+        </section>
+
+        <!-- View: Analytics -->
+        <section id="view-analytics" class="view">
+            <div class="view-header">
+                <h2>Аналитика</h2>
+            </div>
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-tab="progress">Прогресс</button>
+                <button class="filter-btn" data-tab="time">Время</button>
+                <button class="filter-btn" data-tab="forecast">Прогноз</button>
+            </div>
+            <div id="analytics-container">
+                <div id="progress-chart-container" class="chart-container">Прогресс...</div>
+                <div id="time-chart-container" class="chart-container" style="display:none;">Время...</div>
+                <div id="forecast-container" class="chart-container" style="display:none;">Прогноз...</div>
+            </div>
+        </section>
+
+        <!-- View: Errors -->
+        <section id="view-errors" class="view">
+            <div class="view-header">
+                <h2>Работа над ошибками</h2>
+            </div>
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="informatics">Инф</button>
+                <button class="filter-btn" data-filter="russian">Рус</button>
+                <button class="filter-btn" data-filter="math">Мат</button>
+            </div>
+            <div id="spaced-repetition-info" class="info-banner">Интервальное повторение активно</div>
+            <div id="errors-list" class="list-container"></div>
+        </section>
+
+        <!-- View: NTO -->
+        <section id="view-nto" class="view">
+            <div class="view-header">
+                <h2>НТО: Автоматизация</h2>
+            </div>
+            <div class="nto-tabs scrollable-tabs">
+                <button class="tab-btn active" data-tab="overview">Обзор</button>
+                <button class="tab-btn" data-tab="map">Карта</button>
+                <button class="tab-btn" data-tab="cases">Кейсы</button>
+                <button class="tab-btn" data-tab="bpmn">BPMN</button>
+                <button class="tab-btn" data-tab="sql">SQL</button>
+                <button class="tab-btn" data-tab="projects">Проекты</button>
+                <button class="tab-btn" data-tab="portfolio">Портфолио</button>
+            </div>
+            <div id="nto-container"></div>
+        </section>
+    </main>
+    
+    <nav id="bottom-nav">
+        <button class="nav-item active" onclick="app.navigateTo('dashboard')">
+            <i class="fas fa-house"></i>
+            <span>Главная</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('courses')">
+            <i class="fas fa-book"></i>
+            <span>Курсы</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('trainer')">
+            <i class="fas fa-dumbbell"></i>
+            <span>Практика</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('nto')">
+            <i class="fas fa-trophy"></i>
+            <span>НТО</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('errors')">
+            <i class="fas fa-bug"></i>
+            <span>Ошибки</span>
+        </button>
+        <button class="nav-item" onclick="app.navigateTo('analytics')">
+            <i class="fas fa-chart-pie"></i>
+            <span>Прогресс</span>
+        </button>
+    </nav>
+</div>
+
+<!-- Modals -->
+<div id="modal-energy" class="modal">
+    <div class="modal-content">
+        <h2>Уровень энергии</h2>
+        <p>Как ты себя чувствуешь?</p>
+        <div class="energy-options">
+            <button class="btn btn-outline" onclick="burnoutSystem.setEnergyLevel('high')">Высокий</button>
+            <button class="btn btn-outline" onclick="burnoutSystem.setEnergyLevel('medium')">Средний</button>
+            <button class="btn btn-outline" onclick="burnoutSystem.setEnergyLevel('low')">Низкий</button>
+        </div>
+        <button class="btn btn-ghost close-modal" onclick="document.getElementById('modal-energy').style.display='none'">Закрыть</button>
     </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="js/data.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/burnout.js"></script>
-    <script src="js/timer.js"></script>
-    <script src="js/planner.js"></script>
-    <script src="js/practice.js"></script>
-    <script src="js/courses.js"></script>
-    <script src="js/mistakes.js"></script>
-    <script src="js/progress.js"></script>
-    <script src="js/app.js"></script>
+<div id="modal-exam-result" class="modal">
+    <div class="modal-content">
+        <h2>Результаты экзамена</h2>
+        <div id="exam-result-details"></div>
+        <button class="btn btn-primary close-modal" onclick="document.getElementById('modal-exam-result').style.display='none'">Понятно</button>
+    </div>
+</div>
+
+<script src="data/lessons-informatics.js"></script>
+<script src="data/lessons-russian.js"></script>
+<script src="data/lessons-math.js"></script>
+<script src="data/tasks-ege.js"></script>
+<script src="data/nto-content.js"></script>
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/spaced-repetition.js"></script>
+<script src="js/burnout.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/planner.js"></script>
+<script src="js/practice.js"></script>
+<script src="js/courses.js"></script>
+<script src="js/mistakes.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/advisor.js"></script>
+<script src="js/nto.js"></script>
+<script src="js/sql-sandbox.js"></script>
+<script src="js/bpmn-trainer.js"></script>
+<script src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
 </body>
 </html>

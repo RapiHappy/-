@@ -1,139 +1,94 @@
-const plannerSystem = {
-    generatePlan(energyLevel) {
-        const container = document.getElementById('daily-plan-container');
-        const summary = document.getElementById('plan-summary-time');
-        
-        container.innerHTML = '<p>Загрузка плана...</p>';
-        
-        try {
-            const schedule = AppData.schedule;
-            
-            // Get current month in english lowercase
-            const monthNames = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-            const currentMonth = monthNames[new Date().getMonth()];
-            
-            const currentTasks = schedule[currentMonth] || ["№1"]; // fallback
-            const tasksString = currentTasks.join(', ');
+window.plannerSystem = {
+  tasks: [],
 
-            // Setup today's completed state
-            const today = new Date().toISOString().split('T')[0];
-            const savedState = JSON.parse(localStorage.getItem('ege_planner_state_' + today) || "{}");
-
-            // Helper to generate task HTML
-            const renderTask = (id, title) => {
-                const isCompleted = savedState[id] ? 'completed' : '';
-                const icon = savedState[id] ? 'fa-square-check text-green' : 'fa-square text-secondary';
-                return `<div class="task-item ${isCompleted}" data-task-id="${id}" onclick="plannerSystem.toggleTask('${id}')">
-                            <i class="fa-regular ${icon}"></i> ${title}
-                        </div>`;
-            };
-
-            if (energyLevel === 'high') {
-                summary.innerHTML = `<strong>Сегодня — 2 ч 15 мин</strong>`;
-                container.innerHTML = `
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-code text-blue"></i> Информатика</div>
-                            <div class="subject-time">55 мин</div>
-                        </div>
-                        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">Месячный план: ${tasksString}</p>
-                        ${renderTask('inf-1', 'Посмотреть урок: Циклы for')}
-                        ${renderTask('inf-2', 'Решить задания Stepik')}
-                        ${renderTask('inf-3', `Решить 5 задач ЕГЭ ${currentTasks[0]}`)}
-                    </div>
-                    
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-book-open text-green"></i> Русский язык</div>
-                            <div class="subject-time">40 мин</div>
-                        </div>
-                        ${renderTask('rus-1', 'Урок: Орфография')}
-                        ${renderTask('rus-2', 'Тест из 10 вопросов')}
-                    </div>
-
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-calculator text-orange"></i> Математика</div>
-                            <div class="subject-time">40 мин</div>
-                        </div>
-                        ${renderTask('math-1', 'Теория: Функции')}
-                        ${renderTask('math-2', 'Практика: 5 задач')}
-                    </div>
-                `;
-            } else if (energyLevel === 'medium') {
-                summary.innerHTML = `<strong>Сегодня — 1 ч 15 мин (Сниженная нагрузка)</strong>`;
-                container.innerHTML = `
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-code text-blue"></i> Информатика</div>
-                            <div class="subject-time">45 мин</div>
-                        </div>
-                        ${renderTask('inf-m1', 'Посмотреть урок')}
-                        ${renderTask('inf-m2', `Решить 3 задачи ЕГЭ ${currentTasks[0]}`)}
-                    </div>
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-book-open text-green"></i> Русский язык</div>
-                            <div class="subject-time">30 мин</div>
-                        </div>
-                        ${renderTask('rus-m1', 'Повторение старых ошибок')}
-                    </div>
-                `;
-            } else {
-                summary.innerHTML = `<strong>Сегодня — 15 мин (День отдыха)</strong>`;
-                container.innerHTML = `
-                    <div class="subject-block">
-                        <div class="subject-header">
-                            <div class="subject-title"><i class="fa-solid fa-bed text-blue"></i> Разгрузочный день</div>
-                            <div class="subject-time">15 мин</div>
-                        </div>
-                        ${renderTask('rest-1', 'Быстрое повторение карточек (Русский)')}
-                        ${renderTask('rest-2', 'Просмотр одного видео без практики')}
-                    </div>
-                `;
-            }
-        } catch (e) {
-            console.error(e);
-            container.innerHTML = `<p>Ошибка генерации расписания.</p>`;
-        }
-    },
-
-    toggleTask(taskId) {
-        const today = new Date().toISOString().split('T')[0];
-        const stateKey = 'ege_planner_state_' + today;
-        let savedState = JSON.parse(localStorage.getItem(stateKey) || "{}");
-        
-        // Anti-cheat: determine if we are checking or unchecking
-        const isChecking = !savedState[taskId];
-        
-        savedState[taskId] = isChecking;
-        localStorage.setItem(stateKey, JSON.stringify(savedState));
-        
-        // Determine subject based on taskId (e.g. inf-1, rus-1, math-1)
-        let subject = 'informatics';
-        if (taskId.startsWith('rus')) subject = 'russian';
-        if (taskId.startsWith('math')) subject = 'math';
-        if (taskId.startsWith('rest')) subject = null; // No progress for rest
-        
-        // Re-render the active tasks visually
-        const taskEl = document.querySelector(`[data-task-id="${taskId}"]`);
-        const icon = taskEl.querySelector('i');
-        
-        const prog = StorageManager.getProgress();
-        
-        if (isChecking) {
-            taskEl.classList.add('completed');
-            icon.className = 'fa-regular fa-square-check text-green';
-            if (subject && prog[subject]) prog[subject].completedTasks++;
-        } else {
-            taskEl.classList.remove('completed');
-            icon.className = 'fa-regular fa-square text-secondary';
-            if (subject && prog[subject] && prog[subject].completedTasks > 0) {
-                prog[subject].completedTasks--;
-            }
-        }
-        
-        StorageManager.saveProgress(prog);
-        app.updateDashboardStats();
+  generatePlan(energyLevel) {
+    this.tasks = [];
+    
+    // Check spaced repetition
+    const dueItems = typeof spacedRepetition !== 'undefined' ? spacedRepetition.getDueItemsCount() : 0;
+    if (dueItems > 0) {
+      this.tasks.push({
+        id: 'plan-rep', title: 'Повторение ошибок', duration: 15, subject: 'Смешанное',
+        icon: 'fa-brain', action: () => { window.location.hash = 'errors'; }, completed: false
+      });
     }
+
+    if (energyLevel === 'high') {
+      this.tasks.push(
+        { id: 'p1', title: 'Информатика: Программирование', duration: 55, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'courses', completed: false },
+        { id: 'p2', title: 'Математика: Профиль', duration: 60, subject: 'Математика', icon: 'fa-square-root-variable', action: () => window.location.hash = 'trainer', completed: false },
+        { id: 'p3', title: 'Русский: Орфография', duration: 35, subject: 'Русский язык', icon: 'fa-book', action: () => window.location.hash = 'trainer', completed: false },
+        { id: 'p4', title: 'НТО: Решение кейса', duration: 30, subject: 'НТО', icon: 'fa-robot', action: () => window.location.hash = 'nto', completed: false }
+      );
+    } else if (energyLevel === 'medium') {
+      this.tasks.push(
+        { id: 'p1', title: 'Информатика: Теория', duration: 45, subject: 'Информатика', icon: 'fa-laptop-code', action: () => window.location.hash = 'courses', completed: false },
+        { id: 'p3', title: 'Русский: Практика', duration: 30, subject: 'Русский язык', icon: 'fa-book', action: () => window.location.hash = 'trainer', completed: false },
+        { id: 'p4', title: 'НТО: SQL', duration: 15, subject: 'НТО', icon: 'fa-database', action: () => window.location.hash = 'nto', completed: false }
+      );
+    } else {
+      this.tasks.push(
+        { id: 'p0', title: 'Легкое повторение (карточки)', duration: 15, subject: 'Общее', icon: 'fa-layer-group', action: () => window.location.hash = 'errors', completed: false }
+      );
+    }
+    
+    this.renderPlan();
+  },
+
+  renderPlan() {
+    const container = document.getElementById('daily-plan-container');
+    const timeSummary = document.getElementById('plan-summary-time');
+    if (!container) return;
+
+    let totalDuration = 0;
+    container.innerHTML = '';
+    
+    this.tasks.forEach((task, idx) => {
+      totalDuration += task.duration;
+      
+      const el = document.createElement('div');
+      el.className = 'plan-task';
+      el.style.cssText = `
+        background: #1e293b; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px;
+        display: flex; align-items: center; justify-content: space-between;
+        border: 1px solid ${task.completed ? '#10b981' : '#334155'}; transition: all 0.2s;
+      `;
+      
+      el.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer; flex: 1;" onclick="plannerSystem.executeTask(${idx})">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: ${task.completed ? '#10b981' : '#334155'}; display: flex; align-items: center; justify-content: center; color: #fff;">
+            <i class="fas ${task.completed ? 'fa-check' : task.icon}"></i>
+          </div>
+          <div>
+            <div style="color: ${task.completed ? '#94a3b8' : '#f8fafc'}; font-size: 14px; font-weight: 500; text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.title}</div>
+            <div style="color: #64748b; font-size: 12px;">${task.subject} • ${task.duration} мин</div>
+          </div>
+        </div>
+        <button onclick="plannerSystem.toggleTask(${idx})" style="background: none; border: none; color: ${task.completed ? '#10b981' : '#64748b'}; font-size: 20px; cursor: pointer; padding: 8px;">
+          <i class="fa-${task.completed ? 'solid' : 'regular'} fa-circle-check"></i>
+        </button>
+      `;
+      
+      container.appendChild(el);
+    });
+
+    if (timeSummary) timeSummary.textContent = `${totalDuration} мин`;
+  },
+
+  toggleTask(idx) {
+    if (this.tasks[idx]) {
+      this.tasks[idx].completed = !this.tasks[idx].completed;
+      this.renderPlan();
+      
+      if (this.tasks[idx].completed) {
+        app.showNotification(`Выполнено: ${this.tasks[idx].title}`, 'success');
+      }
+    }
+  },
+  
+  executeTask(idx) {
+    if (this.tasks[idx] && typeof this.tasks[idx].action === 'function') {
+      this.tasks[idx].action();
+    }
+  }
 };
