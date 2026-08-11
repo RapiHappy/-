@@ -54,6 +54,11 @@
                 </div>
             </div>
             
+            <div class="main-action-widget" onclick="plannerSystem.startLearningNow()" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 24px; border-radius: 16px; margin-bottom: 20px; cursor: pointer; text-align: center; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h2 style="color: white; margin: 0 0 10px 0; font-size: 24px;"><i class="fas fa-rocket"></i> Начать сегодняшнее занятие</h2>
+                <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px;">Информатика ➝ Отдых ➝ Русский ➝ Отдых ➝ Математика</p>
+            </div>
+            
             <div class="widget focus-widget" onclick="app.navigateTo('timer')">
                 <h3><i class="fas fa-stopwatch"></i> Фокус и Pomodoro</h3>
                 <p>Начни сессию глубокой работы</p>
@@ -258,6 +263,16 @@
     </div>
 </div>
 
+<div id="modal-diagnostics" class="modal" style="background: rgba(15, 23, 42, 0.95); z-index: 9999;">
+    <div class="modal-content" style="max-width: 600px; text-align: center;">
+        <h2 style="font-size: 28px; margin-bottom: 15px;">Стартовая диагностика 🚀</h2>
+        <p style="color: #94a3b8; margin-bottom: 25px;">Прежде чем начать, давай определим твой текущий уровень. Это займет около 15 минут, но сэкономит десятки часов подготовки. Тебе предстоит решить по 10 заданий по каждому предмету.</p>
+        <div id="diagnostics-content">
+            <button class="btn btn-primary btn-large" style="width: 100%; padding: 15px; font-size: 18px;" onclick="diagnosticsSystem.start()">Начать тестирование</button>
+        </div>
+    </div>
+</div>
+
 <script src="data/lessons-informatics.js?v=2"></script>
 <script src="data/lessons-russian.js?v=2"></script>
 <script src="data/lessons-math.js?v=2"></script>
@@ -278,7 +293,10 @@
 <script src="js/nto.js?v=2"></script>
 <script src="js/sql-sandbox.js?v=2"></script>
 <script src="js/bpmn-trainer.js?v=2"></script>
+<script src="js/diagnostics.js?v=1"></script>
 <script src="js/app.js?v=2"></script>
+<script src="js/readiness.js?v=1"></script>
+<script src="js/bughunt.js?v=1"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
 <script>
   if ('serviceWorker' in navigator) {

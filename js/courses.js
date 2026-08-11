@@ -1,4 +1,7 @@
 window.coursesSystem = {
+  // Store user's selected answers for the current lesson quiz
+  currentQuizAnswers: {},
+
   loadCourses() {
     const list = document.getElementById('courses-list');
     if (!list) return;
@@ -86,7 +89,6 @@ window.coursesSystem = {
   },
   
   openLesson(lessonId) {
-    // Search via AppData helper first, fall back to nested search
     let lessonData = AppData.findLesson ? AppData.findLesson(lessonId) : null;
     
     if (!lessonData) {
@@ -102,6 +104,9 @@ window.coursesSystem = {
     
     if (!lessonData) return;
     
+    // Reset answers for new lesson
+    this.currentQuizAnswers = {};
+
     const container = document.getElementById('lesson-container');
     if (!container) return;
     
@@ -115,20 +120,30 @@ window.coursesSystem = {
     `;
     
     // Video
-    if (lessonData.videoEmbed) {
+    if (lessonData.videos || lessonData.videoEmbed) {
+      const defaultVideo = lessonData.videos ? lessonData.videos.main : lessonData.videoEmbed;
       html += `
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 24px; border-radius: 12px;">
-          <iframe src="${lessonData.videoEmbed}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
-        </div>
-      `;
-      // Video timecodes
-      if (lessonData.videoTimecodes && lessonData.videoTimecodes.length) {
-        html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">';
-        lessonData.videoTimecodes.forEach(tc => {
-          html += `<span style="background:#334155;color:#94a3b8;padding:4px 10px;border-radius:6px;font-size:12px;">${tc.time} — ${tc.label}</span>`;
-        });
-        html += '</div>';
+        <div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 16px; border-radius: 8px;">
+            <iframe id="lesson-video-iframe" src="${defaultVideo}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+          </div>
+          `;
+      if (lessonData.videos) {
+        html += `
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.main}'" style="background: #3b82f6; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
+              <i class="fas fa-play-circle"></i> Основное видео
+            </button>
+            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.simple}'" style="background: #ef4444; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
+              <i class="fas fa-question-circle"></i> Не понял
+            </button>
+            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.tasks}'" style="background: #10b981; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
+              <i class="fas fa-tasks"></i> Разбор задач ЕГЭ
+            </button>
+          </div>
+        `;
       }
+      html += `</div>`;
     }
     
     // Theory
@@ -138,10 +153,9 @@ window.coursesSystem = {
           <h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 12px; font-size: 16px;">Теория</h3>
           ${lessonData.theory}
           <div style="margin-top: 16px;">
-            <button onclick="coursesSystem.showSimplerExplanation('${lessonData.id}')" style="background: #334155; color: #f8fafc; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px;">
-              🤔 Не понял(а)
-            </button>
-            <div id="simple-explanation-${lessonData.id}" style="display: none; margin-top: 12px; padding: 12px; background: #0f172a; border-left: 3px solid #3b82f6; border-radius: 4px;"></div>
+            <div id="simple-explanation-${lessonData.id}" style="display: none; margin-top: 12px; padding: 12px; background: #0f172a; border-left: 3px solid #3b82f6; border-radius: 4px;">
+              <p style="margin:0;color:#cbd5e1;">${lessonData.simpleExplanation || 'Попробуй перечитать теорию.'}</p>
+            </div>
           </div>
         </div>
       `;
@@ -163,56 +177,111 @@ window.coursesSystem = {
       `;
     }
 
-    // Quiz
+    // Quiz - 80% passing threshold
     if (lessonData.quiz && lessonData.quiz.length > 0) {
       html += '<div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">';
-      html += '<h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 16px; font-size: 16px;">Тест</h3>';
+      html += '<h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 16px; font-size: 16px;">Контрольный тест (минимум 80% для прохождения)</h3>';
+      
       lessonData.quiz.forEach((q, qi) => {
-        html += `<div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #334155;">`;
+        html += `<div style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #334155;">`;
         html += `<p style="color: #cbd5e1; font-size: 14px; margin-bottom: 10px;">${qi+1}. ${q.question}</p>`;
         (q.options || []).forEach((opt, oi) => {
-          html += `<button onclick="coursesSystem.checkQuiz('${lessonData.id}', ${qi}, ${oi}, ${q.correctIndex})" 
+          html += `<button onclick="coursesSystem.selectQuizOption('${lessonData.id}', ${qi}, ${oi})" 
             style="display:block;width:100%;text-align:left;background:#0f172a;border:1px solid #334155;color:#cbd5e1;padding:10px 14px;border-radius:6px;margin-bottom:6px;cursor:pointer;font-size:13px;" 
             id="quiz-${lessonData.id}-${qi}-${oi}">${opt}</button>`;
         });
         html += `<div id="quiz-feedback-${lessonData.id}-${qi}" style="font-size:13px;margin-top:6px;"></div>`;
         html += '</div>';
       });
+      
+      html += `<button onclick="coursesSystem.submitQuiz('${lessonData.id}')" style="width: 100%; background: #3b82f6; color: #fff; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
+        Сдать тест
+      </button>`;
+      html += `<div id="quiz-final-feedback-${lessonData.id}" style="font-weight:bold;text-align:center;font-size:16px;"></div>`;
       html += '</div>';
     }
     
-    // Completion and Link
+    // Completion status
     const isCompleted = StorageManager.getLessonProgress()[lessonId]?.completed;
     html += `
-      <button id="btn-complete-${lessonId}" onclick="coursesSystem.markCompleted('${lessonId}')" style="width: 100%; background: ${isCompleted ? '#10b981' : '#334155'}; color: #fff; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
-        ${isCompleted ? '✓ Урок пройден' : 'Отметить как пройденный'}
-      </button>
-      
-      <div style="text-align: center;">
-        <a href="${lessonData.stepikUrl || '#'}" target="_blank" style="color: #94a3b8; font-size: 12px; text-decoration: underline;">Подробнее на Stepik (доп. материалы)</a>
+      <div id="lesson-complete-banner-${lessonId}" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: #10b981; color: #fff; text-align: center; padding: 14px; border-radius: 8px; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
+        ✓ Урок пройден
       </div>
     `;
     
     container.innerHTML = html;
   },
   
-  showSimplerExplanation(lessonId) {
-    const el = document.getElementById(`simple-explanation-${lessonId}`);
-    if (!el) return;
-    const lesson = AppData.findLesson ? AppData.findLesson(lessonId) : null;
-    const text = lesson && lesson.simpleExplanation 
-      ? lesson.simpleExplanation 
-      : 'Попробуй перечитать теорию медленнее или посмотри видео ещё раз.';
-    el.style.display = 'block';
-    el.innerHTML = `<p style="margin:0;color:#cbd5e1;">${text}</p>`;
+  selectQuizOption(lessonId, questionIdx, selectedIdx) {
+    // Save answer
+    this.currentQuizAnswers[questionIdx] = selectedIdx;
+    
+    // Highlight selected
+    const buttons = document.querySelectorAll(`[id^="quiz-${lessonId}-${questionIdx}-"]`);
+    buttons.forEach(btn => {
+      btn.style.background = '#0f172a';
+      btn.style.borderColor = '#334155';
+    });
+    const selectedBtn = document.getElementById(`quiz-${lessonId}-${questionIdx}-${selectedIdx}`);
+    if (selectedBtn) {
+      selectedBtn.style.background = '#1e3a8a';
+      selectedBtn.style.borderColor = '#3b82f6';
+    }
   },
-  
-  checkQuiz(lessonId, questionIdx, selectedIdx, correctIdx) {
-    const feedbackEl = document.getElementById(`quiz-feedback-${lessonId}-${questionIdx}`);
-    if (selectedIdx === correctIdx) {
-      if (feedbackEl) feedbackEl.innerHTML = '<span style="color:#10b981;">✅ Верно!</span>';
+
+  submitQuiz(lessonId) {
+    let lessonData = AppData.findLesson ? AppData.findLesson(lessonId) : null;
+    if (!lessonData) {
+      for (const course of AppData.courses) {
+        if (!course.modules) continue;
+        for (const mod of (course.modules || [])) {
+          const l = (mod.lessons || []).find(x => x.id === lessonId);
+          if (l) { lessonData = l; break; }
+        }
+        if (lessonData) break;
+      }
+    }
+
+    const total = lessonData.quiz.length;
+    let correct = 0;
+
+    lessonData.quiz.forEach((q, qi) => {
+      const selected = this.currentQuizAnswers[qi];
+      const feedbackEl = document.getElementById(`quiz-feedback-${lessonId}-${qi}`);
+      if (selected === q.correctIndex) {
+        correct++;
+        feedbackEl.innerHTML = '<span style="color:#10b981;">✅ Верно!</span>';
+      } else {
+        feedbackEl.innerHTML = `<span style="color:#ef4444;">❌ Неверно. (Правильный ответ: ${q.options[q.correctIndex]}). ${q.explanation}</span>`;
+      }
+    });
+
+    const percentage = Math.round((correct / total) * 100);
+    const finalFeedback = document.getElementById(`quiz-final-feedback-${lessonId}`);
+    
+    if (percentage >= 80) {
+      finalFeedback.innerHTML = `<span style="color:#10b981;">Тест пройден! Результат: ${percentage}% (${correct} из ${total})</span>`;
+      this.markCompleted(lessonId);
+      
+      // Remove from failed lessons if it was there
+      let failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
+      failedLessons = failedLessons.filter(id => id !== lessonId);
+      localStorage.setItem('failed_lessons', JSON.stringify(failedLessons));
+
     } else {
-      if (feedbackEl) feedbackEl.innerHTML = '<span style="color:#ef4444;">❌ Неверно. Попробуй ещё раз.</span>';
+      finalFeedback.innerHTML = `<span style="color:#ef4444;">Тест не пройден. Результат: ${percentage}% (${correct} из ${total}). Требуется 80%.</span>`;
+      app.showNotification('Меньше 80%. Тема перенесена на завтра. Изучи дополнительное объяснение!', 'error');
+      
+      // Show simple explanation
+      const expEl = document.getElementById(`simple-explanation-${lessonId}`);
+      if (expEl) expEl.style.display = 'block';
+
+      // Schedule for tomorrow
+      let failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
+      if (!failedLessons.includes(lessonId)) {
+        failedLessons.push(lessonId);
+        localStorage.setItem('failed_lessons', JSON.stringify(failedLessons));
+      }
     }
   },
   
@@ -222,11 +291,10 @@ window.coursesSystem = {
     if (!input || !feedback) return;
     
     const userVal = input.value.trim().toLowerCase();
-    const correctVal = correctAnswer.trim().toLowerCase();
+    const correctVal = String(correctAnswer).trim().toLowerCase();
     
     if (userVal === correctVal) {
-      feedback.innerHTML = '<span style="color: #10b981;"><i class="fas fa-check"></i> Верно! Отличная работа.</span>';
-      this.markCompleted(lessonId);
+      feedback.innerHTML = '<span style="color: #10b981;"><i class="fas fa-check"></i> Верно! Можешь переходить к тесту.</span>';
     } else {
       feedback.innerHTML = '<span style="color: #ef4444;"><i class="fas fa-times"></i> Неверно. Попробуйте еще раз.</span>';
     }
@@ -234,11 +302,20 @@ window.coursesSystem = {
   
   markCompleted(lessonId) {
     StorageManager.saveLessonProgress(lessonId, { completed: true });
-    const btn = document.getElementById(`btn-complete-${lessonId}`);
-    if (btn) {
-      btn.style.background = '#10b981';
-      btn.textContent = '✓ Урок пройден';
+    
+    // Add to completed lessons array for subject
+    const lessonData = AppData.findLesson ? AppData.findLesson(lessonId) : null;
+    if (lessonData && lessonData.subject) {
+      const subKey = `completed_lessons_${lessonData.subject}`;
+      let completed = JSON.parse(localStorage.getItem(subKey) || '[]');
+      if (!completed.includes(lessonId)) {
+        completed.push(lessonId);
+        localStorage.setItem(subKey, JSON.stringify(completed));
+      }
     }
+
+    const banner = document.getElementById(`lesson-complete-banner-${lessonId}`);
+    if (banner) banner.style.display = 'block';
     app.showNotification('Урок пройден! Прогресс сохранен.', 'success');
   }
 };

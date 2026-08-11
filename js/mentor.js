@@ -12,6 +12,9 @@ window.mentorSystem = {
     else if (advice.type === 'evening') { iconColor = "#a78bfa"; iconClass = "fa-moon"; }
     else if (advice.type === 'post-test') { iconColor = "#f97316"; iconClass = "fa-chart-simple"; }
     else if (advice.type === 'nto') { iconColor = "#10b981"; iconClass = "fa-network-wired"; }
+    else if (advice.type === 'overachiever') { iconColor = "#fbbf24"; iconClass = "fa-crown"; }
+    else if (advice.type === 'slacker') { iconColor = "#ef4444"; iconClass = "fa-triangle-exclamation"; }
+    else if (advice.type === 'math-struggle') { iconColor = "#f43f5e"; iconClass = "fa-calculator"; }
 
     el.innerHTML = `
       <div class="advisor-card" style="background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid ${iconColor}; padding: 15px; border-radius: 8px; margin-bottom: 20px; transition: all 0.3s ease;">
@@ -20,7 +23,7 @@ window.mentorSystem = {
           <span style="font-weight: bold; font-size: 16px;">AI-Наставник</span>
         </div>
         <p style="margin: 0 0 15px 0; color: #f1f5f9; line-height: 1.5; font-size: 15px;">${advice.text}</p>
-        ${advice.action ? `<button class="btn btn-primary btn-sm" onclick="${advice.action}" style="background: ${iconColor}; border: none; color: ${advice.type === 'morning' ? '#000' : '#fff'}; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">📌 ${advice.actionLabel}</button>` : ''}
+        ${advice.action ? `<button class="btn btn-primary btn-sm" onclick="${advice.action}" style="background: ${iconColor}; border: none; color: ${advice.type === 'morning' || advice.type === 'overachiever' ? '#000' : '#fff'}; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">📌 ${advice.actionLabel}</button>` : ''}
       </div>
     `;
   },
@@ -41,7 +44,6 @@ window.mentorSystem = {
     const todayLog = dailyLog.find(log => log.date === today);
     const todayMinutes = todayLog ? todayLog.totalMinutes : 0;
     
-    // Calculate 7-day study time
     let weekMinutes = 0;
     const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     dailyLog.forEach(log => {
@@ -51,108 +53,137 @@ window.mentorSystem = {
     });
 
     const currentHour = new Date().getHours();
+    const dayOfWeek = new Date().getDay();
 
-    // RULE 1: Burnout Warning (Priority 1)
-    if (weekMinutes > 40 * 60 || (userData.energyLevel === 'low' && todayMinutes > 120)) {
+    // 1. Burnout Warning (Overwork)
+    if (weekMinutes > 40 * 60 || todayMinutes > 240) {
       return {
         type: 'burnout',
-        text: `⚠️ Осторожно, выгорание близко! За последние 7 дней ты учился более ${Math.floor(weekMinutes/60)} часов (или твоя энергия на нуле, но ты продолжаешь). Твоя продуктивность сильно упадет, если не отдохнешь. Сделай паузу!`,
-        action: "app.navigateTo('trainer')", // just redirect somewhere safe or no action
-        actionLabel: "Сменить деятельность"
+        text: `⚠️ Осторожно, выгорание! За последние 7 дней ты учился более ${Math.floor(weekMinutes/60)} часов. Сделай выходной, чтобы мозг успел обработать информацию!`,
+        action: "app.navigateTo('dashboard')",
+        actionLabel: "Остановить план"
       };
     }
 
-    // RULE 2: Post-Test Review (Priority 2)
-    // If there are errors made TODAY that haven't been reviewed
+    // 2. Overachiever (High streak, high hours)
+    if (userData.streak > 14 && weekMinutes > 20 * 60) {
+      return {
+        type: 'overachiever',
+        text: `👑 Фантастика! Ты держишь стрик уже ${userData.streak} дней подряд с высокой нагрузкой. Твои результаты бьют рекорды. Идеальное время разобрать сложную 27-ю задачу!`,
+        action: "window.location.hash = 'lesson/inf-lesson-10'",
+        actionLabel: "Решить сложную задачу"
+      };
+    }
+
+    // 3. Slacker (No activity for 3+ days)
+    if (userData.streak === 0 && dailyLog.length > 0 && dailyLog[dailyLog.length-1].totalMinutes === 0) {
+       return {
+        type: 'slacker',
+        text: `🚨 Мы отстаем от плана! Ты пропустил несколько дней. Каждое пропущенное занятие — это забытый материал. Давай сделаем сегодня хотя бы 15 минут практики!`,
+        action: "app.navigateTo('trainer')",
+        actionLabel: "Начать микро-тест (15 мин)"
+      };
+    }
+
+    // 4. Struggling with specific subject (many failed lessons)
+    const failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
+    if (failedLessons.length > 2) {
+       return {
+        type: 'math-struggle',
+        text: `🤔 Я вижу, что несколько последних тестов не были пройдены (набрано менее 80%). Не бросай их! Сначала проведи работу над ошибками, прежде чем брать новые темы.`,
+        action: "plannerSystem.startLearningNow()",
+        actionLabel: "Пройти работу над ошибками"
+      };
+    }
+
+    // 5. Sunday Rest Rule
+    if (dayOfWeek === 0) {
+      return {
+        type: 'burnout', // Using red icon for emphasis on rest
+        text: `🛌 Сегодня воскресенье — официальный день отдыха. Отдых — это часть учебного процесса. Займись хобби или погуляй на улице.`,
+        action: "",
+        actionLabel: ""
+      };
+    }
+
+    // 6. Post-Test Review
     const todayErrors = errors.filter(e => {
        const errDate = new Date(e.date).toISOString().split('T')[0];
        return errDate === today && e.reviewStage === 0;
     });
-    if (todayErrors.length > 0 && currentHour > 12) {
+    if (todayErrors.length > 0) {
       return {
         type: 'post-test',
-        text: `📊 Я проанализировал твой последний тест. У тебя ${todayErrors.length} свежих ошибок. Самое время провести работу над ошибками, пока материал еще в памяти!`,
+        text: `📊 У тебя ${todayErrors.length} свежих ошибок. Давай разберем их, пока материал еще в памяти!`,
         action: "app.navigateTo('errors')",
         actionLabel: "Разобрать ошибки"
       };
     }
 
-    // RULE 3: Morning Message (Priority 3)
+    // 7. Morning Message
     if (currentHour >= 5 && currentHour < 12) {
       if (userData.streak > 3) {
         return {
           type: 'morning',
-          text: `☀️ Доброе утро! У тебя отличная серия: ${userData.streak} дней подряд. Не сбавляй темп. Давай начнем день с выполнения плана!`,
-          action: "window.scrollTo(0, document.getElementById('daily-plan-container').offsetTop)",
-          actionLabel: "Посмотреть план"
+          text: `☀️ Доброе утро! Стрик: ${userData.streak} дней. Начни день с выполнения ежедневного плана!`,
+          action: "plannerSystem.startLearningNow()",
+          actionLabel: "Начать план на день"
         };
       } else {
         return {
           type: 'morning',
-          text: `☀️ Доброе утро! Новый день — новые баллы к ЕГЭ. ${dueItems.length > 0 ? `У тебя накопилось ${dueItems.length} карточек для повторения.` : 'Отличный момент начать изучение новой теории.'}`,
-          action: dueItems.length > 0 ? "app.navigateTo('errors')" : "app.navigateTo('courses')",
-          actionLabel: dueItems.length > 0 ? "Повторить карточки" : "Начать урок"
+          text: `☀️ Доброе утро! Новый день — новые баллы. Начни с легкой разминки.`,
+          action: "plannerSystem.startLearningNow()",
+          actionLabel: "Начать план на день"
         };
       }
     }
 
-    // RULE 4: Evening Report (Priority 4)
+    // 8. Evening Report
     if (currentHour >= 18 && currentHour <= 23) {
       if (todayMinutes > 60) {
         return {
           type: 'evening',
-          text: `🌙 Отличная работа сегодня! Ты занимался ${Math.round(todayMinutes/60 * 10)/10} часов. Мозг нуждается в отдыхе для консолидации памяти. Пора закругляться!`,
+          text: `🌙 Отличная работа! Сегодня ты занимался ${Math.round(todayMinutes/60 * 10)/10} ч. Пора отдыхать!`,
           action: "app.navigateTo('analytics')",
           actionLabel: "Посмотреть статистику"
         };
       } else if (todayMinutes === 0) {
         return {
           type: 'evening',
-          text: `🌙 День подходит к концу, а мы еще не занимались. Давай сделаем хотя бы один короткий урок или решим пару тестов, чтобы не терять прогресс!`,
-          action: "app.navigateTo('trainer')",
-          actionLabel: "Быстрый тест"
+          text: `🌙 День почти закончился, а мы еще не занимались. Выполни хотя бы одну задачу, чтобы сохранить стрик!`,
+          action: "plannerSystem.startLearningNow()",
+          actionLabel: "Сохранить стрик"
         };
       }
     }
 
-    // RULE 5: NTO Daily Task (Priority 5)
+    // 9. NTO Prompt
     if (ntoProgress.completedCases.length === 0 && currentHour > 12 && currentHour < 18) {
       return {
         type: 'nto',
-        text: `🤖 Я заметил, что ты еще не приступал к проектам Национальной технологической олимпиады (НТО). Это даст огромный буст при поступлении. Пройди первый мини-проект!`,
+        text: `🤖 Профиль НТО "Автоматизация бизнес-процессов" ждет тебя! Это плюс 100 баллов к ЕГЭ при победе.`,
         action: "app.navigateTo('nto')",
         actionLabel: "Открыть проекты НТО"
       };
     }
 
-    // RULE 6: Spaced Repetition (Priority 6)
+    // 10. Spaced Repetition
     if (dueItems.length > 0) {
       return {
         type: 'default',
-        text: `🧠 Кривая забывания Эббингауза работает против нас. Прямо сейчас у тебя ${dueItems.length} ошибок ждут повторения. Чем быстрее повторишь, тем лучше запомнишь!`,
+        text: `🧠 Кривая Эббингауза работает. ${dueItems.length} карточек ждут повторения!`,
         action: "app.navigateTo('errors')",
         actionLabel: "Повторить ошибки"
       };
     }
 
-    // DEFAULT: Next Best Step (Priority 7)
-    // Find the subject with least progress
-    const mathProg = progress.math.totalTasks > 0 ? progress.math.completedTasks / progress.math.totalTasks : 0;
-    const infProg = progress.informatics.totalTasks > 0 ? progress.informatics.completedTasks / progress.informatics.totalTasks : 0;
-    const rusProg = progress.russian.totalTasks > 0 ? progress.russian.completedTasks / progress.russian.totalTasks : 0;
-
-    let leastSub = 'math';
-    let leastVal = mathProg;
-    let label = 'Математику';
-    
-    if (infProg < leastVal) { leastSub = 'informatics'; leastVal = infProg; label = 'Информатику'; }
-    if (rusProg < leastVal) { leastSub = 'russian'; leastVal = rusProg; label = 'Русский язык'; }
-
+    // DEFAULT
     return {
       type: 'default',
-      text: `🎯 Мой анализ показывает, что сейчас больше всего внимания требует **${label}**. Давай решим несколько задач из этого раздела, чтобы подтянуть статистику.`,
-      action: "app.navigateTo('trainer')",
-      actionLabel: "Тренировать " + label
+      text: `🎯 Выполни свой ежедневный план, чтобы стать на шаг ближе к поступлению мечты!`,
+      action: "plannerSystem.startLearningNow()",
+      actionLabel: "Перейти к плану"
     };
   }
 };

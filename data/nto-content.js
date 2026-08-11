@@ -33,6 +33,26 @@ window.NTOContent = {
         {title: 'Автоматизация', description: 'Напишите скрипт приема заказа.', task: 'Python код интеграции.'},
         {title: 'Отчёт', description: 'Посчитайте экономию времени.', task: 'Было 10 мин, стало 1 мин. При 100 заказах экономия 900 минут.'}
       ]
+    },
+    {
+      id: 'case-2',
+      title: 'Интеграция CRM и Telegram (API)',
+      description: 'Отдел продаж теряет лиды, так как они не приходят в мессенджер вовремя.',
+      stages: [
+        {title: 'Анализ API', description: 'Изучите метод отправки сообщения в Telegram API.', task: 'Какой метод используется?', expectedAnswer: 'sendMessage'},
+        {title: 'BPMN-схема', description: 'Смоделируйте процесс поступления лида.', task: 'Шлюз: Лид целевой?'},
+        {title: 'Python скрипт', description: 'Напишите запрос с использованием requests.', task: 'Отправка POST запроса с JSON.'}
+      ]
+    },
+    {
+      id: 'case-3',
+      title: 'Отчетность в Google Sheets (Excel)',
+      description: 'Руководителю нужен дашборд по продажам за месяц.',
+      stages: [
+        {title: 'Импорт данных', description: 'Загрузите CSV в таблицы.', task: 'Используйте ImportData.'},
+        {title: 'Формулы', description: 'Посчитайте выручку.', task: 'СУММЕСЛИ(A:A, "Оплачен", B:B)'},
+        {title: 'Сводные таблицы', description: 'Сгруппируйте по менеджерам.', task: 'Построить сводную диаграмму.'}
+      ]
     }
   ],
   bpmnElements: [
@@ -71,6 +91,16 @@ window.NTOContent = {
       expectedQuery: 'SELECT SUM(amount) as total_amount FROM orders',
       hint: 'Используйте агрегатную функцию SUM()',
       checkFunction: 'rows.length === 1 && rows[0].total_amount === 225'
+    },
+    {
+      id: 'sql-3',
+      title: 'Группировка',
+      description: 'Найдите количество заказов каждого клиента.',
+      setupSQL: 'CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, customer_name TEXT, product TEXT);\nINSERT INTO orders VALUES (1, "Иванов", "А");\nINSERT INTO orders VALUES (2, "Иванов", "Б");\nINSERT INTO orders VALUES (3, "Петров", "В");',
+      task: 'Выведите customer_name и количество заказов (COUNT(id) as count) сгруппировав по customer_name.',
+      expectedQuery: 'SELECT customer_name, COUNT(id) as count FROM orders GROUP BY customer_name',
+      hint: 'Используйте GROUP BY',
+      checkFunction: 'rows.length === 2 && rows[0].count === 2'
     }
   ],
   weeklyPlan: [

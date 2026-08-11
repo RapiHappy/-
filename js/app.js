@@ -17,8 +17,7 @@ window.app = {
       StorageManager.updateStreak();
       this.updateDashboardStats();
       
-      const energy = StorageManager.getUserData().energyLevel || 'high';
-      if (typeof plannerSystem !== 'undefined') plannerSystem.generatePlan(energy);
+      if (typeof plannerSystem !== 'undefined') plannerSystem.generatePlan();
     }
     
     if (typeof mentorSystem !== 'undefined' && mentorSystem.render) {
@@ -31,6 +30,10 @@ window.app = {
     
     this.showMotivation();
     this.registerSW();
+    
+    if (typeof diagnosticsSystem !== 'undefined') {
+      setTimeout(() => diagnosticsSystem.check(), 500);
+    }
   },
   
   updateGreeting() {
