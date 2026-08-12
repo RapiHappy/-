@@ -15,7 +15,7 @@ window.plannerSystem = {
   getNextLesson(subject, lessons, offset = 0) {
     const completed = JSON.parse(localStorage.getItem(`completed_lessons_${subject}`) || '[]');
     let uncompleted = lessons.filter(l => !completed.includes(l.id));
-    if (uncompleted.length === 0) uncompleted = lessons; // fallback if all done
+    if (uncompleted.length === 0) return null; 
     return uncompleted[Math.min(offset, uncompleted.length - 1)];
   },
 
@@ -26,90 +26,84 @@ window.plannerSystem = {
     if (savedDate === today) {
       const savedTasks = localStorage.getItem('daily_plan_tasks');
       if (savedTasks) {
-        const parsedTasks = JSON.parse(savedTasks);
-        // Force regenerate if old buggy plan is detected (less than 10 tasks)
-        if (parsedTasks.length === 10) {
-          this.tasks = parsedTasks;
-          this.renderPlan();
-          return;
-        }
+        this.tasks = JSON.parse(savedTasks);
+        this.renderPlan();
+        return;
       }
     }
 
-    // Generate strict new plan (10 steps)
     this.tasks = [];
+    const dayOfWeek = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
     
-    // 1. Informatics #1
-    if (window.informaticsLessons && window.informaticsLessons.length > 0) {
-      const inf1 = this.getNextLesson('informatics', window.informaticsLessons, 0);
+    // Check Burnout / Errors
+    const failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
+    const isBurnout = failedLessons.length > 2;
+
+    const addRest = (duration = 5) => {
       this.tasks.push({
-        id: `plan-inf-${inf1.id}`, title: `Информатика: ${inf1.title}`, duration: 25, subject: 'Информатика',
-        icon: 'fa-laptop-code', type: 'lesson', lessonId: inf1.id, completed: false
+        id: `plan-rest-${this.tasks.length}`, title: 'Короткий отдых', duration: duration, subject: 'Отдых',
+        icon: 'fa-coffee', type: 'timer', durationMins: duration, completed: false
+      });
+    };
+
+    const addLesson = (subject, dataArray, duration = 30) => {
+      if (!dataArray) return;
+      const lesson = this.getNextLesson(subject, dataArray, 0);
+      if (lesson) {
+        this.tasks.push({
+          id: `plan-${subject}-${lesson.id}`, title: lesson.title, duration: duration, subject: subject.toUpperCase(),
+          icon: subject === 'informatics' ? 'fa-laptop-code' : (subject === 'math' ? 'fa-square-root-variable' : 'fa-book'), 
+          type: 'lesson', lessonId: lesson.id, completed: false
+        });
+      }
+    };
+
+    if (dayOfWeek === 0) { // Sunday - Rest
+      this.tasks.push({
+        id: 'plan-rest-sunday', title: 'Полный отдых и восстановление', duration: 0, subject: 'Отдых',
+        icon: 'fa-bed', type: 'rest', completed: false
+      });
+    } else if (isBurnout) {
+      // Burnout mode: Light review and rest
+      this.tasks.push({
+        id: `plan-repeat`, title: 'Работа над ошибками', duration: 30, subject: 'Смешанное',
+        icon: 'fa-brain', type: 'lesson', lessonId: failedLessons[0], completed: false
+      });
+      addRest(15);
+      this.tasks.push({
+        id: 'plan-summary', title: 'Итог дня (Облегченный)', duration: 5, subject: 'Рефлексия',
+        icon: 'fa-clipboard-check', type: 'summary', completed: false
+      });
+    } else {
+      // Normal schedule based on day
+      if (dayOfWeek === 1) { // Mon: Inf + Math + NTO
+         addLesson('informatics', window.informaticsLessons, 40); addRest();
+         addLesson('math', window.mathLessons, 40); addRest();
+         addLesson('nto', window.ntoLessons, 30);
+      } else if (dayOfWeek === 2) { // Tue: Rus + Inf
+         addLesson('russian', window.russianLessons, 35); addRest();
+         addLesson('informatics', window.informaticsLessons, 45);
+      } else if (dayOfWeek === 3) { // Wed: Math + NTO + Light
+         addLesson('math', window.mathLessons, 40); addRest();
+         addLesson('nto', window.ntoLessons, 30);
+      } else if (dayOfWeek === 4) { // Thu: Inf + Rus
+         addLesson('informatics', window.informaticsLessons, 40); addRest();
+         addLesson('russian', window.russianLessons, 35);
+      } else if (dayOfWeek === 5) { // Fri: Math + NTO
+         addLesson('math', window.mathLessons, 45); addRest();
+         addLesson('nto', window.ntoLessons, 30);
+      } else if (dayOfWeek === 6) { // Sat: Control (Inf + Math + Rus)
+         addLesson('informatics', window.informaticsLessons, 30); addRest();
+         addLesson('math', window.mathLessons, 30); addRest();
+         addLesson('russian', window.russianLessons, 30);
+      }
+      
+      addRest(5);
+      this.tasks.push({
+        id: 'plan-summary', title: 'Итог дня', duration: 5, subject: 'Рефлексия',
+        icon: 'fa-clipboard-check', type: 'summary', completed: false
       });
     }
-    
-    // 2. Break
-    this.tasks.push({
-      id: 'plan-rest-1', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-    });
-    
-    // 3. Informatics #2
-    if (window.informaticsLessons && window.informaticsLessons.length > 1) {
-      const inf2 = this.getNextLesson('informatics', window.informaticsLessons, 1);
-      this.tasks.push({
-        id: `plan-inf2-${inf2.id}`, title: `Информатика: ${inf2.title}`, duration: 25, subject: 'Информатика',
-        icon: 'fa-laptop-code', type: 'lesson', lessonId: inf2.id, completed: false
-      });
-    }
-    
-    // 4. Break
-    this.tasks.push({
-      id: 'plan-rest-2', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-    });
-    
-    // 5. Russian
-    if (window.russianLessons && window.russianLessons.length > 0) {
-      const rus = this.getNextLesson('russian', window.russianLessons, 0);
-      this.tasks.push({
-        id: `plan-rus-${rus.id}`, title: `Русский: ${rus.title}`, duration: 25, subject: 'Русский язык',
-        icon: 'fa-book', type: 'lesson', lessonId: rus.id, completed: false
-      });
-    }
-    
-    // 6. Break
-    this.tasks.push({
-      id: 'plan-rest-3', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-    });
-    
-    // 7. Math
-    if (window.mathLessons && window.mathLessons.length > 0) {
-      const math = this.getNextLesson('math', window.mathLessons, 0);
-      this.tasks.push({
-        id: `plan-math-${math.id}`, title: `Математика: ${math.title}`, duration: 35, subject: 'Математика',
-        icon: 'fa-square-root-variable', type: 'lesson', lessonId: math.id, completed: false
-      });
-    }
-    
-    // 8. Break
-    this.tasks.push({
-      id: 'plan-rest-4', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-    });
-    
-    // 9. NTO
-    this.tasks.push({
-      id: 'plan-nto', title: 'Олимпиада НТО', duration: 20, subject: 'НТО',
-      icon: 'fa-robot', type: 'nto', tab: 'bpmn', completed: false
-    });
-    
-    // 10. Summary
-    this.tasks.push({
-      id: 'plan-summary', title: 'Итог дня', duration: 5, subject: 'Рефлексия',
-      icon: 'fa-clipboard-check', type: 'summary', completed: false
-    });
 
     localStorage.setItem('daily_plan_date', today);
     this.saveTasks();

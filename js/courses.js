@@ -149,29 +149,36 @@ window.coursesSystem = {
       `;
     }
     
-    // Practice
-    if (lessonData.tasks && lessonData.tasks.length > 0) {
-      html += `
-        <div id="lesson-section-practice" style="background: #1e293b; padding: 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
-          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-dumbbell" style="color: #f59e0b;"></i> Практика</h3>
-          <div class="tasks-list">
-      `;
-      // Show only first 3 tasks for the lesson inline to not overwhelm
-      const displayTasks = lessonData.tasks.slice(0, 3);
-      displayTasks.forEach((t, i) => {
-         html += `
-           <div class="practice-task" style="background: #0f172a; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
-             <div style="font-weight: 500; color: #f8fafc; margin-bottom: 8px;">Задача ${i+1}</div>
-             <p style="color: #94a3b8; margin-bottom: 12px;">${t.question}</p>
-             <button class="btn btn-secondary" onclick="alert('Ответ: ${t.answer}\\n${t.explanation || ''}')">Показать разбор</button>
-           </div>
-         `;
-      });
-      html += `
-          </div>
-          <p style="color: #94a3b8; font-size: 14px;">Остальные задачи доступны в разделе Тренажёр.</p>
-        </div>
-      `;
+    // Practice Blocks (Warmup, Base, Advanced, Control)
+    if (lessonData.practice) {
+      const renderPracticeBlock = (tasks, title, icon, color) => {
+        if (!tasks || tasks.length === 0) return '';
+        let blockHtml = `
+          <div style="background: #1e293b; padding: 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
+            <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas ${icon}" style="color: ${color};"></i> ${title}</h3>
+            <div class="tasks-list">
+        `;
+        tasks.forEach((t, i) => {
+           blockHtml += `
+             <div class="practice-task" id="task-container-${t.id}" style="background: #0f172a; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+               <div style="font-weight: 500; color: #f8fafc; margin-bottom: 8px;">Задача ${i+1}</div>
+               <p style="color: #94a3b8; margin-bottom: 16px;">${t.question}</p>
+               <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                 <input type="text" id="input-${t.id}" placeholder="Ваш ответ..." style="flex:1; background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 10px 14px; border-radius: 8px; outline: none;">
+                 <button class="btn btn-primary" onclick="coursesSystem.checkLessonTask('${t.id}', '${t.answer}', '${t.explanation}')" style="padding: 10px 20px;">Ответить</button>
+               </div>
+               <div id="feedback-${t.id}" style="display:none; padding: 12px; border-radius: 8px; margin-top: 12px;"></div>
+             </div>
+           `;
+        });
+        blockHtml += `</div></div>`;
+        return blockHtml;
+      };
+
+      html += renderPracticeBlock(lessonData.practice.warmup, 'Разминка', 'fa-running', '#f59e0b');
+      html += renderPracticeBlock(lessonData.practice.base, 'Основа (Типовые задачи)', 'fa-dumbbell', '#3b82f6');
+      html += renderPracticeBlock(lessonData.practice.advanced, 'Продвинутый уровень', 'fa-fire', '#ef4444');
+      html += renderPracticeBlock(lessonData.practice.control, 'Экзаменационный контроль (Без подсказок)', 'fa-graduation-cap', '#8b5cf6');
     }
 
     // Quiz
@@ -252,13 +259,13 @@ window.coursesSystem = {
       if (!course.modules) continue;
       for (const mod of course.modules) {
         for (const lesson of mod.lessons) {
-          if (foundCurrent) {
-            nextLessonId = lesson.id;
-            break;
-          }
-          if (lesson.id === currentLessonId) {
-            foundCurrent = true;
-          }
+           if (foundCurrent) {
+             nextLessonId = lesson.id;
+             break;
+           }
+           if (lesson.id === currentLessonId) {
+             foundCurrent = true;
+           }
         }
         if (nextLessonId) break;
       }
@@ -270,6 +277,30 @@ window.coursesSystem = {
     } else {
       app.showNotification('Это был последний урок в курсе!', 'success');
       app.navigateTo('courses');
+    }
+  },
+  
+  checkLessonTask(taskId, correctAnswer, explanation) {
+    const inputEl = document.getElementById(`input-${taskId}`);
+    const feedbackEl = document.getElementById(`feedback-${taskId}`);
+    if (!inputEl || !feedbackEl) return;
+    
+    const userAnswer = inputEl.value.trim();
+    if (!userAnswer) {
+      alert('Введите ответ!');
+      return;
+    }
+    
+    feedbackEl.style.display = 'block';
+    
+    if (userAnswer === correctAnswer) {
+      feedbackEl.style.background = 'rgba(16, 185, 129, 0.1)';
+      feedbackEl.style.color = '#10b981';
+      feedbackEl.innerHTML = `<strong>✅ Верно!</strong> <br><span style="color:#94a3b8; font-size: 14px; margin-top: 8px; display:inline-block;">${explanation || ''}</span>`;
+    } else {
+      feedbackEl.style.background = 'rgba(239, 68, 68, 0.1)';
+      feedbackEl.style.color = '#ef4444';
+      feedbackEl.innerHTML = `<strong>❌ Ошибка.</strong> <br><span style="color:#94a3b8; font-size: 14px; margin-top: 8px; display:inline-block;">Правильный ответ: ${correctAnswer}. <br>${explanation || ''}</span>`;
     }
   },
   

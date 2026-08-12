@@ -25,51 +25,51 @@
 </head>
 <body>
 <div id="app-container">
+    <aside id="sidebar">
+        <div class="brand">
+            <i class="fas fa-graduation-cap" style="color: var(--accent-primary);"></i>
+            <span>EGE Master</span>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" onclick="app.navigateTo('dashboard')">
+                <i class="fas fa-house"></i> <span>Главная</span>
+            </button>
+            <button class="nav-item" onclick="app.navigateTo('courses')">
+                <i class="fas fa-book"></i> <span>Учеба</span>
+            </button>
+            <button class="nav-item" onclick="app.navigateTo('nto')">
+                <i class="fas fa-trophy"></i> <span>НТО</span>
+            </button>
+        </nav>
+    </aside>
+
     <nav id="bottom-nav">
         <button class="nav-item active" onclick="app.navigateTo('dashboard')">
             <i class="fas fa-house"></i>
-            <span>Главная</span>
         </button>
         <button class="nav-item" onclick="app.navigateTo('courses')">
             <i class="fas fa-book"></i>
-            <span>Курсы</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('trainer')">
-            <i class="fas fa-dumbbell"></i>
-            <span>Практика</span>
         </button>
         <button class="nav-item" onclick="app.navigateTo('nto')">
             <i class="fas fa-trophy"></i>
-            <span>НТО</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('errors')">
-            <i class="fas fa-bug"></i>
-            <span>Ошибки</span>
-        </button>
-        <button class="nav-item" onclick="app.navigateTo('analytics')">
-            <i class="fas fa-chart-pie"></i>
-            <span>Прогресс</span>
         </button>
     </nav>
 
     <div id="content-wrapper">
         <header id="main-header">
-            <div class="header-content">
-            <div>
-                <h1 id="greeting-text">Привет, Студент!</h1>
-                <p id="current-date">1 сентября</p>
+            <div class="header-info">
+                <h1 id="greeting-text">С возвращением!</h1>
+                <p id="current-date"></p>
             </div>
-            <div id="energy-badge" class="badge">
-                <i class="fas fa-bolt"></i> <span id="energy-level-text">Высокая</span>
+            <div class="badge">
+                <i class="fas fa-fire"></i> <span id="energy-level-text">Готов к учебе</span>
             </div>
-        </div>
-    </header>
+        </header>
     
     <div id="notification-container"></div>
     
     <div id="desktop-layout-grid">
     <main id="main-content">
-        <!-- View: Dashboard -->
         <section id="view-dashboard" class="view active">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -80,45 +80,21 @@
                 <div class="stat-card">
                     <i class="fas fa-clock stat-icon"></i>
                     <div id="stat-hours" class="stat-value">0</div>
-                    <div class="stat-label">Часов учебы</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check stat-icon"></i>
-                    <div id="stat-tasks-today" class="stat-value">0</div>
-                    <div class="stat-label">Задач сегодня</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-bullseye stat-icon"></i>
-                    <div id="stat-score-forecast" class="stat-value">0</div>
-                    <div class="stat-label">Прогноз баллов</div>
+                    <div class="stat-label">Задач решено</div>
                 </div>
             </div>
             
-            <div class="main-action-widget" onclick="plannerSystem.startLearningNow()" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 32px; border-radius: 16px; margin-bottom: 30px; cursor: pointer; text-align: center; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                <h2 style="color: white; margin: 0 0 15px 0; font-size: 28px;"><i class="fas fa-rocket"></i> Начать сегодняшнее занятие</h2>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; color: rgba(255,255,255,0.9); font-size: 16px; font-weight: 500;">
-                    <span>Инф</span> <i class="fas fa-arrow-right" style="font-size: 12px; opacity: 0.7;"></i> 
-                    <span style="color: #cbd5e1;"><i class="fas fa-mug-hot"></i></span> <i class="fas fa-arrow-right" style="font-size: 12px; opacity: 0.7;"></i> 
-                    <span>Рус</span> <i class="fas fa-arrow-right" style="font-size: 12px; opacity: 0.7;"></i> 
-                    <span style="color: #cbd5e1;"><i class="fas fa-mug-hot"></i></span> <i class="fas fa-arrow-right" style="font-size: 12px; opacity: 0.7;"></i> 
-                    <span>Мат</span> <i class="fas fa-arrow-right" style="font-size: 12px; opacity: 0.7;"></i> 
-                    <span>НТО</span>
+            <div class="main-action-widget" onclick="plannerSystem.startLearningNow()">
+                <h2><i class="fas fa-rocket"></i> Начать сегодняшний маршрут</h2>
+                <div style="color: rgba(255,255,255,0.9); font-size: 16px;">
+                    Умный алгоритм подобрал для вас идеальную нагрузку на сегодня.
                 </div>
             </div>
             
             <div class="section-block">
-                <h2>Сегодняшний маршрут</h2>
+                <h2>План на сегодня</h2>
                 <div id="daily-plan-container"></div>
             </div>
-            
-            <div class="section-block">
-                <h2>Ближайшее повторение</h2>
-                <div id="spaced-review-container">Нет карточек для повторения</div>
-            </div>
-            
-            <blockquote id="motivation-quote">
-                "Успех — это сумма небольших усилий, повторяющихся изо дня в день."
-            </blockquote>
             
             <div class="section-block" style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
                 <button onclick="if(confirm('Вы уверены, что хотите удалить все тестовые данные и сбросить прогресс? Это действие необратимо.')) { localStorage.clear(); location.reload(); }" class="btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
