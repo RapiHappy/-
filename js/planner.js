@@ -26,9 +26,13 @@ window.plannerSystem = {
     if (savedDate === today) {
       const savedTasks = localStorage.getItem('daily_plan_tasks');
       if (savedTasks) {
-        this.tasks = JSON.parse(savedTasks);
-        this.renderPlan();
-        return;
+        const parsedTasks = JSON.parse(savedTasks);
+        // Force regenerate if old buggy plan is detected (less than 10 tasks)
+        if (parsedTasks.length === 10) {
+          this.tasks = parsedTasks;
+          this.renderPlan();
+          return;
+        }
       }
     }
 
