@@ -3,61 +3,40 @@ window.AppData = {
   // Structured courses with modules (for courses.js navigation)
   get courses() {
     return [
-      {
-        id: 'info-course',
-        title: 'Информатика ЕГЭ',
-        subject: 'informatics',
-        icon: '💻',
-        level: 'С нуля до 100 баллов',
-        description: 'Полный курс по информатике.',
-        modules: [
-          {
-            id: 'mod-inf-all',
-            title: '1. Все задания',
-            lessons: window.informaticsLessons || []
-          }
-        ]
-      },
-      {
-        id: 'rus-course',
-        title: 'Русский язык ЕГЭ',
-        subject: 'russian',
-        icon: '📖',
-        level: 'Любой',
-        description: 'Подготовка к тестовой части и сочинению.',
-        modules: [
-          {
-            id: 'mod-rus-all',
-            title: '1. Все темы',
-            lessons: window.russianLessons || []
-          }
-        ]
-      },
-      {
-        id: 'math-course',
-        title: 'Математика ЕГЭ',
-        subject: 'math',
-        icon: '📐',
-        level: 'Любой',
-        description: 'Подготовка к базе и профилю.',
-        modules: [
-          {
-            id: 'mod-math-all',
-            title: '1. Основные темы',
-            lessons: window.mathLessons || []
-          }
-        ]
-      }
-    ];
+      window.mathCourse,
+      window.infCourse,
+      window.rusCourse,
+      window.ntoCourse
+    ].filter(Boolean); // Only return defined courses
   },
 
   // Flat lesson arrays for direct access
   get allLessons() {
-    return [].concat(
-      window.informaticsLessons || [],
-      window.russianLessons || [],
-      window.mathLessons || []
-    );
+    let all = [];
+    this.courses.forEach(course => {
+      if (course.phases) {
+        course.phases.forEach(phase => {
+          if (phase.topics) {
+            phase.topics.forEach(topic => {
+              if (topic.lessons) {
+                // Attach course/phase/topic info to lesson for planner context
+                topic.lessons.forEach((l, index) => {
+                  l.courseId = course.id;
+                  l.courseTitle = course.title;
+                  l.courseIcon = course.icon;
+                  l.phaseTitle = phase.title;
+                  l.topicTitle = topic.title;
+                  l.lessonIndex = index + 1;
+                  l.totalLessons = topic.lessons.length;
+                  all.push(l);
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+    return all;
   },
 
   // Find any lesson by ID across all subjects
@@ -65,11 +44,7 @@ window.AppData = {
     return this.allLessons.find(l => l.id === lessonId) || null;
   },
 
-  get lessonsInformatics() { return window.informaticsLessons || []; },
-  get lessonsRussian() { return window.russianLessons || []; },
-  get lessonsMath() { return window.mathLessons || []; },
   get tasksEGE() { return window.egeTasks || {}; },
-  get ntoContent() { return window.NTOContent || {}; },
 
   schedule: {
     "august": ["№4", "№7", "№11"],
