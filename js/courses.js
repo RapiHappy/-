@@ -102,7 +102,22 @@ window.coursesSystem = {
       }
     }
     
-    if (!lessonData) return;
+    const container = document.getElementById('lesson-container');
+    if (!container) return;
+
+    if (!lessonData) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px;">
+          <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #ef4444; margin-bottom: 16px;"></i>
+          <h2 style="color: #f8fafc; margin-bottom: 12px;">Урок не найден</h2>
+          <p style="color: #94a3b8; margin-bottom: 24px;">Возможно, этот урок был удален или вы перешли по устаревшей ссылке (старые ID уроков из кэша).</p>
+          <button class="btn btn-primary" onclick="app.navigateTo('dashboard'); setTimeout(() => { if(confirm('Сбросить устаревший кэш расписания?')) { localStorage.removeItem('daily_plan_date'); localStorage.removeItem('daily_plan_tasks'); location.reload(); } }, 500)">
+            Вернуться на главную и сбросить кэш
+          </button>
+        </div>
+      `;
+      return;
+    }
     
     // Reset answers for new lesson
     this.currentQuizAnswers = {};

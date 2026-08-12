@@ -55,8 +55,8 @@ window.plannerSystem = {
       }
 
       // 2. Informatics
-      if (window.LessonsInformatics) {
-        const infLesson = this.getNextLesson('informatics', window.LessonsInformatics);
+      if (window.informaticsLessons && window.informaticsLessons.length > 0) {
+        const infLesson = this.getNextLesson('informatics', window.informaticsLessons);
         this.tasks.push({
           id: `plan-inf-${infLesson.id}`, title: `Информатика: ${infLesson.title}`, duration: 55, subject: 'Информатика',
           icon: 'fa-laptop-code', type: 'lesson', lessonId: infLesson.id, completed: false
@@ -70,8 +70,8 @@ window.plannerSystem = {
       });
 
       // 4. Russian
-      if (window.LessonsRussian) {
-        const rusLesson = this.getNextLesson('russian', window.LessonsRussian);
+      if (window.russianLessons && window.russianLessons.length > 0) {
+        const rusLesson = this.getNextLesson('russian', window.russianLessons);
         this.tasks.push({
           id: `plan-rus-${rusLesson.id}`, title: `Русский: ${rusLesson.title}`, duration: 30, subject: 'Русский язык',
           icon: 'fa-book', type: 'lesson', lessonId: rusLesson.id, completed: false
@@ -85,8 +85,8 @@ window.plannerSystem = {
       });
 
       // 6. Math
-      if (window.LessonsMath) {
-        const mathLesson = this.getNextLesson('math', window.LessonsMath);
+      if (window.mathLessons && window.mathLessons.length > 0) {
+        const mathLesson = this.getNextLesson('math', window.mathLessons);
         this.tasks.push({
           id: `plan-math-${mathLesson.id}`, title: `Математика: ${mathLesson.title}`, duration: 50, subject: 'Математика',
           icon: 'fa-square-root-variable', type: 'lesson', lessonId: mathLesson.id, completed: false
