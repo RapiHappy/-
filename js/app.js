@@ -202,9 +202,7 @@ window.app = {
   },
   
   registerSW() {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW:', err));
-    }
+    // Service worker registration is handled in index.html
   }
 };
 

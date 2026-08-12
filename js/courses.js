@@ -121,9 +121,6 @@ window.coursesSystem = {
     
     // Reset answers for new lesson
     this.currentQuizAnswers = {};
-
-    const container = document.getElementById('lesson-container');
-    if (!container) return;
     
     let html = `
       <div style="margin-bottom: 20px;">
@@ -222,12 +219,51 @@ window.coursesSystem = {
       <div id="lesson-complete-banner-${lessonId}" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: #10b981; color: #fff; text-align: center; padding: 14px; border-radius: 8px; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
         ✓ Урок пройден
       </div>
-      <button id="lesson-next-stage-btn-${lessonId}" onclick="plannerSystem.markCurrentTaskCompleted()" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 18px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
-        Завершить этап и идти дальше 🚀
+      <button id="lesson-next-stage-btn-${lessonId}" onclick="coursesSystem.goToNextLesson('${lessonId}')" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 18px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+        Следующий урок 🚀
       </button>
     `;
     
     container.innerHTML = html;
+  },
+
+  goToNextLesson(currentLessonId) {
+    // If running in planner context, advance the planner
+    if (plannerSystem.tasks && plannerSystem.tasks.length > 0) {
+       const firstIncompleteIdx = plannerSystem.tasks.findIndex(t => !t.completed);
+       if (firstIncompleteIdx !== -1 && plannerSystem.tasks[firstIncompleteIdx].lessonId === currentLessonId) {
+           plannerSystem.markCurrentTaskCompleted();
+           return;
+       }
+    }
+
+    // Otherwise, just find the next lesson in the same module
+    let foundCurrent = false;
+    let nextLessonId = null;
+
+    for (const course of AppData.courses) {
+      if (!course.modules) continue;
+      for (const mod of course.modules) {
+        for (const lesson of mod.lessons) {
+          if (foundCurrent) {
+            nextLessonId = lesson.id;
+            break;
+          }
+          if (lesson.id === currentLessonId) {
+            foundCurrent = true;
+          }
+        }
+        if (nextLessonId) break;
+      }
+      if (nextLessonId) break;
+    }
+
+    if (nextLessonId) {
+      window.location.hash = `lesson/${nextLessonId}`;
+    } else {
+      app.showNotification('Это был последний урок в курсе!', 'success');
+      app.navigateTo('courses');
+    }
   },
   
   selectQuizOption(lessonId, questionIdx, selectedIdx) {
