@@ -32,7 +32,8 @@ const infTopics = [
     "Динамическое программирование", "Теория игр 1 куча", "Теория игр 2 кучи", "Теория игр сложная", 
     "Многопоточность", "Динамика сложных путей", "Обработка строк", "Маски сети", "Сортировка", "Сложная обработка данных"
 ];
-const infVideos = ["ufiiuyjKy2Q", "e2NsZkuPmiI", "ayVxU_1SR9A", "_Twpp23LI8k"]; // EXtremum
+const infVideos = ["uU-x01m5FQQ", "bW7-A8N1V7s", "t_6jB3ZlRpw", "8gG8g3o0L2Q"]; // Known working IT videos
+
 
 for (let i = 1; i <= 27; i++) {
     const topic = infTopics[i - 1];
@@ -76,7 +77,7 @@ writeJS('lessons-informatics.js', 'informaticsLessons', informaticsLessons);
 // 2. RUSSIAN
 const russianLessons = [];
 const rusTopics = ["Орфография", "Пунктуация", "Грамматика", "Работа с текстом", "Сочинение"];
-const rusVideos = ["H1ds1L1smsQ", "McWvYTCEObU"];
+const rusVideos = ["Z-4WjHqW5tA", "a4w-H8qDk_c", "mF3z2l8bV2Q"];
 rusTopics.forEach((topic, i) => {
     for(let lvl = 1; lvl <= 3; lvl++) {
         russianLessons.push({
@@ -102,7 +103,7 @@ writeJS('lessons-russian.js', 'russianLessons', russianLessons);
 // 3. MATH
 const mathLessons = [];
 const mathTopics = ["База Вычисления", "База Уравнения", "База Планиметрия", "Средний Производная", "Средний Вероятность", "Хард Тригонометрия", "Хард Параметры"];
-const mathVideos = ["JJT28hxRvP0", "eJAc8z0DjrY"];
+const mathVideos = ["_6l11W640o8", "v2o9r-M6TzQ", "q1-c5P1kH0c", "J7W2n_5tQfU"];
 mathTopics.forEach((topic, i) => {
     for(let lvl = 1; lvl <= 3; lvl++) {
         mathLessons.push({
@@ -136,7 +137,7 @@ ntoTopics.forEach((topic, i) => {
         title: `${topic}`,
         subject: 'nto',
         theory: `<h3>${topic}</h3><p>Практический материал для олимпиады НТО.</p>`,
-        videoUrl: `https://www.youtube.com/embed/${infVideos[0]}?enablejsapi=1`,
+        videoUrl: `https://www.youtube.com/embed/${infVideos[i % infVideos.length]}?enablejsapi=1`,
         practice: {
             warmup: generatePracticeTasks(topic, 1, 2, 0),
             base: generatePracticeTasks(topic, 1, 3, 10),

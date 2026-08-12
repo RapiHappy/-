@@ -16,29 +16,30 @@ window.coursesSystem = {
     const courses = AppData.courses;
     courses.forEach(course => {
       const card = document.createElement('div');
-      card.className = 'course-card';
-      card.style.cssText = `
-        background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 16px;
-        cursor: pointer; transition: transform 0.2s; border: 1px solid #334155;
-      `;
+      card.className = 'premium-course-card';
       card.onclick = () => { window.location.hash = `course-detail/${course.id}`; };
       
-      const header = document.createElement('div');
-      header.style.cssText = 'display: flex; align-items: center; gap: 12px; margin-bottom: 12px;';
-      header.innerHTML = `
-        <div style="font-size: 24px; background: #334155; padding: 10px; border-radius: 8px;">${course.icon || '📚'}</div>
-        <div>
-          <h3 style="margin: 0; color: #f8fafc; font-size: 16px;">${course.title}</h3>
-          <span style="font-size: 12px; color: #94a3b8;">${course.subject} • ${course.level}</span>
+      const totalLessons = course.modules ? course.modules.reduce((acc, m) => acc + m.lessons.length, 0) : 0;
+      
+      card.innerHTML = `
+        <div class="cover">
+          ${course.icon || '📚'}
+        </div>
+        <div class="content">
+          <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-primary);">${course.subject}</span>
+          <h3>${course.title}</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">${course.level}</p>
+          <div style="margin-top: auto;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">
+              <span>Прогресс</span>
+              <span>0 / ${totalLessons} уроков</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: rgba(0,0,0,0.2); border-radius: 3px; overflow: hidden;">
+              <div style="width: 0%; height: 100%; background: var(--accent-primary);"></div>
+            </div>
+          </div>
         </div>
       `;
-      
-      const stats = document.createElement('div');
-      stats.style.cssText = 'display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 8px;';
-      stats.innerHTML = `<span>Уроков: ${course.modules ? course.modules.reduce((acc, m) => acc + m.lessons.length, 0) : 0}</span>`;
-      
-      card.appendChild(header);
-      card.appendChild(stats);
       list.appendChild(card);
     });
   },
@@ -56,36 +57,43 @@ window.coursesSystem = {
     
     const lp = StorageManager.getLessonProgress() || {};
     
+    const timeline = document.createElement('div');
+    timeline.className = 'curriculum-timeline';
+    
     course.modules.forEach(mod => {
       const modEl = document.createElement('div');
-      modEl.style.cssText = 'margin-bottom: 24px;';
+      modEl.className = 'timeline-module';
       
-      const modTitle = document.createElement('h4');
-      modTitle.style.cssText = 'color: #f8fafc; margin-bottom: 12px; font-size: 16px;';
+      const modTitle = document.createElement('div');
+      modTitle.className = 'timeline-module-title';
       modTitle.textContent = mod.title;
       modEl.appendChild(modTitle);
       
       mod.lessons.forEach(lesson => {
         const isCompleted = lp[lesson.id] && lp[lesson.id].completed;
         const lessonEl = document.createElement('div');
-        lessonEl.style.cssText = `
-          background: #1e293b; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px;
-          display: flex; justify-content: space-between; align-items: center;
-          cursor: pointer; border: 1px solid ${isCompleted ? '#10b981' : '#334155'};
-        `;
+        lessonEl.className = `timeline-lesson ${isCompleted ? 'completed' : ''}`;
         lessonEl.onclick = () => { window.location.hash = `lesson/${lesson.id}`; };
         
         lessonEl.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <i class="fas ${isCompleted ? 'fa-check-circle' : 'fa-play-circle'}" style="color: ${isCompleted ? '#10b981' : '#3b82f6'};"></i>
-            <span style="color: #f8fafc; font-size: 14px;">${lesson.title}</span>
+          <div class="timeline-lesson-info">
+            <h4>${lesson.title}</h4>
+            <div class="timeline-lesson-meta">
+              <span><i class="fas fa-play-circle"></i> Видео и теория</span>
+              <span><i class="fas fa-dumbbell"></i> Практика</span>
+            </div>
+          </div>
+          <div style="color: ${isCompleted ? 'var(--color-green)' : 'var(--text-muted)'}; font-size: 20px;">
+            <i class="fas ${isCompleted ? 'fa-check-circle' : 'fa-chevron-right'}"></i>
           </div>
         `;
         modEl.appendChild(lessonEl);
       });
       
-      modulesList.appendChild(modEl);
+      timeline.appendChild(modEl);
     });
+    
+    modulesList.appendChild(timeline);
   },
   
   openLesson(lessonId) {
@@ -126,14 +134,13 @@ window.coursesSystem = {
       <h2 style="color: #f8fafc; margin-bottom: 24px; font-size: 28px;">${lessonData.title}</h2>
     `;
     
-    // Video
-    const defaultVideo = lessonData.videos ? lessonData.videos.main : (lessonData.videoEmbed || lessonData.videoUrl);
-    if (defaultVideo) {
+    // 1. Video Section
+    if (hasVideo) {
       html += `
-        <div id="lesson-section-video" style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
-          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Видеоурок</h3>
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
-            <iframe id="lesson-video-iframe" src="${defaultVideo}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+        <div id="lesson-section-video" class="lesson-section" style="margin-bottom: 40px;">
+          <div class="section-title"><i class="fas fa-play-circle"></i> Видеоурок</div>
+          <div class="cinematic-player-container">
+            <iframe src="${lessonData.videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
       `;

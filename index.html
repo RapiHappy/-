@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#0f172a">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -71,36 +71,70 @@
     <div id="desktop-layout-grid">
     <main id="main-content">
         <section id="view-dashboard" class="view active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <i class="fas fa-fire stat-icon"></i>
-                    <div id="stat-streak" class="stat-value">0</div>
-                    <div class="stat-label">Дней подряд</div>
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-main">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-fire stat-icon"></i>
+                            <div id="stat-streak" class="stat-value">0</div>
+                            <div class="stat-label">Дней подряд</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock stat-icon"></i>
+                            <div id="stat-hours" class="stat-value">0.0</div>
+                            <div class="stat-label">Часов учебы</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle stat-icon" style="color: var(--color-green);"></i>
+                            <div id="stat-tasks" class="stat-value">0</div>
+                            <div class="stat-label">Задач решено</div>
+                        </div>
+                    </div>
+                    
+                    <div class="main-action-widget" onclick="plannerSystem.startLearningNow()">
+                        <h2><i class="fas fa-rocket"></i> Начать сегодняшний маршрут</h2>
+                        <div style="color: rgba(255,255,255,0.9); font-size: 16px;">
+                            Умный алгоритм подобрал для вас идеальную нагрузку на сегодня.
+                        </div>
+                    </div>
+                    
+                    <div class="section-block">
+                        <h2>План на сегодня</h2>
+                        <div id="daily-plan-container"></div>
+                    </div>
+                    
+                    <div class="section-block" style="text-align: center; border: 1px dashed var(--bg-elevated); background: transparent;">
+                        <button onclick="if(confirm('Вы уверены, что хотите удалить все тестовые данные и сбросить прогресс? Это действие необратимо.')) { localStorage.clear(); location.reload(); }" class="btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                            <i class="fas fa-trash-alt"></i> Сбросить данные
+                        </button>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock stat-icon"></i>
-                    <div id="stat-hours" class="stat-value">0</div>
-                    <div class="stat-label">Задач решено</div>
+
+                <!-- Right Column (Widgets) -->
+                <div class="dashboard-sidebar">
+                    <div class="widget premium-widget" style="background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9)); border: 1px solid var(--accent-primary); border-top: 4px solid var(--accent-primary);">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 12px; font-size: 18px;"><i class="fas fa-robot"></i> AI-Наставник</h3>
+                        <p id="advisor-recommendation" style="font-size: 14px; line-height: 1.6; color: #cbd5e1;">Готов покорять новые вершины? Давай начнем.</p>
+                    </div>
+
+                    <div class="widget premium-widget" style="background: var(--bg-surface);">
+                        <h3 style="margin-bottom: 16px; font-size: 16px;"><i class="fas fa-chart-line" style="color: var(--color-orange);"></i> Прогресс дня</h3>
+                        <div style="width: 100%; height: 10px; background: rgba(0,0,0,0.3); border-radius: 5px; overflow: hidden; margin-bottom: 12px;">
+                            <div id="daily-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #f59e0b, #ef4444); transition: width 0.5s ease-out;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8;">
+                            <span>Выполнено</span>
+                            <span id="daily-progress-text" style="font-weight: bold; color: var(--text-primary);">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="widget premium-widget" onclick="app.navigateTo('timer')" style="background: var(--bg-surface); cursor: pointer; transition: transform 0.2s; border: 1px solid var(--bg-elevated);">
+                        <h3 style="margin-bottom: 8px; font-size: 16px;"><i class="fas fa-stopwatch" style="color: var(--color-purple);"></i> Таймер фокуса</h3>
+                        <div style="font-size: 28px; font-weight: 700; color: #f8fafc; margin: 10px 0; text-align: center;" id="dashboard-timer-display">25:00</div>
+                        <p style="text-align: center; font-size: 13px; color: #94a3b8; margin:0;">Помодоро 25/5</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="main-action-widget" onclick="plannerSystem.startLearningNow()">
-                <h2><i class="fas fa-rocket"></i> Начать сегодняшний маршрут</h2>
-                <div style="color: rgba(255,255,255,0.9); font-size: 16px;">
-                    Умный алгоритм подобрал для вас идеальную нагрузку на сегодня.
-                </div>
-            </div>
-            
-            <div class="section-block">
-                <h2>План на сегодня</h2>
-                <div id="daily-plan-container"></div>
-            </div>
-            
-            <div class="section-block" style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
-                <button onclick="if(confirm('Вы уверены, что хотите удалить все тестовые данные и сбросить прогресс? Это действие необратимо.')) { localStorage.clear(); location.reload(); }" class="btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-                    <i class="fas fa-trash-alt"></i> Сбросить все мои данные
-                </button>
-                <p style="color: #64748b; font-size: 12px; margin-top: 10px;">Нажмите, чтобы удалить всю фейковую/тестовую статистику.</p>
             </div>
         </section>
 
@@ -294,26 +328,26 @@
     </div>
 </div>
 
-<script src="data/lessons-informatics.js?v=2"></script>
-<script src="data/lessons-russian.js?v=2"></script>
-<script src="data/lessons-math.js?v=2"></script>
-<script src="data/tasks-ege.js?v=2"></script>
-<script src="data/nto-content.js?v=2"></script>
-<script src="js/data.js?v=2"></script>
-<script src="js/storage.js?v=2"></script>
-<script src="js/spaced-repetition.js?v=2"></script>
-<script src="js/burnout.js?v=2"></script>
-<script src="js/timer.js?v=2"></script>
-<script src="js/planner.js?v=2"></script>
-<script src="js/practice.js?v=2"></script>
-<script src="js/courses.js?v=2"></script>
-<script src="js/mistakes.js?v=2"></script>
-<script src="js/progress.js?v=2"></script>
-<script src="js/analytics.js?v=2"></script>
-<script src="js/mentor.js?v=2"></script>
-<script src="js/nto.js?v=2"></script>
-<script src="js/sql-sandbox.js?v=2"></script>
-<script src="js/bpmn-trainer.js?v=2"></script>
+<script src="data/lessons-informatics.js?v=3"></script>
+<script src="data/lessons-russian.js?v=3"></script>
+<script src="data/lessons-math.js?v=3"></script>
+<script src="data/tasks-ege.js?v=3"></script>
+<script src="data/nto-content.js?v=3"></script>
+<script src="js/data.js?v=3"></script>
+<script src="js/storage.js?v=3"></script>
+<script src="js/spaced-repetition.js?v=3"></script>
+<script src="js/burnout.js?v=3"></script>
+<script src="js/timer.js?v=3"></script>
+<script src="js/planner.js?v=3"></script>
+<script src="js/practice.js?v=3"></script>
+<script src="js/courses.js?v=3"></script>
+<script src="js/mistakes.js?v=3"></script>
+<script src="js/progress.js?v=3"></script>
+<script src="js/analytics.js?v=3"></script>
+<script src="js/mentor.js?v=3"></script>
+<script src="js/nto.js?v=3"></script>
+<script src="js/sql-sandbox.js?v=3"></script>
+<script src="js/app.js?v=3"></script>
 <script src="js/diagnostics.js?v=1"></script>
 <script src="js/app.js?v=2"></script>
 <script src="js/readiness.js?v=1"></script>
