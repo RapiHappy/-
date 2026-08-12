@@ -223,7 +223,7 @@ window.plannerSystem = {
       window.location.hash = 'timer';
       setTimeout(() => {
         timerSystem.setDuration(task.durationMins);
-        timerSystem.toggleTimer();
+        timerSystem.toggle();
         // Override timer complete
         const origComplete = timerSystem.completeSession;
         timerSystem.completeSession = function() {
