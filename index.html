@@ -146,7 +146,19 @@
                 <button class="back-btn" onclick="app.navigateTo('view-course-detail')"><i class="fas fa-arrow-left"></i></button>
                 <h2 id="lesson-title">Урок</h2>
             </div>
-            <div id="lesson-container"></div>
+            <div class="lesson-layout">
+                <div class="lesson-sidebar">
+                    <ul id="lesson-toc">
+                        <li class="active" onclick="document.getElementById('lesson-section-video').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-play-circle"></i> Видео</li>
+                        <li onclick="document.getElementById('lesson-section-theory').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-book"></i> Теория</li>
+                        <li onclick="document.getElementById('lesson-section-practice').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-dumbbell"></i> Практика</li>
+                        <li onclick="document.getElementById('lesson-section-quiz').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-question-circle"></i> Тест</li>
+                    </ul>
+                </div>
+                <div class="lesson-main-content" id="lesson-container">
+                    <!-- Content injected here -->
+                </div>
+            </div>
         </section>
 
         <!-- View: Trainer -->

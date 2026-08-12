@@ -4,12 +4,12 @@ window.ntoContent = {
     {
       "id": "nto_m_0",
       "title": "Бизнес-процессы",
-      "theory": "<p>Изучение модуля <b>Бизнес-процессы</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: Бизнес-процессы</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_0_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -23,19 +23,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_1",
       "title": "BPMN",
-      "theory": "<p>Изучение модуля <b>BPMN</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: BPMN</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_1_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -49,19 +49,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_2",
       "title": "Google Sheets / Excel",
-      "theory": "<p>Изучение модуля <b>Google Sheets / Excel</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: Google Sheets / Excel</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_2_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -75,19 +75,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_3",
       "title": "SQL",
-      "theory": "<p>Изучение модуля <b>SQL</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: SQL</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_3_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -101,19 +101,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_4",
       "title": "Python для автоматизации",
-      "theory": "<p>Изучение модуля <b>Python для автоматизации</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: Python для автоматизации</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_4_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -127,19 +127,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_5",
       "title": "API и JSON",
-      "theory": "<p>Изучение модуля <b>API и JSON</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: API и JSON</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_5_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -153,19 +153,19 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     },
     {
       "id": "nto_m_6",
       "title": "Проектная работа",
-      "theory": "<p>Изучение модуля <b>Проектная работа</b>. Освойте инструменты для успешного решения олимпиады.</p>",
-      "videoUrl": "https://www.youtube.com/embed/jfKfPfyJRdk",
+      "theory": "<h3>Модуль: Проектная работа</h3><p>Освойте инструменты для успешного решения олимпиады НТО.</p>",
+      "videoUrl": "https://www.youtube.com/embed/ufiiuyjKy2Q?enablejsapi=1",
       "tasks": [
         {
           "id": "nto_t_6_1",
-          "question": "Напишите SQL запрос для выборки всех пользователей:",
+          "question": "Решите кейс:",
           "answer": "SELECT * FROM users"
         }
       ],
@@ -179,7 +179,7 @@ window.ntoContent = {
             "Все вышеперечисленное"
           ],
           "correctIndex": 3,
-          "explanation": "Все эти элементы важны для построения системы."
+          "explanation": "Все элементы важны."
         }
       ]
     }

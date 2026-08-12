@@ -110,7 +110,7 @@ window.coursesSystem = {
         <div style="text-align: center; padding: 40px 20px;">
           <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #ef4444; margin-bottom: 16px;"></i>
           <h2 style="color: #f8fafc; margin-bottom: 12px;">Урок не найден</h2>
-          <p style="color: #94a3b8; margin-bottom: 24px;">Возможно, этот урок был удален или вы перешли по устаревшей ссылке (старые ID уроков из кэша).</p>
+          <p style="color: #94a3b8; margin-bottom: 24px;">Возможно, этот урок был удален или вы перешли по устаревшей ссылке.</p>
           <button class="btn btn-primary" onclick="app.navigateTo('dashboard'); setTimeout(() => { if(confirm('Сбросить устаревший кэш расписания?')) { localStorage.removeItem('daily_plan_date'); localStorage.removeItem('daily_plan_tasks'); location.reload(); } }, 500)">
             Вернуться на главную и сбросить кэш
           </button>
@@ -123,97 +123,93 @@ window.coursesSystem = {
     this.currentQuizAnswers = {};
     
     let html = `
-      <div style="margin-bottom: 20px;">
-        <button onclick="window.history.back()" style="background: none; border: none; color: #3b82f6; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0;">
-          <i class="fas fa-arrow-left"></i> Назад
-        </button>
-      </div>
-      <h2 style="color: #f8fafc; margin-bottom: 16px; font-size: 20px;">${lessonData.title}</h2>
+      <h2 style="color: #f8fafc; margin-bottom: 24px; font-size: 28px;">${lessonData.title}</h2>
     `;
     
     // Video
-    if (lessonData.videos || lessonData.videoEmbed || lessonData.videoUrl) {
-      const defaultVideo = lessonData.videos ? lessonData.videos.main : (lessonData.videoEmbed || lessonData.videoUrl);
+    const defaultVideo = lessonData.videos ? lessonData.videos.main : (lessonData.videoEmbed || lessonData.videoUrl);
+    if (defaultVideo) {
       html += `
-        <div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 16px; border-radius: 8px;">
+        <div id="lesson-section-video" style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Видеоурок</h3>
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
             <iframe id="lesson-video-iframe" src="${defaultVideo}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
           </div>
-          `;
-      if (lessonData.videos) {
-        html += `
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.main}'" style="background: #3b82f6; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
-              <i class="fas fa-play-circle"></i> Основное видео
-            </button>
-            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.simple}'" style="background: #ef4444; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
-              <i class="fas fa-question-circle"></i> Не понял
-            </button>
-            <button onclick="document.getElementById('lesson-video-iframe').src='${lessonData.videos.tasks}'" style="background: #10b981; border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; flex: 1; font-size: 14px; transition: background 0.2s;">
-              <i class="fas fa-tasks"></i> Разбор задач ЕГЭ
-            </button>
-          </div>
-        `;
-      }
-      html += `</div>`;
+        </div>
+      `;
     }
     
     // Theory
     if (lessonData.theory) {
       html += `
-        <div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px; color: #cbd5e1; line-height: 1.6; font-size: 14px;">
-          <h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 12px; font-size: 16px;">Теория</h3>
+        <div id="lesson-section-theory" style="background: #1e293b; padding: 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155; line-height: 1.6; color: #cbd5e1;">
+          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-book" style="color: #10b981;"></i> Теория</h3>
           ${lessonData.theory}
-          <div style="margin-top: 16px;">
-            <div id="simple-explanation-${lessonData.id}" style="display: none; margin-top: 12px; padding: 12px; background: #0f172a; border-left: 3px solid #3b82f6; border-radius: 4px;">
-              <p style="margin:0;color:#cbd5e1;">${lessonData.simpleExplanation || 'Попробуй перечитать теорию.'}</p>
-            </div>
-          </div>
         </div>
       `;
     }
     
-    // Interactive Tasks
+    // Practice
     if (lessonData.tasks && lessonData.tasks.length > 0) {
-      const firstTask = lessonData.tasks[0];
       html += `
-        <div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
-          <h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 12px; font-size: 16px;">Практика (${lessonData.tasks.length} задач)</h3>
-          <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 16px;">${firstTask.question}</p>
-          <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="lesson-task-input-${lessonData.id}" placeholder="Ваш ответ" style="flex: 1; background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 10px; border-radius: 6px; outline: none;">
-            <button onclick="coursesSystem.checkLessonTask('${lessonData.id}', '${firstTask.answer}')" style="background: #3b82f6; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500;">Проверить</button>
+        <div id="lesson-section-practice" style="background: #1e293b; padding: 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-dumbbell" style="color: #f59e0b;"></i> Практика</h3>
+          <div class="tasks-list">
+      `;
+      // Show only first 3 tasks for the lesson inline to not overwhelm
+      const displayTasks = lessonData.tasks.slice(0, 3);
+      displayTasks.forEach((t, i) => {
+         html += `
+           <div class="practice-task" style="background: #0f172a; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+             <div style="font-weight: 500; color: #f8fafc; margin-bottom: 8px;">Задача ${i+1}</div>
+             <p style="color: #94a3b8; margin-bottom: 12px;">${t.question}</p>
+             <button class="btn btn-secondary" onclick="alert('Ответ: ${t.answer}\\n${t.explanation || ''}')">Показать разбор</button>
+           </div>
+         `;
+      });
+      html += `
           </div>
-          <div id="lesson-task-feedback-${lessonData.id}" style="font-size: 14px; min-height: 20px;"></div>
+          <p style="color: #94a3b8; font-size: 14px;">Остальные задачи доступны в разделе Тренажёр.</p>
         </div>
       `;
     }
 
-    // Quiz - 80% passing threshold
+    // Quiz
     if (lessonData.quiz && lessonData.quiz.length > 0) {
-      html += '<div style="background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 24px;">';
-      html += '<h3 style="color: #f8fafc; margin-top: 0; margin-bottom: 16px; font-size: 16px;">Контрольный тест (минимум 80% для прохождения)</h3>';
-      
-      lessonData.quiz.forEach((q, qi) => {
-        html += `<div style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #334155;">`;
-        html += `<p style="color: #cbd5e1; font-size: 14px; margin-bottom: 10px;">${qi+1}. ${q.question}</p>`;
-        (q.options || []).forEach((opt, oi) => {
-          html += `<button onclick="coursesSystem.selectQuizOption('${lessonData.id}', ${qi}, ${oi})" 
-            style="display:block;width:100%;text-align:left;background:#0f172a;border:1px solid #334155;color:#cbd5e1;padding:10px 14px;border-radius:6px;margin-bottom:6px;cursor:pointer;font-size:13px;" 
-            id="quiz-${lessonData.id}-${qi}-${oi}">${opt}</button>`;
+      html += `
+        <div id="lesson-section-quiz" style="background: #1e293b; padding: 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; margin-bottom: 16px;"><i class="fas fa-question-circle" style="color: #8b5cf6;"></i> Проверочный тест (Минимум 80% для прохождения)</h3>
+          <div id="quiz-container-${lessonId}">
+      `;
+      lessonData.quiz.forEach((q, idx) => {
+        html += `
+          <div class="quiz-question" style="margin-bottom: 24px;">
+            <p style="color: #f8fafc; font-weight: 500; margin-bottom: 12px;">${idx + 1}. ${q.question}</p>
+            <div class="options" style="display: flex; flex-direction: column; gap: 8px;">
+        `;
+        q.options.forEach((opt, optIdx) => {
+          html += `
+            <label class="quiz-option" style="display: flex; align-items: center; gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 8px; cursor: pointer; border: 1px solid transparent;">
+              <input type="radio" name="quiz-${lessonId}-${idx}" value="${optIdx}" onchange="coursesSystem.selectQuizOption('${lessonId}', ${idx}, ${optIdx})" style="accent-color: #3b82f6; width: 16px; height: 16px;">
+              <span style="color: #cbd5e1;">${opt}</span>
+            </label>
+          `;
         });
-        html += `<div id="quiz-feedback-${lessonData.id}-${qi}" style="font-size:13px;margin-top:6px;"></div>`;
-        html += '</div>';
+        html += `
+            </div>
+            <div id="quiz-explanation-${lessonId}-${idx}" style="display:none; margin-top: 12px; padding: 12px; border-radius: 8px; background: rgba(59,130,246,0.1); color: #94a3b8; font-size: 14px;"></div>
+          </div>
+        `;
       });
-      
-      html += `<button onclick="coursesSystem.submitQuiz('${lessonData.id}')" style="width: 100%; background: #3b82f6; color: #fff; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
-        Сдать тест
-      </button>`;
-      html += `<div id="quiz-final-feedback-${lessonData.id}" style="font-weight:bold;text-align:center;font-size:16px;"></div>`;
-      html += '</div>';
+      html += `
+          </div>
+          <button class="btn btn-primary" onclick="coursesSystem.checkQuiz('${lessonId}')" style="width: 100%;">Проверить тест</button>
+          <div id="quiz-result-${lessonId}" style="margin-top: 16px; font-weight: bold; text-align: center;"></div>
+        </div>
+      `;
     }
     
-    // Completion status
+    // Completion status & Next button
     const isCompleted = StorageManager.getLessonProgress()[lessonId]?.completed;
     html += `
       <div id="lesson-complete-banner-${lessonId}" style="display:${isCompleted ? 'block' : 'none'}; width: 100%; background: #10b981; color: #fff; text-align: center; padding: 14px; border-radius: 8px; font-weight: 500; font-size: 16px; margin-bottom: 16px;">
@@ -225,6 +221,17 @@ window.coursesSystem = {
     `;
     
     container.innerHTML = html;
+
+    // Make sidebar TOC sticky highlighting (optional feature, but nice to have)
+    const tocItems = document.querySelectorAll('#lesson-toc li');
+    if (tocItems.length > 0) {
+      tocItems.forEach(item => {
+        item.addEventListener('click', function() {
+           tocItems.forEach(i => i.classList.remove('active'));
+           this.classList.add('active');
+        });
+      });
+    }
   },
 
   goToNextLesson(currentLessonId) {
@@ -283,7 +290,7 @@ window.coursesSystem = {
     }
   },
 
-  submitQuiz(lessonId) {
+  checkQuiz(lessonId) {
     let lessonData = AppData.findLesson ? AppData.findLesson(lessonId) : null;
     if (!lessonData) {
       for (const course of AppData.courses) {
@@ -301,56 +308,47 @@ window.coursesSystem = {
 
     lessonData.quiz.forEach((q, qi) => {
       const selected = this.currentQuizAnswers[qi];
-      const feedbackEl = document.getElementById(`quiz-feedback-${lessonId}-${qi}`);
+      const explanationEl = document.getElementById(`quiz-explanation-${lessonId}-${qi}`);
+      
       if (selected === q.correctIndex) {
         correct++;
-        feedbackEl.innerHTML = '<span style="color:#10b981;">✅ Верно!</span>';
+        explanationEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">✅ Верно!</span> ${q.explanation || ''}`;
+        explanationEl.style.background = 'rgba(16, 185, 129, 0.1)';
+        explanationEl.style.color = '#10b981';
       } else {
-        feedbackEl.innerHTML = `<span style="color:#ef4444;">❌ Неверно. (Правильный ответ: ${q.options[q.correctIndex]}). ${q.explanation}</span>`;
+        const correctText = q.options[q.correctIndex];
+        explanationEl.innerHTML = `<span style="color:#ef4444; font-weight:bold;">❌ Ошибка.</span> Правильный ответ: ${correctText}. ${q.explanation || ''}`;
+        explanationEl.style.background = 'rgba(239, 68, 68, 0.1)';
+        explanationEl.style.color = '#ef4444';
       }
+      explanationEl.style.display = 'block';
     });
 
     const percentage = Math.round((correct / total) * 100);
-    const finalFeedback = document.getElementById(`quiz-final-feedback-${lessonId}`);
+    const resultEl = document.getElementById(`quiz-result-${lessonId}`);
     
     if (percentage >= 80) {
-      finalFeedback.innerHTML = `<span style="color:#10b981;">Тест пройден! Результат: ${percentage}% (${correct} из ${total})</span>`;
+      resultEl.innerHTML = `<span style="color:#10b981;">Тест успешно пройден! Результат: ${percentage}%</span>`;
       this.markCompleted(lessonId);
       
-      // Remove from failed lessons if it was there
+      const banner = document.getElementById(`lesson-complete-banner-${lessonId}`);
+      const btn = document.getElementById(`lesson-next-stage-btn-${lessonId}`);
+      if (banner) banner.style.display = 'block';
+      if (btn) btn.style.display = 'block';
+      
       let failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
       failedLessons = failedLessons.filter(id => id !== lessonId);
       localStorage.setItem('failed_lessons', JSON.stringify(failedLessons));
 
     } else {
-      finalFeedback.innerHTML = `<span style="color:#ef4444;">Тест не пройден. Результат: ${percentage}% (${correct} из ${total}). Требуется 80%.</span>`;
-      app.showNotification('Меньше 80%. Тема перенесена на завтра. Изучи дополнительное объяснение!', 'error');
+      resultEl.innerHTML = `<span style="color:#ef4444;">Тест не пройден. Результат: ${percentage}%. (Минимум 80%)</span>`;
+      app.showNotification('Тема перенесена на завтра.', 'error');
       
-      // Show simple explanation
-      const expEl = document.getElementById(`simple-explanation-${lessonId}`);
-      if (expEl) expEl.style.display = 'block';
-
-      // Schedule for tomorrow
       let failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
       if (!failedLessons.includes(lessonId)) {
         failedLessons.push(lessonId);
         localStorage.setItem('failed_lessons', JSON.stringify(failedLessons));
       }
-    }
-  },
-  
-  checkLessonTask(lessonId, correctAnswer) {
-    const input = document.getElementById(`lesson-task-input-${lessonId}`);
-    const feedback = document.getElementById(`lesson-task-feedback-${lessonId}`);
-    if (!input || !feedback) return;
-    
-    const userVal = input.value.trim().toLowerCase();
-    const correctVal = String(correctAnswer).trim().toLowerCase();
-    
-    if (userVal === correctVal) {
-      feedback.innerHTML = '<span style="color: #10b981;"><i class="fas fa-check"></i> Верно! Можешь переходить к тесту.</span>';
-    } else {
-      feedback.innerHTML = '<span style="color: #ef4444;"><i class="fas fa-times"></i> Неверно. Попробуйте еще раз.</span>';
     }
   },
   

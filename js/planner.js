@@ -12,14 +12,11 @@ window.plannerSystem = {
     0: { title: 'НТО: Отдых', type: 'nto', tab: 'overview' }
   },
 
-  getNextLesson(subject, lessons) {
+  getNextLesson(subject, lessons, offset = 0) {
     const completed = JSON.parse(localStorage.getItem(`completed_lessons_${subject}`) || '[]');
-    for (let lesson of lessons) {
-      if (!completed.includes(lesson.id)) {
-        return lesson;
-      }
-    }
-    return lessons[0];
+    let uncompleted = lessons.filter(l => !completed.includes(l.id));
+    if (uncompleted.length === 0) uncompleted = lessons; // fallback if all done
+    return uncompleted[Math.min(offset, uncompleted.length - 1)];
   },
 
   generatePlan() {
@@ -35,73 +32,80 @@ window.plannerSystem = {
       }
     }
 
-    // Generate new plan
+    // Generate strict new plan (10 steps)
     this.tasks = [];
-    const dayOfWeek = new Date().getDay();
-
-    if (dayOfWeek === 0) {
+    
+    // 1. Informatics #1
+    if (window.informaticsLessons && window.informaticsLessons.length > 0) {
+      const inf1 = this.getNextLesson('informatics', window.informaticsLessons, 0);
       this.tasks.push({
-        id: 'plan-rest-sunday', title: 'Полный отдых и восстановление', duration: 0, subject: 'Отдых',
-        icon: 'fa-bed', type: 'rest', completed: false
+        id: `plan-inf-${inf1.id}`, title: `Информатика: ${inf1.title}`, duration: 25, subject: 'Информатика',
+        icon: 'fa-laptop-code', type: 'lesson', lessonId: inf1.id, completed: false
       });
-    } else {
-      // 1. Repeat failed
-      const failedLessons = JSON.parse(localStorage.getItem('failed_lessons') || '[]');
-      if (failedLessons.length > 0) {
-        this.tasks.push({
-          id: `plan-repeat-${failedLessons[0]}`, title: 'Работа над ошибками', duration: 20, subject: 'Смешанное',
-          icon: 'fa-brain', type: 'lesson', lessonId: failedLessons[0], completed: false
-        });
-      }
-
-      // 2. Informatics
-      if (window.informaticsLessons && window.informaticsLessons.length > 0) {
-        const infLesson = this.getNextLesson('informatics', window.informaticsLessons);
-        this.tasks.push({
-          id: `plan-inf-${infLesson.id}`, title: `Информатика: ${infLesson.title}`, duration: 55, subject: 'Информатика',
-          icon: 'fa-laptop-code', type: 'lesson', lessonId: infLesson.id, completed: false
-        });
-      }
-
-      // 3. Break
-      this.tasks.push({
-        id: 'plan-rest-1', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-        icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-      });
-
-      // 4. Russian
-      if (window.russianLessons && window.russianLessons.length > 0) {
-        const rusLesson = this.getNextLesson('russian', window.russianLessons);
-        this.tasks.push({
-          id: `plan-rus-${rusLesson.id}`, title: `Русский: ${rusLesson.title}`, duration: 30, subject: 'Русский язык',
-          icon: 'fa-book', type: 'lesson', lessonId: rusLesson.id, completed: false
-        });
-      }
-
-      // 5. Break
-      this.tasks.push({
-        id: 'plan-rest-2', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
-        icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
-      });
-
-      // 6. Math
-      if (window.mathLessons && window.mathLessons.length > 0) {
-        const mathLesson = this.getNextLesson('math', window.mathLessons);
-        this.tasks.push({
-          id: `plan-math-${mathLesson.id}`, title: `Математика: ${mathLesson.title}`, duration: 50, subject: 'Математика',
-          icon: 'fa-square-root-variable', type: 'lesson', lessonId: mathLesson.id, completed: false
-        });
-      }
-
-      // 7. NTO
-      const ntoTask = this.ntoSchedule[dayOfWeek];
-      if (ntoTask) {
-        this.tasks.push({
-          id: 'plan-nto', title: ntoTask.title, duration: 30, subject: 'НТО',
-          icon: 'fa-robot', type: 'nto', tab: ntoTask.tab, completed: false
-        });
-      }
     }
+    
+    // 2. Break
+    this.tasks.push({
+      id: 'plan-rest-1', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
+    });
+    
+    // 3. Informatics #2
+    if (window.informaticsLessons && window.informaticsLessons.length > 1) {
+      const inf2 = this.getNextLesson('informatics', window.informaticsLessons, 1);
+      this.tasks.push({
+        id: `plan-inf2-${inf2.id}`, title: `Информатика: ${inf2.title}`, duration: 25, subject: 'Информатика',
+        icon: 'fa-laptop-code', type: 'lesson', lessonId: inf2.id, completed: false
+      });
+    }
+    
+    // 4. Break
+    this.tasks.push({
+      id: 'plan-rest-2', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
+    });
+    
+    // 5. Russian
+    if (window.russianLessons && window.russianLessons.length > 0) {
+      const rus = this.getNextLesson('russian', window.russianLessons, 0);
+      this.tasks.push({
+        id: `plan-rus-${rus.id}`, title: `Русский: ${rus.title}`, duration: 25, subject: 'Русский язык',
+        icon: 'fa-book', type: 'lesson', lessonId: rus.id, completed: false
+      });
+    }
+    
+    // 6. Break
+    this.tasks.push({
+      id: 'plan-rest-3', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
+    });
+    
+    // 7. Math
+    if (window.mathLessons && window.mathLessons.length > 0) {
+      const math = this.getNextLesson('math', window.mathLessons, 0);
+      this.tasks.push({
+        id: `plan-math-${math.id}`, title: `Математика: ${math.title}`, duration: 35, subject: 'Математика',
+        icon: 'fa-square-root-variable', type: 'lesson', lessonId: math.id, completed: false
+      });
+    }
+    
+    // 8. Break
+    this.tasks.push({
+      id: 'plan-rest-4', title: 'Короткий отдых', duration: 5, subject: 'Отдых',
+      icon: 'fa-coffee', type: 'timer', durationMins: 5, completed: false
+    });
+    
+    // 9. NTO
+    this.tasks.push({
+      id: 'plan-nto', title: 'Олимпиада НТО', duration: 20, subject: 'НТО',
+      icon: 'fa-robot', type: 'nto', tab: 'bpmn', completed: false
+    });
+    
+    // 10. Summary
+    this.tasks.push({
+      id: 'plan-summary', title: 'Итог дня', duration: 5, subject: 'Рефлексия',
+      icon: 'fa-clipboard-check', type: 'summary', completed: false
+    });
 
     localStorage.setItem('daily_plan_date', today);
     this.saveTasks();
@@ -242,6 +246,9 @@ window.plannerSystem = {
       }
     } else if (task.type === 'rest') {
       app.showNotification('Сегодня отдыхаем!', 'success');
+    } else if (task.type === 'summary') {
+      app.showNotification('День завершен! Отличная работа.', 'success');
+      setTimeout(() => this.markCurrentTaskCompleted(), 2000);
     }
   },
 
