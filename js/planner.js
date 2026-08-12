@@ -26,9 +26,22 @@ window.plannerSystem = {
     if (savedDate === today) {
       const savedTasks = localStorage.getItem('daily_plan_tasks');
       if (savedTasks) {
-        this.tasks = JSON.parse(savedTasks);
-        this.renderPlan();
-        return;
+        try {
+          const parsed = JSON.parse(savedTasks);
+          // Validate if all lessons in the cached plan still exist in the current data
+          let isValid = true;
+          for (const task of parsed) {
+            if (task.type === 'lesson' && (!window.AppData || !window.AppData.findLesson(task.lessonId))) {
+              isValid = false;
+              break;
+            }
+          }
+          if (isValid) {
+            this.tasks = parsed;
+            this.renderPlan();
+            return;
+          }
+        } catch (e) { console.error("Error parsing tasks", e); }
       }
     }
 

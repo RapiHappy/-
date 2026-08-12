@@ -232,21 +232,13 @@
             <div class="view-header">
                 <h2>НТО: Автоматизация</h2>
             </div>
-            <div class="nto-tabs scrollable-tabs">
-                <button class="tab-btn active" data-tab="overview">Обзор</button>
-                <button class="tab-btn" data-tab="map">Карта</button>
-                <button class="tab-btn" data-tab="cases">Кейсы</button>
-                <button class="tab-btn" data-tab="bpmn">BPMN</button>
-                <button class="tab-btn" data-tab="sql">SQL</button>
-                <button class="tab-btn" data-tab="projects">Проекты</button>
-                <button class="tab-btn" data-tab="portfolio">Портфолио</button>
-            </div>
+            <!-- Tabs are rendered dynamically by nto.js -->
             <div id="nto-container"></div>
         </section>
     </main>
 
-    <!-- Right Sidebar (Desktop only) -->
-    <aside id="right-sidebar">
+    <!-- Right Sidebar (Hidden in new premium layout) -->
+    <aside id="right-sidebar" style="display: none;">
         <div class="widget ai-advisor" style="background: rgba(30, 41, 59, 0.95); border: 1px solid var(--accent-glow); margin-bottom: 20px;">
             <h3 style="color: var(--color-cyan);"><i class="fas fa-robot"></i> AI-Наставник</h3>
             <p id="advisor-recommendation" style="font-size: 14px; line-height: 1.5; color: #cbd5e1;">Загрузка советов...</p>
